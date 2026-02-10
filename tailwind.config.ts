@@ -8,18 +8,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#050608",
-        surface: "#0B0D12",
+        background: "#030405",
+        surface: "#0A0B0E",
+        "surface-elevated": "#111318",
         muted: "#1A1D24",
-        border: "#1F2933",
+        border: "#1F2329",
         accent: {
-          DEFAULT: "#38BDF8",
-          soft: "#0EA5E9"
+          DEFAULT: "#3B82F6",
+          soft: "#2563EB",
+          muted: "#1E40AF"
         },
         text: {
-          primary: "#F9FAFB",
+          primary: "#F8F9FA",
           secondary: "#D1D5DB",
-          muted: "#9CA3AF"
+          muted: "#9CA3AF",
+          subtle: "#6B7280"
         }
       },
       fontFamily: {
@@ -36,11 +39,17 @@ const config: Config = {
         ]
       },
       maxWidth: {
-        "content": "75rem"
+        "content": "75rem",
+        "prose": "65ch"
       },
       letterSpacing: {
-        tighter: "-0.02em",
-        tight: "-0.01em"
+        tighter: "-0.03em",
+        tight: "-0.02em",
+        normal: "-0.01em"
+      },
+      fontSize: {
+        "display": ["3.5rem", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+        "display-sm": ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }]
       }
     }
   },

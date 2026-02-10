@@ -12,7 +12,7 @@ export function LayoutShell({ children }: LayoutShellProps) {
     <div className="page-shell">
       <SiteHeader />
       <main className="page-main">
-        <div className="page-container">{children}</div>
+        {children}
       </main>
       <SiteFooter />
     </div>

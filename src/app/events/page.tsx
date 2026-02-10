@@ -35,47 +35,58 @@ const placeholderEvents = [
 
 export default function EventsPage() {
   return (
-    <main className="space-y-10">
-      <section className="max-w-3xl space-y-4">
-        <p className="text-xs font-medium uppercase tracking-[0.28em] text-text-muted">
-          Events
-        </p>
-        <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-text-primary">
-          A calendar of assemblies, forums, and working groups.
-        </h1>
-        <p className="text-sm sm:text-base leading-relaxed text-text-secondary">
-          This section will surface upcoming and past activities hosted through
-          The Dialogue Platform. It is intentionally sparse at this stage: the
-          structure is in place so that events can be added with consistent
-          metadata as institutional partners come on board.
-        </p>
+    <main>
+      <section className="section-padding border-b border-border/20">
+        <div className="page-container">
+          <div className="max-w-4xl space-y-8">
+            <div className="space-y-4">
+              <p className="text-xs font-medium uppercase tracking-[0.3em] text-text-muted">
+                Events
+              </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-text-primary leading-[1.1]">
+                A calendar of assemblies, forums, and working groups.
+              </h1>
+            </div>
+            <p className="text-lg sm:text-xl leading-relaxed text-text-secondary max-w-3xl">
+              This section will surface upcoming and past activities hosted through
+              The Dialogue Platform. It is intentionally sparse at this stage: the
+              structure is in place so that events can be added with consistent
+              metadata as institutional partners come on board.
+            </p>
+          </div>
+        </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        {placeholderEvents.map((event) => (
-          <article
-            key={event.title}
-            className="flex flex-col rounded-xl border border-border/70 bg-surface/60 p-5 sm:p-6"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <h2 className="text-sm sm:text-base font-semibold text-text-primary">
-                {event.title}
-              </h2>
-              <span className="rounded-full border border-border/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.16em] text-text-muted">
-                {event.type}
-              </span>
-            </div>
-            <p className="mt-2 text-xs text-text-muted">{event.meta}</p>
-            <p className="mt-3 text-sm text-text-secondary flex-1">
-              {event.description}
-            </p>
-            <p className="mt-4 text-xs text-text-muted">
-              Status: <span className="text-text-secondary">{event.status}</span>
-            </p>
-          </article>
-        ))}
+      <section className="section-padding">
+        <div className="page-container">
+          <div className="grid gap-6 lg:grid-cols-3">
+            {placeholderEvents.map((event) => (
+              <article
+                key={event.title}
+                className="card-elevated flex flex-col"
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <h2 className="text-xl font-semibold text-text-primary">
+                    {event.title}
+                  </h2>
+                  <span className="rounded-full border border-border/50 px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-text-muted whitespace-nowrap flex-shrink-0">
+                    {event.type}
+                  </span>
+                </div>
+                <p className="text-xs text-text-muted mb-4">{event.meta}</p>
+                <p className="text-sm sm:text-base text-text-secondary leading-relaxed flex-1 mb-4">
+                  {event.description}
+                </p>
+                <div className="pt-4 border-t border-border/30">
+                  <p className="text-xs text-text-muted">
+                    Status: <span className="text-text-secondary font-medium">{event.status}</span>
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );
 }
-
