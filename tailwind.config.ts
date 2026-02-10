@@ -8,15 +8,18 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        background: '#0a0a0a',
+        background: '#0b0b0b',
         text: {
-          primary: '#e5e5e5',
-          secondary: '#a3a3a3',
+          primary: '#eaeaea',
+          secondary: '#a1a1aa',
         },
-        accent: '#4a9eff',
+        accent: '#3b82f6',
+      },
+      maxWidth: {
+        content: '720px',
       },
     },
   },
