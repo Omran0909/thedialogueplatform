@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className="min-h-full bg-background text-text-primary antialiased">
+    <html lang="en" className="h-full" style={{ backgroundColor: '#030405', color: '#F8F9FA' }}>
+      <body className="min-h-full antialiased" style={{ backgroundColor: '#030405', color: '#F8F9FA' }}>
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
