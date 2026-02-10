@@ -1,29 +1,28 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ReactNode } from "react";
-import { LayoutShell } from "@/components/layout/LayoutShell";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
+
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "The Dialogue Platform",
-  description:
-    "A structured environment for municipalities, universities, and institutions to design and govern complex public dialogues.",
-  metadataBase: new URL("https://thedialogueplatform.com"),
-  openGraph: {
-    title: "The Dialogue Platform",
-    description:
-      "A systems-oriented platform for intentional public dialogue, institutional learning, and long-term stewardship.",
-    url: "https://thedialogueplatform.com",
-    type: "website"
-  }
+  description: "A structured environment for institutions to design and govern complex public dialogues.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className="h-full" style={{ backgroundColor: '#030405', color: '#F8F9FA' }}>
-      <body className="min-h-full antialiased" style={{ backgroundColor: '#030405', color: '#F8F9FA' }}>
-        <LayoutShell>{children}</LayoutShell>
+    <html lang="en" className={inter.className}>
+      <body>
+        <Navigation />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
-
