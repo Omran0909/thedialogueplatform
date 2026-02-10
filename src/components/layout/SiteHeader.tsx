@@ -18,36 +18,34 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="page-container flex items-center justify-between py-4 sm:py-5">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-3">
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative h-8 w-8 sm:h-9 sm:w-9 overflow-hidden rounded-md border border-border/70 bg-surface"
-            >
-              <Image
-                src="/assets/logo.png"
-                alt="The Dialogue Platform"
-                fill
-                sizes="36px"
-                className="object-contain"
-                priority
-              />
-            </motion.div>
-            <div className="flex flex-col">
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
-                The
-              </span>
-              <span className="text-sm sm:text-base font-semibold text-text-primary">
-                Dialogue Platform
-              </span>
-            </div>
-          </Link>
-        </div>
-        <nav className="hidden md:flex items-center gap-6 text-sm">
+    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80">
+      <div className="page-container flex items-center justify-between h-16 sm:h-18">
+        <Link href="/" className="flex items-center gap-3 group">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="relative h-9 w-9 sm:h-10 sm:w-10 overflow-hidden rounded border border-border/50 bg-surface/50"
+          >
+            <Image
+              src="/assets/logo.png"
+              alt="The Dialogue Platform"
+              fill
+              sizes="40px"
+              className="object-contain p-1"
+              priority
+            />
+          </motion.div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-medium uppercase tracking-[0.15em] text-text-muted leading-none">
+              The
+            </span>
+            <span className="text-sm sm:text-base font-semibold text-text-primary leading-tight">
+              Dialogue Platform
+            </span>
+          </div>
+        </Link>
+        <nav className="hidden md:flex items-center gap-8 text-sm">
           {navItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -58,13 +56,18 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative text-text-muted hover:text-text-primary transition-colors"
+                className={`relative py-2 transition-colors ${
+                  isActive
+                    ? "text-text-primary"
+                    : "text-text-muted hover:text-text-secondary"
+                }`}
               >
                 {item.label}
                 {isActive && (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute inset-x-0 -bottom-1 h-px bg-accent-soft"
+                    className="absolute left-0 right-0 bottom-0 h-0.5 bg-accent-soft"
+                    initial={false}
                   />
                 )}
               </Link>

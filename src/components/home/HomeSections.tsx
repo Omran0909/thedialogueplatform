@@ -14,22 +14,22 @@ const sectionVariants = {
 
 export function HomeSections() {
   return (
-    <section className="mt-12 sm:mt-16 space-y-14 sm:space-y-16">
+    <section className="mt-16 sm:mt-20 lg:mt-24 space-y-16 sm:space-y-20">
       <motion.div
-        className="grid gap-8 lg:grid-cols-3"
+        className="grid gap-10 lg:grid-cols-3"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "-100px" }}
       >
         <motion.div
           custom={0}
           variants={sectionVariants}
-          className="lg:col-span-2 space-y-3"
+          className="lg:col-span-2 space-y-4"
         >
-          <h2 className="text-lg sm:text-xl font-semibold text-text-primary">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary">
             A content-first platform for complex dialogue.
           </h2>
-          <p className="text-sm sm:text-base text-text-secondary max-w-2xl">
+          <p className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed">
             The Dialogue Platform is intentionally narrow: it focuses on the
             architecture of questions, formats, and learning pathways that make
             public dialogue legible to institutions and communities over time.
@@ -38,12 +38,12 @@ export function HomeSections() {
         <motion.div
           custom={1}
           variants={sectionVariants}
-          className="rounded-lg border border-border/70 bg-surface/60 p-4 sm:p-5 text-xs sm:text-sm text-text-secondary"
+          className="rounded-lg border border-border/50 bg-surface/40 p-5 sm:p-6 text-sm text-text-secondary"
         >
-          <p className="font-medium text-text-secondary mb-2">
+          <p className="font-semibold text-text-primary mb-3">
             What the platform is not
           </p>
-          <p>
+          <p className="leading-relaxed">
             It is not a social network, campaign tool, or generic survey
             engine. It is an infrastructure layer that underpins serious,
             facilitated dialogue with clear mandates and accountability.
@@ -55,7 +55,7 @@ export function HomeSections() {
         className="grid gap-6 lg:grid-cols-3"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "-100px" }}
       >
         <DialogueCard
           index={0}
@@ -114,29 +114,28 @@ function DialogueCard({
     <motion.article
       custom={index}
       variants={sectionVariants}
-      className="group relative flex flex-col rounded-xl border border-border/70 bg-surface/60 p-5 sm:p-6"
+      className="group relative flex flex-col rounded-lg border border-border/50 bg-surface/40 p-6 sm:p-7 hover:border-border/70 transition-colors"
     >
-      <h3 className="text-sm sm:text-base font-semibold text-text-primary">
+      <h3 className="text-lg sm:text-xl font-semibold text-text-primary mb-3">
         {title}
       </h3>
-      <p className="mt-2 text-xs sm:text-sm text-text-secondary">
+      <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-5">
         {description}
       </p>
-      <ul className="mt-3 space-y-1.5 text-xs text-text-muted">
+      <ul className="space-y-2.5 text-sm text-text-muted mb-6">
         {bullets.map((item) => (
-          <li key={item} className="flex gap-2">
-            <span className="mt-[6px] h-[3px] w-[18px] rounded-full bg-accent-soft/60" />
-            <span>{item}</span>
+          <li key={item} className="flex gap-3 items-start">
+            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent-soft/70 flex-shrink-0" />
+            <span className="leading-relaxed">{item}</span>
           </li>
         ))}
       </ul>
-      <div className="mt-4 flex-1" />
-      <div className="mt-3 text-xs">
+      <div className="mt-auto pt-4 border-t border-border/30">
         <Link
           href={href}
-          className="text-text-muted group-hover:text-text-secondary transition-colors"
+          className="text-sm text-text-muted hover:text-text-secondary transition-colors inline-flex items-center gap-1"
         >
-          View {title.toLowerCase()} structure
+          View {title.toLowerCase()} structure →
         </Link>
       </div>
     </motion.article>

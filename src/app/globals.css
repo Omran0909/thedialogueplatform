@@ -2,32 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  scroll-behavior: smooth;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    @apply h-full;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply h-full bg-background text-text-primary;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  a {
+    @apply text-accent-soft no-underline transition-colors;
+  }
+  
+  a:hover {
+    @apply text-accent;
+  }
 }
 
-body {
-  @apply bg-background text-text-primary;
-}
-
-a {
-  @apply text-accent-soft underline-offset-4 transition-colors;
-}
-
-a:hover {
-  @apply text-accent;
-}
-
-.page-shell {
-  @apply flex min-h-screen flex-col bg-background text-text-primary;
-}
-
-.page-container {
-  @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-10;
-}
-
-.page-main {
-  @apply flex-1 py-10 sm:py-12 lg:py-16;
+@layer components {
+  .page-shell {
+    @apply flex min-h-screen flex-col bg-background;
+  }
+  
+  .page-container {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+  
+  .page-main {
+    @apply flex-1 py-8 sm:py-12 lg:py-16;
+  }
 }
 

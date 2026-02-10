@@ -23,10 +23,24 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ["system-ui", "-apple-system", "SF Pro Text", "Inter", "sans-serif"]
+        sans: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Inter",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif"
+        ]
       },
       maxWidth: {
-        "content": "72rem"
+        "content": "75rem"
+      },
+      letterSpacing: {
+        tighter: "-0.02em",
+        tight: "-0.01em"
       }
     }
   },
