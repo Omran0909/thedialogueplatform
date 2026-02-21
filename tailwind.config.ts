@@ -8,18 +8,23 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ["Avenir Next", "Avenir", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+        heading: ["Iowan Old Style", "Palatino Linotype", "Palatino", "Book Antiqua", "serif"],
       },
       colors: {
-        background: '#0b0b0b',
+        background: "#f4f1ea",
+        surface: "#fffcf7",
+        line: "#ddd5c7",
         text: {
-          primary: '#eaeaea',
-          secondary: '#a1a1aa',
+          primary: "#1f2a30",
+          secondary: "#52616a",
         },
-        accent: '#3b82f6',
+        accent: "#0f4c5c",
+        "accent-soft": "#d9ebe7",
       },
       maxWidth: {
-        content: '720px',
+        content: "1120px",
+        prose: "760px",
       },
     },
   },

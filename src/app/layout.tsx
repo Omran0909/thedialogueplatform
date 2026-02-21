@@ -1,48 +1,60 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Layout } from "@/components/Layout";
-
-const inter = Inter({ subsets: ["latin"], display: "swap" });
-
-const siteUrl = "https://thedialogueplatform.com";
+import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "The Dialogue Platform",
-    template: "%s | The Dialogue Platform",
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "A structured environment for institutions to design and govern complex public dialogues. Built for municipalities, universities, and public organisations.",
+  description: siteConfig.description,
   keywords: [
     "dialogue",
+    "public dialogue",
     "governance",
     "public engagement",
     "institutional design",
     "municipalities",
     "stakeholder dialogue",
   ],
-  authors: [{ name: "The Dialogue Platform" }],
-  creator: "The Dialogue Platform",
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteUrl,
-    siteName: "The Dialogue Platform",
-    title: "The Dialogue Platform",
-    description:
-      "A structured environment for institutions to design and govern complex public dialogues.",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/assets/logo.png",
+        width: 512,
+        height: 512,
+        alt: `${siteConfig.name} logo`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Dialogue Platform",
-    description:
-      "A structured environment for institutions to design and govern complex public dialogues.",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: ["/assets/logo.png"],
   },
   robots: {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: "/assets/logo.png",
+    apple: "/assets/logo.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -51,8 +63,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body>
+    <html lang="en">
+      <body className="font-sans text-text-primary">
         <Layout>{children}</Layout>
       </body>
     </html>

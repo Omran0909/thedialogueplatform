@@ -1,12 +1,12 @@
 ## The Dialogue Platform
 
-A production-ready, content-first Next.js 14 site designed for institutions that treat dialogue as a long-term governance and learning practice.
+A production-ready Next.js 14 website for institutions that treat dialogue as long-term governance infrastructure.
 
 ### Tech stack
 
 - **Framework**: Next.js 14 (App Router, TypeScript)
 - **Styling**: Tailwind CSS
-- **Animations**: Framer Motion (subtle, accessibility-aware)
+- **Animations**: Framer Motion
 
 ### Running locally
 
@@ -24,16 +24,30 @@ A production-ready, content-first Next.js 14 site designed for institutions that
 
 3. Open `http://localhost:3000` in your browser.
 
+### Environment variables
+
+Create `.env.local` (optional during local development):
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://thedialogueplatform.com
+NEXT_PUBLIC_CONTACT_EMAIL=
+NEXT_PUBLIC_CONTACT_PHONE=
+```
+
+- Keep contact variables empty until your email and phone are ready.
+- Add the same variables in Vercel project settings for production.
+
 ### Deploying to Vercel
 
-- Connect the GitHub repository that contains this project to Vercel.
-- Vercel will detect Next.js automatically; use the default build command (`npm run build`) and output directory (`.next`).
-- Point the `thedialogueplatform.com` domain in Vercel to the deployed project.
+- Connect this repository to Vercel.
+- Vercel will detect Next.js automatically.
+- Use build command `npm run build` and output directory `.next` (default for Next.js).
+- Set `NEXT_PUBLIC_SITE_URL` to your production domain.
+- Point `thedialogueplatform.com` to the deployed Vercel project.
 
 ### Customisation next steps
 
-- **Content**: Update page copy in `src/app` to reflect concrete mandates, partnerships, and examples as they become public.
-- **Branding**: Replace `public/assets/logo.png` with a refined logo and, if desired, extend the Tailwind colour tokens in `tailwind.config.ts`.
-- **Insights & Events**: Replace placeholder structures in `events` and `insights` pages with real data sources or CMS integration when ready.
-- **Contact**: Update `contact@thedialogueplatform.com` in the Contact page with your actual email address.
-
+- **Content**: Update page copy in `src/app` for your real mandates, partnerships, and case examples.
+- **Branding**: Replace `public/assets/logo.png` with your final logo.
+- **Insights & Events**: Replace placeholders with CMS/data source integration.
+- **Contact**: Set `NEXT_PUBLIC_CONTACT_EMAIL` and `NEXT_PUBLIC_CONTACT_PHONE` once ready.

@@ -3,18 +3,63 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The Dialogue Platform brings together methods from systems thinking, dialogue theory, and institutional design for complex public dialogues.",
+    "The Dialogue Platform combines systems thinking, facilitation practice, and governance design for complex public dialogues.",
 };
+
+const principles = [
+  {
+    title: "Dialogue with mandate",
+    description:
+      "Every process starts by defining authority boundaries, decision owners, and the role of participants.",
+  },
+  {
+    title: "Participation with structure",
+    description:
+      "We design formats that protect quality: clear prompts, purposeful diversity, and transparent synthesis.",
+  },
+  {
+    title: "Learning with accountability",
+    description:
+      "Insights are tracked against decisions and assumptions so institutions can adapt without losing traceability.",
+  },
+];
 
 export default function AboutPage() {
   return (
-    <div className="max-w-content mx-auto px-6 pt-32 pb-32">
-      <h1 className="text-4xl sm:text-5xl font-normal text-text-primary leading-[1.1] mb-10">
-        About the Platform
+    <div className="mx-auto max-w-content px-6 section-padding">
+      <span className="eyebrow">About</span>
+      <h1 className="mt-6 max-w-3xl text-4xl leading-tight text-text-primary sm:text-5xl">
+        A strategic practice for institutions that need dialogue to produce real decisions.
       </h1>
-      <p className="text-base text-text-secondary leading-relaxed max-w-[600px]">
-        The Dialogue Platform was developed for institutions that are accountable to complex publics: city governments, universities, independent research centres, and multi-stakeholder coalitions. It is grounded in the belief that dialogue is not a single event or a generic consultation, but a structured practice that shapes how problems are defined, how options are surfaced, and how commitments are made. The platform brings together methods from systems thinking, dialogue theory, and institutional design to provide a shared language for clarifying mandates, surfacing assumptions, and articulating the boundaries of what a given dialogue can and cannot decide.
+      <p className="mt-6 max-w-prose text-base leading-relaxed text-text-secondary">
+        The Dialogue Platform supports organizations operating in complex public environments: city administrations,
+        universities, research networks, and civic coalitions. We treat dialogue as institutional infrastructure, not
+        one-off consultation. Our work combines systems thinking, facilitation design, and governance practice so each
+        engagement is clear, inclusive, and operationally useful.
       </p>
+
+      <section className="section-padding border-t border-line/80 mt-16">
+        <h2 className="text-3xl text-text-primary sm:text-4xl">Principles</h2>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {principles.map(({ title, description }) => (
+            <article key={title} className="surface-card p-6">
+              <h3 className="text-xl text-text-primary">{title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-text-secondary">{description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <h2 className="text-3xl text-text-primary sm:text-4xl">Who we support</h2>
+        <div className="mt-8 surface-card p-8">
+          <p className="max-w-prose text-base leading-relaxed text-text-secondary">
+            We are typically engaged by institutions navigating contested policy questions, long-term transition
+            agendas, cross-sector partnerships, or internal trust gaps. Assignments can range from designing one
+            dialogue cycle to building a reusable framework that teams can apply across multiple programmes and years.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
