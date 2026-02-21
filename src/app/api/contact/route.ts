@@ -157,9 +157,9 @@ export async function POST(request: Request) {
   }
 
   const recipient = siteConfig.contactEmail;
-  const origin = request.headers.get("origin") || siteConfig.url;
+  const canonicalOrigin = new URL(siteConfig.url).origin;
   const pagePath = payload.page?.startsWith("/") ? payload.page : "/contact";
-  const referer = request.headers.get("referer") || `${siteConfig.url}${pagePath}`;
+  const canonicalReferer = `${canonicalOrigin}${pagePath}`;
 
   try {
     const resend = await sendViaResend(payload, recipient);
@@ -167,7 +167,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, message: "Message sent successfully." });
     }
 
-    const fallback = await sendViaFormSubmit(payload, recipient, origin, referer);
+    const fallback = await sendViaFormSubmit(payload, recipient, canonicalOrigin, canonicalReferer);
     if (fallback.ok) {
       return NextResponse.json({
         ok: true,
