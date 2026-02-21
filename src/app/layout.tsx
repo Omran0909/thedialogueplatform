@@ -13,11 +13,15 @@ export const metadata: Metadata = {
   keywords: [
     "dialogue",
     "public dialogue",
+    "peacebuilding",
+    "trust building",
     "governance",
     "public engagement",
     "institutional design",
     "municipalities",
     "stakeholder dialogue",
+    "Nansen Peace Center",
+    "Lillestrom Municipality",
   ],
   alternates: {
     canonical: "/",

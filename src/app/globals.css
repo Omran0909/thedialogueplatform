@@ -16,8 +16,9 @@
   body {
     background-color: #f4f1ea;
     background-image:
-      radial-gradient(circle at 20% 0%, rgba(15, 76, 92, 0.12), transparent 40%),
-      radial-gradient(circle at 90% 100%, rgba(15, 76, 92, 0.08), transparent 45%);
+      radial-gradient(circle at 16% 0%, rgba(15, 76, 92, 0.12), transparent 34%),
+      radial-gradient(circle at 84% 12%, rgba(10, 61, 73, 0.08), transparent 30%),
+      linear-gradient(180deg, #f8f6f0 0%, #f4f1ea 100%);
     color: #1f2a30;
     font-family: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   }
@@ -37,6 +38,10 @@
   summary::-webkit-details-marker {
     display: none;
   }
+
+  a {
+    text-underline-offset: 4px;
+  }
 }
 
 @layer components {
@@ -50,5 +55,52 @@
 
   .section-padding {
     @apply py-16 sm:py-20;
+  }
+
+  .hero-media {
+    @apply relative overflow-hidden rounded-[28px] border border-line/80;
+  }
+
+  .hero-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(140deg, rgba(11, 34, 41, 0.72) 10%, rgba(11, 34, 41, 0.46) 45%, rgba(11, 34, 41, 0.16) 100%);
+    z-index: 1;
+  }
+
+  .hero-media > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .noise-mask {
+    position: relative;
+  }
+
+  .noise-mask::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.8px, transparent 0.8px);
+    background-size: 3px 3px;
+    mix-blend-mode: soft-light;
+    opacity: 0.4;
+  }
+
+  .float-ornament {
+    animation: floatDrift 9s ease-in-out infinite;
+  }
+}
+
+@keyframes floatDrift {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
   }
 }
