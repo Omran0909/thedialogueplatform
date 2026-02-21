@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
-import { isLocale } from "@/lib/i18n/config";
+import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { layoutText } from "@/lib/i18n/layout-text";
 import { siteConfig } from "@/lib/site";
+import { ContactForm } from "@/components/ContactForm";
 
 type PageProps = {
   params: {
@@ -16,8 +17,9 @@ export default function ContactPage({ params }: PageProps) {
     notFound();
   }
 
-  const localized = getContent(params.locale);
-  const layout = layoutText[params.locale];
+  const locale = params.locale as Locale;
+  const localized = getContent(locale);
+  const layout = layoutText[locale];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24 section-padding pt-12 sm:pt-16">
@@ -52,6 +54,12 @@ export default function ContactPage({ params }: PageProps) {
             </ul>
           </div>
         </HoverCard>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <ContactForm locale={locale} />
+        </Reveal>
       </section>
 
       <section className="section-padding border-t border-line/80">

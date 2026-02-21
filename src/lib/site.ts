@@ -15,6 +15,29 @@ export const siteConfig = {
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "dialogplattformen@gmail.com",
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   partners: ["Nansen Peace Center", "Lillestrom Municipality"],
+  partnerProfiles: [
+    {
+      id: "nansen",
+      name: "Nansen Peace Center",
+      href: "https://peace.no",
+      logo: "/assets/partners/nansen-peace-center.svg",
+    },
+    {
+      id: "lillestrom",
+      name: "Lillestrom Municipality",
+      href: "https://www.lillestrom.kommune.no",
+      logo: "/assets/partners/lillestrom-municipality.svg",
+    },
+  ] as const,
+  boardMembers: [
+    "Omran Adam",
+    "Hind Suliman",
+    "Mohammed Haggar",
+    "Adam Bsher",
+    "Gada Ayoub",
+    "Abduerhman Deiges",
+    "ABDELHADI Krow",
+  ] as const,
   socialChannels: [
     {
       label: "YouTube",
@@ -22,9 +45,11 @@ export const siteConfig = {
     },
     {
       label: "Facebook",
-      href: "https://www.facebook.com/TheDialoguePlatform",
+      href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
     },
   ],
+  facebookPageUrl: "https://www.facebook.com/TheDialoguePlatform",
+  facebookCommunityImage: "/assets/media/facebook-community.jpg",
   exampleDialogues: [
     {
       title: "Example Dialogue 01",

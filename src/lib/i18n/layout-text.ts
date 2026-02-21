@@ -20,10 +20,10 @@ export type LayoutText = {
   };
   language: {
     label: string;
+    choose: string;
     en: string;
     no: string;
     ar: string;
-    auto: string;
   };
 };
 
@@ -48,10 +48,10 @@ export const layoutText: Record<Locale, LayoutText> = {
     },
     language: {
       label: "Language",
+      choose: "Choose language",
       en: "English",
       no: "Norwegian",
       ar: "Arabic",
-      auto: "100+ languages (auto)",
     },
   },
   no: {
@@ -74,10 +74,10 @@ export const layoutText: Record<Locale, LayoutText> = {
     },
     language: {
       label: "Språk",
+      choose: "Velg språk",
       en: "Engelsk",
       no: "Norsk",
       ar: "Arabisk",
-      auto: "100+ språk (automatisk)",
     },
   },
   ar: {
@@ -100,10 +100,10 @@ export const layoutText: Record<Locale, LayoutText> = {
     },
     language: {
       label: "اللغة",
+      choose: "اختر اللغة",
       en: "الإنجليزية",
       no: "النرويجية",
       ar: "العربية",
-      auto: "+100 لغة (ترجمة آلية)",
     },
   },
 };

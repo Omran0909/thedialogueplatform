@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { siteConfig } from "@/lib/site";
+import { useId } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n/config";
 import type { LayoutText } from "@/lib/i18n/layout-text";
 
@@ -31,10 +30,10 @@ function localizedHref(targetLocale: Locale, barePath: string) {
 }
 
 export function LanguageSwitcher({ locale, text }: LanguageSwitcherProps) {
+  const selectId = useId();
+  const router = useRouter();
   const pathname = usePathname();
   const barePath = getPathWithoutLocale(pathname);
-  const currentUrl = `${siteConfig.url}${pathname}`;
-  const autoTranslateHref = `https://translate.google.com/translate?sl=auto&u=${encodeURIComponent(currentUrl)}`;
 
   const languageItems: Array<{ code: Locale; label: string }> = [
     { code: "en", label: text.en },
@@ -42,32 +41,32 @@ export function LanguageSwitcher({ locale, text }: LanguageSwitcherProps) {
     { code: "ar", label: text.ar },
   ];
 
+  function handleChange(nextLocale: string) {
+    if (!locales.includes(nextLocale as Locale)) {
+      return;
+    }
+
+    router.push(localizedHref(nextLocale as Locale, barePath));
+  }
+
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs font-semibold uppercase tracking-[0.14em] text-text-secondary">{text.label}</span>
-      <div className="flex items-center gap-2">
+      <label className="sr-only" htmlFor={selectId}>
+        {text.choose}
+      </label>
+      <select
+        id={selectId}
+        value={locale}
+        onChange={(event) => handleChange(event.target.value)}
+        className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-text-secondary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/25"
+      >
         {languageItems.map((item) => (
-          <Link
-            key={item.code}
-            href={localizedHref(item.code, barePath)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-              item.code === locale
-                ? "bg-accent text-white"
-                : "border border-line bg-surface text-text-secondary hover:bg-accent-soft"
-            }`}
-          >
+          <option key={item.code} value={item.code}>
             {item.label}
-          </Link>
+          </option>
         ))}
-        <a
-          href={autoTranslateHref}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-full border border-accent/60 px-3 py-1 text-xs font-semibold text-accent transition hover:bg-accent hover:text-white"
-        >
-          {text.auto}
-        </a>
-      </div>
+      </select>
     </div>
   );
 }
