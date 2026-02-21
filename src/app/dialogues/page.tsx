@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dialogues",
+  description:
+    "Structured dialogue formats: assemblies, working groups, interviews, and online sessions as coherent parts of a single architecture.",
+};
+
 export default function DialoguesPage() {
   return (
     <div className="max-w-content mx-auto px-6 pt-32 pb-32">

@@ -12,9 +12,10 @@ export default function HomePage() {
         </p>
         <Link
           href="/about"
-          className="text-accent text-sm hover:underline"
+          className="inline-flex items-center gap-2 text-accent text-sm font-medium hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
         >
           Learn about the platform
+          <span aria-hidden>→</span>
         </Link>
       </section>
 
