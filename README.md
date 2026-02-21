@@ -48,6 +48,6 @@ NEXT_PUBLIC_CONTACT_PHONE=
 ### Customisation next steps
 
 - **Content**: Update page copy in `src/app` for your real mandates, partnerships, and case examples.
-- **Branding**: Replace `public/assets/logo.png` with your final logo.
+- **Branding**: Replace `public/assets/logo.png` with your final logo and update tokens in `tailwind.config.js` if needed.
 - **Insights & Events**: Replace placeholders with CMS/data source integration.
 - **Contact**: Set `NEXT_PUBLIC_CONTACT_EMAIL` and `NEXT_PUBLIC_CONTACT_PHONE` once ready.
