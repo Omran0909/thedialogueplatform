@@ -30,7 +30,7 @@ function isEmail(value: string) {
 
 async function sendViaResend(payload: ContactPayload, recipient: string) {
   const resendKey = process.env.RESEND_API_KEY;
-  if (!resendKey) {
+  if (!resendKey || /replace_with|changeme|placeholder/i.test(resendKey)) {
     return { ok: false, reason: "missing_resend_key" as const };
   }
 
@@ -82,12 +82,23 @@ async function sendViaResend(payload: ContactPayload, recipient: string) {
   return { ok: true };
 }
 
-async function sendViaFormSubmit(payload: ContactPayload, recipient: string) {
+function parseMaybeJson(raw: string) {
+  try {
+    return JSON.parse(raw) as { success?: boolean | string; message?: string };
+  } catch {
+    return null;
+  }
+}
+
+async function sendViaFormSubmit(payload: ContactPayload, recipient: string, origin: string, referer: string) {
   const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Origin: origin,
+      Referer: referer,
+      "User-Agent": "TheDialoguePlatform/1.0",
     },
     body: JSON.stringify({
       name: payload.name,
@@ -103,9 +114,16 @@ async function sendViaFormSubmit(payload: ContactPayload, recipient: string) {
     }),
   });
 
+  const raw = await response.text();
+  const data = parseMaybeJson(raw);
+
   if (!response.ok) {
-    const reason = await response.text();
-    return { ok: false, reason };
+    return { ok: false, reason: data?.message || raw || `FormSubmit HTTP ${response.status}` };
+  }
+
+  const isSuccess = data?.success === true || data?.success === "true";
+  if (!isSuccess) {
+    return { ok: false, reason: data?.message || "FormSubmit rejected delivery." };
   }
 
   return { ok: true };
@@ -139,6 +157,9 @@ export async function POST(request: Request) {
   }
 
   const recipient = siteConfig.contactEmail;
+  const origin = request.headers.get("origin") || siteConfig.url;
+  const pagePath = payload.page?.startsWith("/") ? payload.page : "/contact";
+  const referer = request.headers.get("referer") || `${siteConfig.url}${pagePath}`;
 
   try {
     const resend = await sendViaResend(payload, recipient);
@@ -146,7 +167,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, message: "Message sent successfully." });
     }
 
-    const fallback = await sendViaFormSubmit(payload, recipient);
+    const fallback = await sendViaFormSubmit(payload, recipient, origin, referer);
     if (fallback.ok) {
       return NextResponse.json({
         ok: true,
@@ -155,8 +176,13 @@ export async function POST(request: Request) {
     }
 
     console.error("Contact form delivery failed", { resend, fallback });
+    const requiresActivation = typeof fallback.reason === "string" && /activation|activate form/i.test(fallback.reason);
+    const deliveryMessage = requiresActivation
+      ? `Email relay is awaiting one-time activation in ${recipient}. Open the FormSubmit activation email, or add RESEND_API_KEY in Vercel for direct delivery.`
+      : `Delivery failed. You can still email us directly at ${recipient}.`;
+
     return NextResponse.json(
-      { ok: false, message: `Delivery failed. You can still email us directly at ${recipient}.` },
+      { ok: false, message: deliveryMessage },
       { status: 502 },
     );
   } catch (error) {
@@ -167,4 +193,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

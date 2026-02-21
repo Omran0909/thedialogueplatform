@@ -4,6 +4,7 @@ import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
+import { mediaLibrary } from "@/lib/media";
 
 type PageProps = {
   params: {
@@ -106,10 +107,10 @@ export default function AboutPage({ params }: PageProps) {
       <section className="section-padding pt-12 sm:pt-16">
         <div className="hero-media min-h-[360px] bg-[#173c46]">
           <Image
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2000&q=80"
-            alt="Dialogue facilitators working together"
+            src={mediaLibrary.heroes.about}
+            alt="Dialogue participants collaborating"
             fill
-            className="object-cover"
+            className="hero-image-motion object-cover"
           />
           <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
             <Reveal>

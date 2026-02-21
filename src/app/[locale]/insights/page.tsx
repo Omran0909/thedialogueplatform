@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { isLocale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
+import { mediaLibrary } from "@/lib/media";
 
 type PageProps = {
   params: {
@@ -22,10 +23,10 @@ export default function InsightsPage({ params }: PageProps) {
       <section className="section-padding pt-12 sm:pt-16">
         <div className="hero-media min-h-[320px] bg-[#183d49]">
           <Image
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80"
-            alt="Research and dialogue insights workspace"
+            src={mediaLibrary.heroes.insights}
+            alt="Dialogue notes and participant materials"
             fill
-            className="object-cover"
+            className="hero-image-motion object-cover"
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>

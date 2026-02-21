@@ -6,6 +6,7 @@ import { isLocale, withLocale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
 import { formatPartners } from "@/lib/i18n/helpers";
+import { mediaLibrary } from "@/lib/media";
 
 type PageProps = {
   params: {
@@ -27,11 +28,11 @@ export default function HomePage({ params }: PageProps) {
       <section className="section-padding pt-12 sm:pt-16">
         <div className="hero-media noise-mask min-h-[540px] bg-[#0e2f38]">
           <Image
-            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=2000&q=80"
-            alt="People in a dialogue circle"
+            src={mediaLibrary.heroes.home}
+            alt="Dialogue participants in a seminar setting"
             fill
             priority
-            className="object-cover"
+            className="hero-image-motion object-cover"
           />
 
           <div className="relative flex min-h-[540px] flex-col justify-between p-8 sm:p-12">

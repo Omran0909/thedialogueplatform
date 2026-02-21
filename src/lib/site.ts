@@ -48,8 +48,8 @@ export const siteConfig = {
       href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
     },
   ],
-  facebookPageUrl: "https://www.facebook.com/TheDialoguePlatform",
-  facebookCommunityImage: "/assets/media/facebook-community.jpg",
+  facebookPageUrl: "https://www.facebook.com/people/The-Dialogue-Platform/61578814174457/",
+  facebookCommunityImage: "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0747.jpg",
   exampleDialogues: [
     {
       title: "Example Dialogue 01",

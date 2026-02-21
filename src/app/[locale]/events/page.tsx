@@ -5,6 +5,7 @@ import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
+import { mediaLibrary, type EventHighlightId } from "@/lib/media";
 
 type PageProps = {
   params: {
@@ -20,6 +21,14 @@ const eventsExtras: Record<
     timelineTitle: string;
     timelineIntro: string;
     timeline: Array<{ date: string; title: string; description: string }>;
+    previousEventsTitle: string;
+    previousEventsDescription: string;
+    openEventCta: string;
+    youtubeLabel: string;
+    facebookLabel: string;
+    mediaReelTitle: string;
+    mediaReelDescription: string;
+    highlights: Record<EventHighlightId, { date: string; title: string; description: string }>;
     communityTitle: string;
     communityDescription: string;
     communityCta: string;
@@ -49,6 +58,56 @@ const eventsExtras: Record<
         description: "Current events and dialogue activities continue across 2026, with updates posted on official channels.",
       },
     ],
+    previousEventsTitle: "Previous events and media highlights",
+    previousEventsDescription:
+      "A selection of our recent seminars and public meetings, with links to official YouTube and Facebook coverage.",
+    openEventCta: "Open event update",
+    youtubeLabel: "YouTube",
+    facebookLabel: "Facebook",
+    mediaReelTitle: "From our own media archive",
+    mediaReelDescription: "All visuals on this page are from The Dialogue Platform seminars and event documentation.",
+    highlights: {
+      "first-meeting-2025": {
+        date: "8 February 2025",
+        title: "First meeting of The Dialogue Platform",
+        description: "Our first public meeting in Lillestrom introduced the mission: trust, peace, and inclusive dialogue.",
+      },
+      "azzam-sept-2025": {
+        date: "13 September 2025",
+        title: "Azzam seminar session",
+        description: "A community-centred seminar focused on dialogue culture, participation, and shared understanding.",
+      },
+      "attroun-oct-2025": {
+        date: "18 October 2025",
+        title: "Attroun seminar gathering",
+        description: "A dialogue event exploring trust-building through practical facilitation and local cooperation.",
+      },
+      "silik-dinner-jan-2026": {
+        date: "21 January 2026",
+        title: "First dinner meeting with Khalid Silik",
+        description: "An intimate gathering to strengthen relationships and prepare the next seminar dialogues.",
+      },
+      "silik-seminar-jan-22-2026": {
+        date: "22 January 2026",
+        title: "Khalid Silik seminar (Day 1)",
+        description: "Participants discussed peace-centred dialogue methods and civic trust priorities.",
+      },
+      "silik-seminar-jan-24-2026": {
+        date: "24 January 2026",
+        title: "Khalid Silik seminar (Day 2)",
+        description: "Continued sessions and reflections with the community and institutional stakeholders.",
+      },
+      "facebook-community": {
+        date: "Official channel",
+        title: "Facebook community updates",
+        description: "Regular updates from our events, meetings, and dialogue milestones.",
+      },
+      "facebook-gallery": {
+        date: "Photo archive",
+        title: "Facebook photos",
+        description: "Selected visual documentation from seminars and community dialogue activities.",
+      },
+    },
     communityTitle: "From our Facebook community",
     communityDescription:
       "This media comes from our official Facebook presence and reflects the people and conversations behind the platform.",
@@ -60,7 +119,7 @@ const eventsExtras: Record<
       "Våre dialogarenaer er åpne for alle synspunkter. Vi legger til rette for respektfull meningsutveksling slik at uenighet blir til læring, ikke polarisering.",
     timelineTitle: "Tidslinje for arrangementer (2025-2026)",
     timelineIntro:
-      "The Dialogue Platform holdt sitt første møte 8. februar 2025. Siden den gang har plattformen videreført jevnlige samlinger og partnerstøttede arrangementer.",
+      "The Dialogue Platform hadde sitt første møte 8. februar 2025. Siden den gang har plattformen videreført jevnlige samlinger og partnerstøttede arrangementer.",
     timeline: [
       {
         date: "8. februar 2025",
@@ -78,6 +137,56 @@ const eventsExtras: Record<
         description: "Arrangementer og dialogaktiviteter fortsetter i 2026 med oppdateringer i offisielle kanaler.",
       },
     ],
+    previousEventsTitle: "Tidligere arrangementer og medieinnslag",
+    previousEventsDescription:
+      "Et utvalg av nyere seminarer og møter, med lenker til offisiell dekning på YouTube og Facebook.",
+    openEventCta: "Åpne arrangement",
+    youtubeLabel: "YouTube",
+    facebookLabel: "Facebook",
+    mediaReelTitle: "Fra vårt eget mediearkiv",
+    mediaReelDescription: "Alle bildene på denne siden kommer fra The Dialogue Platform sine egne seminarer og arrangementer.",
+    highlights: {
+      "first-meeting-2025": {
+        date: "8. februar 2025",
+        title: "Første møte i The Dialogue Platform",
+        description: "Vårt første offentlige møte i Lillestrom introduserte arbeidet med tillit, fred og inkluderende dialog.",
+      },
+      "azzam-sept-2025": {
+        date: "13. september 2025",
+        title: "Azzam-seminar",
+        description: "Et samfunnsnært seminar med fokus på dialogkultur, deltakelse og felles forståelse.",
+      },
+      "attroun-oct-2025": {
+        date: "18. oktober 2025",
+        title: "Attroun-seminar",
+        description: "Et dialogarrangement om tillitsbygging gjennom praktisk fasilitering og lokalt samarbeid.",
+      },
+      "silik-dinner-jan-2026": {
+        date: "21. januar 2026",
+        title: "Første middagssamling med Khalid Silik",
+        description: "En mindre samling for å styrke relasjoner og forberede de neste seminarene.",
+      },
+      "silik-seminar-jan-22-2026": {
+        date: "22. januar 2026",
+        title: "Khalid Silik-seminar (dag 1)",
+        description: "Deltakerne drøftet dialogmetoder for fredsbygging og prioriteringer for lokal tillit.",
+      },
+      "silik-seminar-jan-24-2026": {
+        date: "24. januar 2026",
+        title: "Khalid Silik-seminar (dag 2)",
+        description: "Videreførte sesjoner og refleksjoner med lokalsamfunn og institusjonelle aktører.",
+      },
+      "facebook-community": {
+        date: "Offisiell kanal",
+        title: "Oppdateringer fra Facebook",
+        description: "Løpende oppdateringer fra møter, arrangementer og milepæler i dialogarbeidet.",
+      },
+      "facebook-gallery": {
+        date: "Bildearkiv",
+        title: "Facebook-bilder",
+        description: "Utvalgt visuell dokumentasjon fra seminarer og dialogaktiviteter.",
+      },
+    },
     communityTitle: "Fra vårt Facebook-fellesskap",
     communityDescription:
       "Dette mediet kommer fra vår offisielle Facebook-tilstedeværelse og viser menneskene og samtalene bak plattformen.",
@@ -107,6 +216,55 @@ const eventsExtras: Record<
         description: "تتواصل الفعاليات والأنشطة الحوارية خلال 2026 مع تحديثات عبر القنوات الرسمية.",
       },
     ],
+    previousEventsTitle: "فعاليات سابقة ومواد إعلامية",
+    previousEventsDescription: "مجموعة مختارة من الندوات واللقاءات السابقة مع روابط التغطية الرسمية على يوتيوب وفيسبوك.",
+    openEventCta: "عرض الفعالية",
+    youtubeLabel: "يوتيوب",
+    facebookLabel: "فيسبوك",
+    mediaReelTitle: "من أرشيفنا الإعلامي الخاص",
+    mediaReelDescription: "جميع الصور المعروضة هنا من توثيق منصة الحوار لندواتها وفعالياتها.",
+    highlights: {
+      "first-meeting-2025": {
+        date: "8 فبراير 2025",
+        title: "أول اجتماع لمنصة الحوار",
+        description: "انطلق أول لقاء عام في ليلستروم للتأكيد على رسالة المنصة: الثقة والسلام والحوار الشامل.",
+      },
+      "azzam-sept-2025": {
+        date: "13 سبتمبر 2025",
+        title: "ندوة عزام",
+        description: "ندوة مجتمعية ركزت على ثقافة الحوار والمشاركة والفهم المشترك.",
+      },
+      "attroun-oct-2025": {
+        date: "18 أكتوبر 2025",
+        title: "ندوة عترون",
+        description: "فعالية حوارية تناولت بناء الثقة عبر التيسير العملي والتعاون المحلي.",
+      },
+      "silik-dinner-jan-2026": {
+        date: "21 يناير 2026",
+        title: "لقاء العشاء الأول مع خالد سيليك",
+        description: "لقاء تعارفي لتعزيز العلاقات والتحضير لندوات الحوار التالية.",
+      },
+      "silik-seminar-jan-22-2026": {
+        date: "22 يناير 2026",
+        title: "ندوة خالد سيليك (اليوم الأول)",
+        description: "ناقش المشاركون منهجيات حوار تبني السلام وتدعم الثقة المجتمعية.",
+      },
+      "silik-seminar-jan-24-2026": {
+        date: "24 يناير 2026",
+        title: "ندوة خالد سيليك (اليوم الثاني)",
+        description: "استكمال الجلسات والنقاشات مع المجتمع والشركاء المؤسسيين.",
+      },
+      "facebook-community": {
+        date: "قناة رسمية",
+        title: "تحديثات مجتمع فيسبوك",
+        description: "متابعة مستمرة للفعاليات والاجتماعات ومحطات العمل الحواري.",
+      },
+      "facebook-gallery": {
+        date: "أرشيف الصور",
+        title: "صور فيسبوك",
+        description: "توثيق بصري مختار من الندوات والأنشطة الحوارية.",
+      },
+    },
     communityTitle: "من مجتمعنا على فيسبوك",
     communityDescription:
       "هذه المادة من حضورنا الرسمي على فيسبوك، وتعكس الأشخاص والحوارات التي تقف خلف المنصة.",
@@ -122,16 +280,17 @@ export default function EventsPage({ params }: PageProps) {
   const locale = params.locale as Locale;
   const localized = getContent(locale);
   const extra = eventsExtras[locale];
+  const reelImages = [...mediaLibrary.events.reel, ...mediaLibrary.events.reel];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
         <div className="hero-media min-h-[320px] bg-[#163842]">
           <Image
-            src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=2000&q=80"
-            alt="Public event with collaborative discussion"
+            src={mediaLibrary.heroes.events}
+            alt="Dialogue event participants"
             fill
-            className="object-cover"
+            className="hero-image-motion object-cover"
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
@@ -168,6 +327,55 @@ export default function EventsPage({ params }: PageProps) {
               </article>
             </HoverCard>
           ))}
+        </div>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.mediaReelTitle}</h2>
+          <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.mediaReelDescription}</p>
+        </Reveal>
+        <div className="event-reel mt-8 rounded-2xl border border-line/80 bg-surface/70 p-3">
+          <div className="event-reel-track">
+            {reelImages.map((image, index) => (
+              <figure key={`${image}-${index}`} className="event-reel-item">
+                <Image src={image} alt="Dialogue Platform event moment" width={320} height={210} className="h-[170px] w-[270px] object-cover" />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.previousEventsTitle}</h2>
+          <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.previousEventsDescription}</p>
+        </Reveal>
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {mediaLibrary.events.highlights.map((item, index) => {
+            const details = extra.highlights[item.id];
+            const channelLabel = item.channel === "youtube" ? extra.youtubeLabel : extra.facebookLabel;
+
+            return (
+              <HoverCard key={item.id} delay={index * 0.06}>
+                <a href={item.href} target="_blank" rel="noreferrer" className="surface-card group block h-full overflow-hidden">
+                  <div className="relative h-52">
+                    <Image src={item.image} alt={details.title} fill className="object-cover transition duration-700 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+                    <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-black/35 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+                      {channelLabel}
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{details.date}</p>
+                    <h3 className="mt-2 text-lg text-text-primary">{details.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-text-secondary">{details.description}</p>
+                    <p className="mt-4 text-sm font-semibold text-accent">{extra.openEventCta}</p>
+                  </div>
+                </a>
+              </HoverCard>
+            );
+          })}
         </div>
       </section>
 
