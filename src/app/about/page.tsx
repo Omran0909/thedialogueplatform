@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "The Dialogue Platform brings together methods from systems thinking, dialogue theory, and institutional design for complex public dialogues.",
+};
+
 export default function AboutPage() {
   return (
     <div className="max-w-content mx-auto px-6 pt-32 pb-32">

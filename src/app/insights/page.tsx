@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Insights",
+  description:
+    "Insights generated through The Dialogue Platform—grounded in specific dialogues and traceable to the questions that shaped them.",
+};
+
 export default function InsightsPage() {
   return (
     <div className="max-w-content mx-auto px-6 pt-32 pb-32">

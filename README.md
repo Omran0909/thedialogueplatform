@@ -35,4 +35,5 @@ A production-ready, content-first Next.js 14 site designed for institutions that
 - **Content**: Update page copy in `src/app` to reflect concrete mandates, partnerships, and examples as they become public.
 - **Branding**: Replace `public/assets/logo.png` with a refined logo and, if desired, extend the Tailwind colour tokens in `tailwind.config.ts`.
 - **Insights & Events**: Replace placeholder structures in `events` and `insights` pages with real data sources or CMS integration when ready.
+- **Contact**: Update `contact@thedialogueplatform.com` in the Contact page with your actual email address.
 
