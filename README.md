@@ -32,10 +32,19 @@ Create `.env.local` (optional during local development):
 NEXT_PUBLIC_SITE_URL=https://thedialogueplatform.com
 NEXT_PUBLIC_CONTACT_EMAIL=
 NEXT_PUBLIC_CONTACT_PHONE=
+RESEND_API_KEY=
+CONTACT_FROM_EMAIL=
+GOOGLE_SHEETS_WEBHOOK_URL=
+CONTACT_DELIVERY_MODE=email
 ```
 
 - Keep contact variables empty until your email and phone are ready.
 - Add the same variables in Vercel project settings for production.
+- `CONTACT_DELIVERY_MODE` supports:
+  - `email` (default): existing email delivery path
+  - `sheet`: save to Google Sheets webhook only
+  - `sheet_and_email`: save to Google Sheets and continue email delivery
+- Google Sheets setup guide: `docs/google-sheets-contact-setup.md`
 
 ### Deploying to Vercel
 

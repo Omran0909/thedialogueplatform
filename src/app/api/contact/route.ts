@@ -11,6 +11,12 @@ type ContactPayload = {
   page?: string;
 };
 
+type DeliveryMode = "email" | "sheet" | "sheet_and_email";
+
+type DeliveryResult =
+  | { ok: true }
+  | { ok: false; reason: string };
+
 function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -28,10 +34,36 @@ function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-async function sendViaResend(payload: ContactPayload, recipient: string) {
+function getDeliveryMode(): DeliveryMode {
+  const value = clean(process.env.CONTACT_DELIVERY_MODE).toLowerCase();
+  if (value === "sheet" || value === "sheet_and_email") {
+    return value;
+  }
+  return "email";
+}
+
+function parseMaybeJson(raw: string) {
+  try {
+    return JSON.parse(raw) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+function getString(data: Record<string, unknown> | null, key: string) {
+  const value = data?.[key];
+  return typeof value === "string" ? value : "";
+}
+
+function isTruthyStatus(data: Record<string, unknown> | null, key: string) {
+  const value = data?.[key];
+  return value === true || value === "true";
+}
+
+async function sendViaResend(payload: ContactPayload, recipient: string): Promise<DeliveryResult> {
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey || /replace_with|changeme|placeholder/i.test(resendKey)) {
-    return { ok: false, reason: "missing_resend_key" as const };
+    return { ok: false, reason: "missing_resend_key" };
   }
 
   const subject = payload.subject || "New contact request";
@@ -76,21 +108,59 @@ async function sendViaResend(payload: ContactPayload, recipient: string) {
 
   if (!response.ok) {
     const reason = await response.text();
-    return { ok: false, reason };
+    return { ok: false, reason: reason || "resend_failed" };
   }
 
   return { ok: true };
 }
 
-function parseMaybeJson(raw: string) {
-  try {
-    return JSON.parse(raw) as { success?: boolean | string; message?: string };
-  } catch {
-    return null;
+async function sendViaGoogleSheets(payload: ContactPayload, recipient: string): Promise<DeliveryResult> {
+  const webhook = clean(process.env.GOOGLE_SHEETS_WEBHOOK_URL);
+  if (!webhook) {
+    return { ok: false, reason: "missing_google_sheets_webhook_url" };
   }
+
+  const response = await fetch(webhook, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      submittedAt: new Date().toISOString(),
+      source: "thedialogueplatform-contact-form",
+      recipient,
+      ...payload,
+    }),
+  });
+
+  const raw = await response.text();
+  const data = parseMaybeJson(raw);
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      reason: getString(data, "message") || raw || `Google Sheets webhook HTTP ${response.status}`,
+    };
+  }
+
+  const okValue = data?.ok;
+  const successValue = data?.success;
+  const explicitlyRejected = okValue === false || successValue === false || successValue === "false";
+  if (explicitlyRejected) {
+    return { ok: false, reason: getString(data, "message") || "Google Sheets webhook rejected the submission." };
+  }
+
+  const hasSignal = typeof okValue !== "undefined" || typeof successValue !== "undefined";
+  const accepted = okValue === true || isTruthyStatus(data, "success");
+  if (data && hasSignal && !accepted) {
+    return { ok: false, reason: getString(data, "message") || "Google Sheets webhook did not confirm delivery." };
+  }
+
+  return { ok: true };
 }
 
-async function sendViaFormSubmit(payload: ContactPayload, recipient: string, origin: string, referer: string) {
+async function sendViaFormSubmit(payload: ContactPayload, recipient: string, origin: string, referer: string): Promise<DeliveryResult> {
   const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
     method: "POST",
     headers: {
@@ -118,12 +188,12 @@ async function sendViaFormSubmit(payload: ContactPayload, recipient: string, ori
   const data = parseMaybeJson(raw);
 
   if (!response.ok) {
-    return { ok: false, reason: data?.message || raw || `FormSubmit HTTP ${response.status}` };
+    return { ok: false, reason: getString(data, "message") || raw || `FormSubmit HTTP ${response.status}` };
   }
 
-  const isSuccess = data?.success === true || data?.success === "true";
+  const isSuccess = isTruthyStatus(data, "success");
   if (!isSuccess) {
-    return { ok: false, reason: data?.message || "FormSubmit rejected delivery." };
+    return { ok: false, reason: getString(data, "message") || "FormSubmit rejected delivery." };
   }
 
   return { ok: true };
@@ -157,11 +227,31 @@ export async function POST(request: Request) {
   }
 
   const recipient = siteConfig.contactEmail;
+  const deliveryMode = getDeliveryMode();
   const canonicalOrigin = new URL(siteConfig.url).origin;
   const pagePath = payload.page?.startsWith("/") ? payload.page : "/contact";
   const canonicalReferer = `${canonicalOrigin}${pagePath}`;
 
   try {
+    if (deliveryMode !== "email") {
+      const sheets = await sendViaGoogleSheets(payload, recipient);
+      if (sheets.ok && deliveryMode === "sheet") {
+        return NextResponse.json({ ok: true, message: "Message sent successfully." });
+      }
+
+      if (!sheets.ok && deliveryMode === "sheet") {
+        console.error("Contact form Google Sheets delivery failed", { sheets });
+        return NextResponse.json(
+          { ok: false, message: `Submission logging failed. Please email us directly at ${recipient}.` },
+          { status: 502 },
+        );
+      }
+
+      if (!sheets.ok) {
+        console.error("Google Sheets logging failed, falling back to email delivery", { sheets });
+      }
+    }
+
     const resend = await sendViaResend(payload, recipient);
     if (resend.ok) {
       return NextResponse.json({ ok: true, message: "Message sent successfully." });
