@@ -5,7 +5,7 @@ export const mediaLibrary = {
     dialogues: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0747.jpg",
     events: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0791.jpg",
     insights: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0237.jpg",
-    contact: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
+    contact: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0394.jpg",
   },
   heroFocus: {
     home: "50% 28%",
@@ -13,7 +13,7 @@ export const mediaLibrary = {
     dialogues: "50% 38%",
     events: "50% 40%",
     insights: "50% 26%",
-    contact: "50% 34%",
+    contact: "50% 36%",
   },
   events: {
     reel: [
