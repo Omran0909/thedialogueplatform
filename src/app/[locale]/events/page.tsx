@@ -285,12 +285,13 @@ export default function EventsPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[#163842]">
+        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
           <Image
             src={mediaLibrary.heroes.events}
             alt="Dialogue event participants"
             fill
             className="hero-image-motion object-cover"
+            style={{ objectPosition: mediaLibrary.heroFocus.events }}
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
@@ -399,7 +400,7 @@ export default function EventsPage({ params }: PageProps) {
                   href={siteConfig.socialChannels[1].href}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0d3f4c]"
+                  className="mt-6 inline-flex rounded-full bg-[#f2a33a] px-6 py-3 text-sm font-semibold text-[#0f2940] transition-colors hover:bg-[#f8b75b]"
                 >
                   {extra.communityCta}
                 </a>

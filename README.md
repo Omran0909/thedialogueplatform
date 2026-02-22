@@ -32,6 +32,7 @@ Create `.env.local` (optional during local development):
 NEXT_PUBLIC_SITE_URL=https://thedialogueplatform.com
 NEXT_PUBLIC_CONTACT_EMAIL=
 NEXT_PUBLIC_CONTACT_PHONE=
+NEXT_PUBLIC_MEMBERSHIP_FORM_URL=
 RESEND_API_KEY=
 CONTACT_FROM_EMAIL=
 GOOGLE_SHEETS_WEBHOOK_URL=
@@ -40,6 +41,7 @@ CONTACT_DELIVERY_MODE=email
 
 - Keep contact variables empty until your email and phone are ready.
 - Add the same variables in Vercel project settings for production.
+- Set `NEXT_PUBLIC_MEMBERSHIP_FORM_URL` to your Google Form `.../viewform` link (it will be embedded automatically on the contact page).
 - `CONTACT_DELIVERY_MODE` supports:
   - `email` (default): existing email delivery path
   - `sheet`: save to Google Sheets webhook only

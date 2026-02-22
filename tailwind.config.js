@@ -18,8 +18,10 @@ module.exports = {
           primary: "#1f2a30",
           secondary: "#52616a",
         },
-        accent: "#0f4c5c",
-        "accent-soft": "#d9ebe7",
+        accent: "#0b3a5d",
+        "accent-soft": "#e3edf5",
+        warm: "#f2a33a",
+        "warm-soft": "#fff1db",
       },
       maxWidth: {
         content: "1120px",

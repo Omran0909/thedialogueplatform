@@ -26,13 +26,14 @@ export default function HomePage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media noise-mask min-h-[540px] bg-[#0e2f38]">
+        <div className="hero-media noise-mask min-h-[540px] bg-[linear-gradient(135deg,#0b3657_0%,#134a66_60%,#f2a33a_120%)]">
           <Image
             src={mediaLibrary.heroes.home}
             alt="Dialogue participants in a seminar setting"
             fill
             priority
             className="hero-image-motion object-cover"
+            style={{ objectPosition: mediaLibrary.heroFocus.home }}
           />
 
           <div className="relative flex min-h-[540px] flex-col justify-between p-8 sm:p-12">
@@ -55,13 +56,13 @@ export default function HomePage({ params }: PageProps) {
               <Reveal delay={0.3} className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={withLocale(locale, "/dialogues")}
-                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#123c49] transition hover:bg-[#dff2ef]"
+                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0b3a5d] shadow-[0_10px_24px_-16px_rgba(6,39,67,0.95)] transition hover:bg-[#fff5e7]"
                 >
                   {localized.home.primaryCta}
                 </Link>
                 <Link
                   href={withLocale(locale, "/about")}
-                  className="rounded-full border border-white/35 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                  className="rounded-full border border-[#f6bf63]/80 bg-[#f6bf63]/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#f6bf63]/30"
                 >
                   {localized.home.secondaryCta}
                 </Link>
@@ -147,21 +148,21 @@ export default function HomePage({ params }: PageProps) {
                       href={channel.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-full border border-accent px-5 py-2 text-sm font-semibold text-accent transition hover:bg-accent hover:text-white"
+                      className="rounded-full border border-[#0b3a5d] px-5 py-2 text-sm font-semibold text-[#0b3a5d] transition hover:bg-[#0b3a5d] hover:text-white"
                     >
                       {channel.label}
                     </a>
                   ))}
                   <Link
                     href={withLocale(locale, "/contact")}
-                    className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0d3f4c]"
+                    className="rounded-full bg-[#f2a33a] px-5 py-2 text-sm font-semibold text-[#0f2940] transition hover:bg-[#f8b75b]"
                   >
                     {localized.home.contactCta}
                   </Link>
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-line/80 bg-[#eaf3f1] p-6">
+              <div className="rounded-2xl border border-[#d8c8ad] bg-[linear-gradient(165deg,#edf5fb_0%,#fff4df_100%)] p-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-secondary">{localized.home.directContactTitle}</p>
                 <a href={`mailto:${siteConfig.contactEmail}`} className="mt-4 block text-lg font-semibold text-accent hover:underline">
                   {siteConfig.contactEmail}

@@ -26,12 +26,13 @@ export default function ContactPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[#183d49]">
+        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_70%,#f2a33a_122%)]">
           <Image
             src={mediaLibrary.heroes.contact}
             alt="Dialogue Platform team and participants in conversation"
             fill
             className="hero-image-motion object-cover"
+            style={{ objectPosition: mediaLibrary.heroFocus.contact }}
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
@@ -74,9 +75,72 @@ export default function ContactPage({ params }: PageProps) {
         </HoverCard>
       </section>
 
-      <section className="section-padding border-t border-line/80">
+      <section id="membership" className="section-padding border-t border-line/80">
         <Reveal>
           <ContactForm locale={locale} />
+        </Reveal>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <div className="surface-card overflow-hidden">
+            <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_1.2fr]">
+              <div className="bg-[linear-gradient(165deg,#0b3657_0%,#0f4c71_58%,#f2a33a_140%)] p-8 sm:p-10">
+                <p className="eyebrow border-white/20 bg-white/12 text-white">{locale === "ar" ? "العضوية" : locale === "no" ? "Medlemskap" : "Membership"}</p>
+                <h2 className="mt-5 text-3xl leading-tight text-white sm:text-4xl">
+                  {locale === "ar"
+                    ? "كن جزءاً من منصة الحوار"
+                    : locale === "no"
+                      ? "Bli medlem i The Dialogue Platform"
+                      : "Become a member of The Dialogue Platform"}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-white/90">
+                  {locale === "ar"
+                    ? "يمكنك التسجيل عبر نموذج العضوية مباشرة من الموقع. إذا لم يظهر النموذج، استخدم رابط التسجيل المباشر."
+                    : locale === "no"
+                      ? "Registrer deg via medlemsskjemaet direkte på nettsiden. Dersom skjemaet ikke vises, bruk direkte lenke."
+                      : "Register through the membership form directly on the website. If the form does not load, use the direct registration link."}
+                </p>
+                {siteConfig.membershipFormUrl ? (
+                  <a
+                    href={siteConfig.membershipFormUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-6 inline-flex rounded-full bg-[#f2a33a] px-5 py-2.5 text-sm font-semibold text-[#0f2940] transition-colors hover:bg-[#f8b75b]"
+                  >
+                    {locale === "ar" ? "فتح رابط التسجيل" : locale === "no" ? "Åpne registreringslenke" : "Open registration link"}
+                  </a>
+                ) : (
+                  <p className="mt-6 text-xs font-semibold uppercase tracking-[0.12em] text-[#ffdca8]">
+                    {locale === "ar"
+                      ? "أضف رابط نموذج العضوية في متغير NEXT_PUBLIC_MEMBERSHIP_FORM_URL"
+                      : locale === "no"
+                        ? "Legg til medlemslenken i NEXT_PUBLIC_MEMBERSHIP_FORM_URL"
+                        : "Add your membership form URL in NEXT_PUBLIC_MEMBERSHIP_FORM_URL"}
+                  </p>
+                )}
+              </div>
+
+              <div className="bg-[#f7f4ed] p-4 sm:p-6">
+                {siteConfig.membershipEmbedUrl ? (
+                  <iframe
+                    src={siteConfig.membershipEmbedUrl}
+                    title="Dialogue Platform membership form"
+                    className="h-[620px] w-full rounded-xl border border-line/80 bg-white"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="flex h-[620px] items-center justify-center rounded-xl border border-dashed border-line/80 bg-white px-6 text-center text-sm text-text-secondary">
+                    {locale === "ar"
+                      ? "سيظهر نموذج العضوية هنا تلقائياً بعد إضافة رابط Google Form."
+                      : locale === "no"
+                        ? "Medlemsskjemaet vises her automatisk etter at Google Form-lenken er lagt inn."
+                        : "The membership form will appear here automatically after adding the Google Form link."}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </Reveal>
       </section>
 

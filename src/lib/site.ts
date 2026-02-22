@@ -7,6 +7,37 @@ const normalizedUrl =
       ? `https://${process.env.NEXT_PUBLIC_SITE_URL}`
       : fallbackSiteUrl;
 
+function toGoogleFormEmbedUrl(url: string) {
+  const trimmed = url.trim();
+
+  if (!trimmed) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(trimmed);
+    const isGoogleForm = parsed.hostname.includes("docs.google.com") && parsed.pathname.includes("/forms/");
+
+    if (!isGoogleForm) {
+      return trimmed;
+    }
+
+    const normalizedPath = parsed.pathname.replace(/\/+$/, "");
+
+    if (normalizedPath.endsWith("/viewform")) {
+      parsed.pathname = normalizedPath;
+      parsed.searchParams.set("embedded", "true");
+      return parsed.toString();
+    }
+
+    return trimmed;
+  } catch {
+    return trimmed;
+  }
+}
+
+const membershipFormUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_FORM_URL ?? "";
+
 export const siteConfig = {
   name: "The Dialogue Platform",
   url: normalizedUrl,
@@ -30,14 +61,45 @@ export const siteConfig = {
     },
   ] as const,
   boardMembers: [
-    "Omran Adam",
-    "Hind Suliman",
-    "Mohammed Haggar",
-    "Adam Bsher",
-    "Gada Ayoub",
-    "Abduerhman Deiges",
-    "ABDELHADI Krow",
+    {
+      name: "Omran Adam",
+      photo: "/assets/media/board/omran-adam.jpg",
+    },
+    {
+      name: "Hind Suliman",
+      photo: "/assets/media/board/hind-suliman.jpg",
+    },
+    {
+      name: "Mohammed Haggar",
+      photo: "/assets/media/board/mohammed-haggar.jpg",
+    },
+    {
+      name: "Adam Bsher",
+      photo: "/assets/media/board/adam-bsher.jpg",
+    },
+    {
+      name: "Gada Ayoub",
+      photo: "/assets/media/board/gada-ayoub.jpg",
+    },
+    {
+      name: "Abduerhman Deiges",
+      photo: "/assets/media/board/abduerhman-deiges.jpg",
+    },
+    {
+      name: "Abdelhadi Krow",
+      photo: "/assets/media/board/abdelhadi-krow.jpg",
+    },
+    {
+      name: "Eman Hassan",
+      photo: "/assets/media/board/eman-hassan.jpg",
+    },
+    {
+      name: "Enas Naseir",
+      photo: "/assets/media/board/enas-naseir.jpg",
+    },
   ] as const,
+  membershipFormUrl,
+  membershipEmbedUrl: toGoogleFormEmbedUrl(membershipFormUrl),
   socialChannels: [
     {
       label: "YouTube",

@@ -26,6 +26,7 @@ export function Layout({ children, locale }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="sticky top-0 z-50 border-b border-line/80 bg-background/90 backdrop-blur-md">
+        <div className="h-[3px] bg-[linear-gradient(90deg,#0b3a5d_0%,#1f5f7d_55%,#f2a33a_100%)]" />
         <div className="mx-auto max-w-content px-6 py-4">
           <div className="flex items-start justify-between gap-4">
             <Link
@@ -53,7 +54,7 @@ export function Layout({ children, locale }: LayoutProps) {
                   <Link
                     key={path}
                     href={withLocale(locale, path)}
-                    className="rounded-sm text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+                    className="rounded-sm text-sm font-medium text-text-secondary transition-colors hover:text-[#0b3a5d]"
                   >
                     {text.nav[key]}
                   </Link>
@@ -62,7 +63,7 @@ export function Layout({ children, locale }: LayoutProps) {
                   href={siteConfig.socialChannels[0].href}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full border border-accent px-4 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent hover:text-white"
+                  className="rounded-full border border-[#0b3a5d] bg-[linear-gradient(115deg,#eef6ff_0%,#fff4df_100%)] px-4 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#0b3a5d] hover:text-white"
                 >
                   {text.officialChannels}
                 </a>
@@ -71,7 +72,7 @@ export function Layout({ children, locale }: LayoutProps) {
             </div>
 
             <details className="group relative md:hidden">
-              <summary className="cursor-pointer list-none rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold text-text-primary">
+              <summary className="cursor-pointer list-none rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold text-[#0b3a5d]">
                 {text.menu}
               </summary>
               <div className="absolute right-0 mt-3 w-72 rounded-xl border border-line bg-surface p-3 shadow-lg">
@@ -89,7 +90,7 @@ export function Layout({ children, locale }: LayoutProps) {
                     href={siteConfig.socialChannels[0].href}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent-soft"
+                    className="rounded-md px-3 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#fff4df]"
                   >
                     {text.officialChannels}
                   </a>
@@ -105,7 +106,7 @@ export function Layout({ children, locale }: LayoutProps) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="mt-20 border-t border-line/80 bg-[#f8f5ee]">
+      <footer className="mt-20 border-t border-line/80 bg-[linear-gradient(180deg,#f8f5ee_0%,#f3efe6_100%)]">
         <div className="mx-auto max-w-content px-6 py-12">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -145,6 +146,16 @@ export function Layout({ children, locale }: LayoutProps) {
                     {channel.label}
                   </a>
                 ))}
+                {siteConfig.membershipFormUrl ? (
+                  <a
+                    href={siteConfig.membershipFormUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-fit text-sm font-semibold text-[#d4871f] transition-colors hover:text-[#0b3a5d]"
+                  >
+                    {locale === "ar" ? "استمارة العضوية" : locale === "no" ? "Medlemsskjema" : "Membership form"}
+                  </a>
+                ) : null}
               </div>
             </div>
 

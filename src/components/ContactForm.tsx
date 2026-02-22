@@ -186,7 +186,7 @@ export function ContactForm({ locale }: ContactFormProps) {
           <button
             type="submit"
             disabled={isDisabled}
-            className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0d3f4c] disabled:cursor-not-allowed disabled:opacity-70"
+            className="rounded-full bg-[#f2a33a] px-6 py-2.5 text-sm font-semibold text-[#0f2940] transition hover:bg-[#f8b75b] disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isDisabled ? text.sending : text.submit}
           </button>
@@ -205,4 +205,3 @@ export function ContactForm({ locale }: ContactFormProps) {
     </div>
   );
 }
-

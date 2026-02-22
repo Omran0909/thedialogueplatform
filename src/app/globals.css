@@ -5,6 +5,10 @@
 @layer base {
   :root {
     color-scheme: light;
+    --brand-blue: #0b3a5d;
+    --brand-blue-deep: #082f4c;
+    --brand-orange: #f2a33a;
+    --brand-cream: #f7f2e8;
   }
 
   html {
@@ -16,9 +20,10 @@
   body {
     background-color: #f4f1ea;
     background-image:
-      radial-gradient(circle at 16% 0%, rgba(15, 76, 92, 0.12), transparent 34%),
-      radial-gradient(circle at 84% 12%, rgba(10, 61, 73, 0.08), transparent 30%),
-      linear-gradient(180deg, #f8f6f0 0%, #f4f1ea 100%);
+      radial-gradient(circle at 15% -5%, rgba(11, 58, 93, 0.16), transparent 36%),
+      radial-gradient(circle at 86% 6%, rgba(242, 163, 58, 0.18), transparent 32%),
+      radial-gradient(circle at 48% 110%, rgba(11, 58, 93, 0.08), transparent 48%),
+      linear-gradient(180deg, #faf7f1 0%, #f4f1ea 100%);
     color: #1f2a30;
     font-family: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   }
@@ -31,7 +36,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid #0f4c5c;
+    outline: 2px solid var(--brand-blue);
     outline-offset: 2px;
   }
 
@@ -46,11 +51,12 @@
 
 @layer components {
   .surface-card {
-    @apply rounded-2xl border border-line/80 bg-surface shadow-[0_16px_40px_-28px_rgba(15,76,92,0.65)];
+    @apply rounded-2xl border border-line/80 bg-surface shadow-[0_16px_40px_-30px_rgba(8,47,76,0.78)];
+    background-image: linear-gradient(170deg, rgba(255, 255, 255, 0.96) 0%, rgba(252, 246, 233, 0.92) 100%);
   }
 
   .eyebrow {
-    @apply inline-flex items-center rounded-full border border-accent/25 bg-accent-soft px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent;
+    @apply inline-flex items-center rounded-full border border-[#e7bf85] bg-[#fff1db] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent;
   }
 
   .section-padding {
@@ -59,6 +65,7 @@
 
   .hero-media {
     @apply relative overflow-hidden rounded-[28px] border border-line/80;
+    box-shadow: 0 28px 58px -42px rgba(8, 47, 76, 0.9);
   }
 
   .hero-media::before {
@@ -66,7 +73,8 @@
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(140deg, rgba(11, 34, 41, 0.72) 10%, rgba(11, 34, 41, 0.46) 45%, rgba(11, 34, 41, 0.16) 100%);
+      linear-gradient(130deg, rgba(8, 47, 76, 0.78) 8%, rgba(8, 47, 76, 0.5) 42%, rgba(8, 47, 76, 0.15) 100%),
+      radial-gradient(circle at 78% 18%, rgba(242, 163, 58, 0.36), transparent 32%);
     z-index: 1;
   }
 
@@ -139,8 +147,8 @@
     margin-right: 0.75rem;
     overflow: hidden;
     border-radius: 16px;
-    border: 1px solid rgba(15, 76, 92, 0.2);
-    box-shadow: 0 16px 40px -26px rgba(15, 76, 92, 0.55);
+    border: 1px solid rgba(11, 58, 93, 0.2);
+    box-shadow: 0 16px 40px -26px rgba(8, 47, 76, 0.58);
   }
 
   .event-reel-item img {

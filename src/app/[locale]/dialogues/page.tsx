@@ -21,12 +21,13 @@ export default function DialoguesPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[#163842]">
+        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
           <Image
             src={mediaLibrary.heroes.dialogues}
             alt="Participants in a structured dialogue"
             fill
             className="hero-image-motion object-cover"
+            style={{ objectPosition: mediaLibrary.heroFocus.dialogues }}
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>

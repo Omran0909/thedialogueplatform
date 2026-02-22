@@ -25,6 +25,7 @@ const aboutExtras: Record<
     opennessMessage: string;
     boardTitle: string;
     boardIntro: string;
+    boardMemberLabel: string;
     partnerDetails: Record<"nansen" | "lillestrom", PartnerDetail>;
   }
 > = {
@@ -34,6 +35,7 @@ const aboutExtras: Record<
       "The Dialogue Platform is open to all points of view. We facilitate respectful disagreement and ensure participants can express concerns, priorities, and lived experience with dignity.",
     boardTitle: "Board and leadership",
     boardIntro: "Our board combines civic engagement, community trust work, and practical dialogue experience.",
+    boardMemberLabel: "Board member",
     partnerDetails: {
       nansen: {
         name: "Nansen Peace Center",
@@ -55,6 +57,7 @@ const aboutExtras: Record<
       "The Dialogue Platform er åpen for alle synspunkter. Vi legger til rette for respektfull uenighet og trygg deltakelse, slik at erfaringer, bekymringer og prioriteringer blir hørt med verdighet.",
     boardTitle: "Styret og ledelse",
     boardIntro: "Styret kombinerer samfunnsengasjement, tillitsarbeid og praktisk erfaring fra dialogprosesser.",
+    boardMemberLabel: "Styremedlem",
     partnerDetails: {
       nansen: {
         name: "Nansen fredssenter",
@@ -76,6 +79,7 @@ const aboutExtras: Record<
       "منصة الحوار مفتوحة لجميع وجهات النظر. نُيسّر الاختلاف باحترام ونضمن مشاركة آمنة تُمكّن الناس من التعبير عن أولوياتهم وتجاربهم ومخاوفهم بكرامة.",
     boardTitle: "مجلس الإدارة والقيادة",
     boardIntro: "يجمع مجلسنا بين الخبرة المجتمعية وبناء الثقة والممارسة العملية في إدارة الحوارات.",
+    boardMemberLabel: "عضو مجلس الإدارة",
     partnerDetails: {
       nansen: {
         name: "مركز نانسن للسلام",
@@ -105,12 +109,13 @@ export default function AboutPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[360px] bg-[#173c46]">
+        <div className="hero-media min-h-[360px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_120%)]">
           <Image
             src={mediaLibrary.heroes.about}
             alt="Dialogue participants collaborating"
             fill
             className="hero-image-motion object-cover"
+            style={{ objectPosition: mediaLibrary.heroFocus.about }}
           />
           <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
@@ -182,10 +187,18 @@ export default function AboutPage({ params }: PageProps) {
         </Reveal>
         <Reveal delay={0.05}>
           <div className="surface-card mt-8 p-6 sm:p-8">
-            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {siteConfig.boardMembers.map((member) => (
-                <li key={member} className="rounded-xl border border-line/80 bg-white/70 px-4 py-3 text-sm font-semibold text-text-primary">
-                  {member}
+                <li key={member.name} className="rounded-2xl border border-line/80 bg-white/80 p-4 shadow-[0_14px_30px_-24px_rgba(8,55,88,0.85)]">
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-16 w-16 overflow-hidden rounded-full border border-[#e1d8c8] bg-[#f6f2e8]">
+                      <Image src={member.photo} alt={member.name} fill className="object-cover" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-text-primary">{member.name}</p>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-accent">{extra.boardMemberLabel}</p>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>

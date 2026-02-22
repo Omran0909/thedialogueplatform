@@ -7,6 +7,14 @@ export const mediaLibrary = {
     insights: "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0237.jpg",
     contact: "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0431.jpg",
   },
+  heroFocus: {
+    home: "50% 28%",
+    about: "50% 30%",
+    dialogues: "50% 22%",
+    events: "50% 22%",
+    insights: "50% 26%",
+    contact: "50% 24%",
+  },
   events: {
     reel: [
       "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
