@@ -2,18 +2,18 @@ export const mediaLibrary = {
   heroes: {
     home: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
     about: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
-    dialogues: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0626.jpg",
+    dialogues: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0747.jpg",
     events: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0791.jpg",
     insights: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0237.jpg",
-    contact: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0431.jpg",
+    contact: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
   },
   heroFocus: {
     home: "50% 28%",
-    about: "50% 30%",
-    dialogues: "50% 22%",
-    events: "50% 22%",
+    about: "50% 24%",
+    dialogues: "50% 38%",
+    events: "50% 40%",
     insights: "50% 26%",
-    contact: "50% 24%",
+    contact: "50% 34%",
   },
   events: {
     reel: [
