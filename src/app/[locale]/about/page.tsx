@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import AnimatedBoardMembers from "@/components/AnimatedBoardMembers";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
@@ -185,25 +186,9 @@ export default function AboutPage({ params }: PageProps) {
           <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.boardTitle}</h2>
           <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.boardIntro}</p>
         </Reveal>
-        <Reveal delay={0.05}>
-          <div className="surface-card mt-8 p-6 sm:p-8">
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {siteConfig.boardMembers.map((member) => (
-                <li key={member.name} className="rounded-2xl border border-line/80 bg-white/80 p-4 shadow-[0_14px_30px_-24px_rgba(8,55,88,0.85)]">
-                  <div className="flex items-center gap-4">
-                    <div className="relative h-16 w-16 overflow-hidden rounded-full border border-[#e1d8c8] bg-[#f6f2e8]">
-                      <Image src={member.photo} alt={member.name} fill className="object-cover" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-text-primary">{member.name}</p>
-                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-accent">{extra.boardMemberLabel}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+        <div className="surface-card mt-8 p-6 sm:p-8">
+          <AnimatedBoardMembers members={siteConfig.boardMembers} memberLabel={extra.boardMemberLabel} boardTitle={extra.boardTitle} />
+        </div>
       </section>
     </div>
   );
