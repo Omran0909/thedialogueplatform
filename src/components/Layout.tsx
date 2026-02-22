@@ -171,7 +171,7 @@ export function Layout({ children, locale }: LayoutProps) {
           </div>
 
           <p className="mt-10 border-t border-line/80 pt-6 text-xs text-text-secondary">
-            {siteConfig.name} {new Date().getFullYear()}
+            {siteConfig.name} 2025
           </p>
         </div>
       </footer>
