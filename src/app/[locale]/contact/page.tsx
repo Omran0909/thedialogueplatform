@@ -1,8 +1,10 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { layoutText } from "@/lib/i18n/layout-text";
+import { mediaLibrary } from "@/lib/media";
 import { siteConfig } from "@/lib/site";
 import { ContactForm } from "@/components/ContactForm";
 
@@ -22,14 +24,30 @@ export default function ContactPage({ params }: PageProps) {
   const layout = layoutText[locale];
 
   return (
-    <div className="mx-auto max-w-content px-6 pb-24 section-padding pt-12 sm:pt-16">
-      <Reveal>
-        <span className="eyebrow">{layout.nav.contact}</span>
-        <h1 className="mt-6 max-w-3xl text-4xl leading-tight text-text-primary sm:text-5xl">{localized.contact.title}</h1>
-        <p className="mt-5 max-w-prose text-base leading-relaxed text-text-secondary">{localized.contact.intro}</p>
-      </Reveal>
+    <div className="mx-auto max-w-content px-6 pb-24">
+      <section className="section-padding pt-12 sm:pt-16">
+        <div className="hero-media min-h-[320px] bg-[#183d49]">
+          <Image
+            src={mediaLibrary.heroes.contact}
+            alt="Dialogue Platform team and participants in conversation"
+            fill
+            className="hero-image-motion object-cover"
+          />
+          <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
+            <Reveal>
+              <span className="eyebrow border-white/20 bg-white/15 text-white">{layout.nav.contact}</span>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.contact.title}</h1>
+            </Reveal>
+            <Reveal delay={0.18}>
+              <p className="mt-4 max-w-prose text-base leading-relaxed text-white/90">{localized.contact.intro}</p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
-      <section className="section-padding border-t border-line/80 mt-12 grid gap-5 lg:grid-cols-2">
+      <section className="section-padding border-t border-line/80 grid gap-5 lg:grid-cols-2">
         <HoverCard>
           <div className="surface-card h-full p-8">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-secondary">{localized.contact.directLabel}</p>

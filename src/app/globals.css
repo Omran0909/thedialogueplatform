@@ -131,12 +131,24 @@
     animation: mediaSlide 52s linear infinite;
   }
 
+  .event-reel-track:hover {
+    animation-play-state: paused;
+  }
+
   .event-reel-item {
     margin-right: 0.75rem;
     overflow: hidden;
     border-radius: 16px;
     border: 1px solid rgba(15, 76, 92, 0.2);
     box-shadow: 0 16px 40px -26px rgba(15, 76, 92, 0.55);
+  }
+
+  .event-reel-item img {
+    transition: transform 700ms ease;
+  }
+
+  .event-reel-item:hover img {
+    transform: scale(1.06);
   }
 }
 
