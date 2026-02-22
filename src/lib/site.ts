@@ -1,4 +1,6 @@
 const fallbackSiteUrl = "https://thedialogueplatform.com";
+const defaultMembershipFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfdsTvaqb3tEJHiPyAyYruARtH7hLGNiAwNHOFsTzIMCIjrXg/viewform?usp=header";
 
 const normalizedUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
@@ -36,7 +38,7 @@ function toGoogleFormEmbedUrl(url: string) {
   }
 }
 
-const membershipFormUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_FORM_URL ?? "";
+const membershipFormUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_FORM_URL?.trim() || defaultMembershipFormUrl;
 
 export const siteConfig = {
   name: "The Dialogue Platform",
@@ -63,39 +65,39 @@ export const siteConfig = {
   boardMembers: [
     {
       name: "Omran Adam",
-      photo: "/assets/media/board/omran-adam.jpg",
+      photo: "/assets/media/site/board/omran-adam.jpg",
     },
     {
       name: "Hind Suliman",
-      photo: "/assets/media/board/hind-suliman.jpg",
+      photo: "/assets/media/site/board/hind-suliman.jpg",
     },
     {
       name: "Mohammed Haggar",
-      photo: "/assets/media/board/mohammed-haggar.jpg",
+      photo: "/assets/media/site/board/mohammed-haggar.jpg",
     },
     {
       name: "Adam Bsher",
-      photo: "/assets/media/board/adam-bsher.jpg",
+      photo: "/assets/media/site/board/adam-bsher.jpg",
     },
     {
       name: "Gada Ayoub",
-      photo: "/assets/media/board/gada-ayoub.jpg",
+      photo: "/assets/media/site/board/gada-ayoub.jpg",
     },
     {
       name: "Abduerhman Deiges",
-      photo: "/assets/media/board/abduerhman-deiges.jpg",
+      photo: "/assets/media/site/board/abduerhman-deiges.jpg",
     },
     {
       name: "Abdelhadi Krow",
-      photo: "/assets/media/board/abdelhadi-krow.jpg",
+      photo: "/assets/media/site/board/abdelhadi-krow.jpg",
     },
     {
       name: "Eman Hassan",
-      photo: "/assets/media/board/eman-hassan.jpg",
+      photo: "/assets/media/site/board/eman-hassan.jpg",
     },
     {
       name: "Enas Naseir",
-      photo: "/assets/media/board/enas-naseir.jpg",
+      photo: "/assets/media/site/board/enas-naseir.jpg",
     },
   ] as const,
   membershipFormUrl,
@@ -111,7 +113,7 @@ export const siteConfig = {
     },
   ],
   facebookPageUrl: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
-  facebookCommunityImage: "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
+  facebookCommunityImage: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
   exampleDialogues: [
     {
       title: "Example Dialogue 01",
