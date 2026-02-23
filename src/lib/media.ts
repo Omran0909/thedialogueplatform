@@ -13,7 +13,7 @@ export const mediaLibrary = {
     dialogues: "50% 38%",
     events: "50% 40%",
     insights: "50% 26%",
-    contact: "50% 36%",
+    contact: "50% calc(36% - 20px)",
   },
   events: {
     reel: [
