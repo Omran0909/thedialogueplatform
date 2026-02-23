@@ -6,6 +6,7 @@ import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
 import { mediaLibrary, type EventHighlightId } from "@/lib/media";
+import { buildEventIcsDataUri, buildGoogleCalendarUrl, calendarEvents, getLocalizedCalendarEvent } from "@/lib/events-calendar";
 
 type PageProps = {
   params: {
@@ -272,6 +273,86 @@ const eventsExtras: Record<
   },
 };
 
+const calendarSectionCopy: Record<
+  Locale,
+  {
+    heading: string;
+    description: string;
+    monthViewLabel: string;
+    monthViewDescription: string;
+    subscribeCta: string;
+    downloadFeedCta: string;
+    subscribeHint: string;
+    upcomingLabel: string;
+    pastLabel: string;
+    openDetails: string;
+    timeLabel: string;
+    seminarLinksLabel: string;
+    addGoogleCta: string;
+    downloadIcsCta: string;
+    noUpcoming: string;
+    noPast: string;
+  }
+> = {
+  en: {
+    heading: "Live events calendar",
+    description:
+      "Track upcoming and previous dialogue events in one place. Open any date to read what happened and jump directly to seminar coverage links.",
+    monthViewLabel: "Calendar navigator",
+    monthViewDescription: "Select a date to jump to the full event details and media links.",
+    subscribeCta: "Subscribe for calendar updates",
+    downloadFeedCta: "Download full calendar feed (.ics)",
+    subscribeHint: "Subscribing lets your calendar app receive new events and future schedule changes.",
+    upcomingLabel: "Next events",
+    pastLabel: "Previous events archive",
+    openDetails: "Open details",
+    timeLabel: "Time",
+    seminarLinksLabel: "Seminar links",
+    addGoogleCta: "Add to Google Calendar",
+    downloadIcsCta: "Download this event (.ics)",
+    noUpcoming: "No upcoming events published yet.",
+    noPast: "No archived events available yet.",
+  },
+  no: {
+    heading: "Live arrangementskalender",
+    description:
+      "Følg kommende og tidligere dialogarrangementer på ett sted. Åpne en dato for å lese hva som skjedde og gå direkte til seminarlenker.",
+    monthViewLabel: "Kalendernavigasjon",
+    monthViewDescription: "Velg en dato for å åpne full beskrivelse og medielenker.",
+    subscribeCta: "Abonner på kalenderoppdateringer",
+    downloadFeedCta: "Last ned full kalenderfeed (.ics)",
+    subscribeHint: "Abonnement gjør at kalenderappen kan motta nye arrangementer og senere endringer.",
+    upcomingLabel: "Neste arrangementer",
+    pastLabel: "Tidligere arrangementer",
+    openDetails: "Vis detaljer",
+    timeLabel: "Tid",
+    seminarLinksLabel: "Seminarlenker",
+    addGoogleCta: "Legg til i Google Kalender",
+    downloadIcsCta: "Last ned denne hendelsen (.ics)",
+    noUpcoming: "Ingen kommende arrangementer er publisert ennå.",
+    noPast: "Ingen tidligere arrangementer er registrert ennå.",
+  },
+  ar: {
+    heading: "تقويم الفعاليات المباشر",
+    description:
+      "تابع الفعاليات القادمة والسابقة في مكان واحد. افتح أي تاريخ لقراءة ما حدث والوصول مباشرة إلى روابط الندوات.",
+    monthViewLabel: "التنقل داخل التقويم",
+    monthViewDescription: "اختر تاريخاً للانتقال إلى وصف الفعالية الكامل وروابط الوسائط.",
+    subscribeCta: "الاشتراك في تحديثات التقويم",
+    downloadFeedCta: "تنزيل ملف التقويم الكامل (.ics)",
+    subscribeHint: "الاشتراك يتيح لتطبيق التقويم لديك استقبال الفعاليات الجديدة وأي تغييرات لاحقة.",
+    upcomingLabel: "الفعاليات القادمة",
+    pastLabel: "أرشيف الفعاليات السابقة",
+    openDetails: "عرض التفاصيل",
+    timeLabel: "الوقت",
+    seminarLinksLabel: "روابط الندوة",
+    addGoogleCta: "إضافة إلى تقويم Google",
+    downloadIcsCta: "تنزيل الفعالية الحالية (.ics)",
+    noUpcoming: "لا توجد فعاليات قادمة منشورة حالياً.",
+    noPast: "لا توجد فعاليات سابقة متاحة حالياً.",
+  },
+};
+
 export default function EventsPage({ params }: PageProps) {
   if (!isLocale(params.locale)) {
     notFound();
@@ -280,7 +361,47 @@ export default function EventsPage({ params }: PageProps) {
   const locale = params.locale as Locale;
   const localized = getContent(locale);
   const extra = eventsExtras[locale];
+  const calendarCopy = calendarSectionCopy[locale];
   const reelImages = [...mediaLibrary.events.reel, ...mediaLibrary.events.reel];
+  const localeCode = locale === "no" ? "nb-NO" : locale === "ar" ? "ar-SA" : "en-US";
+  const sortedCalendarEvents = [...calendarEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  const upcomingCalendarEvents = sortedCalendarEvents.filter((event) => event.phase === "upcoming");
+  const pastCalendarEvents = sortedCalendarEvents.filter((event) => event.phase === "past").reverse();
+  const monthYearFormatter = new Intl.DateTimeFormat(localeCode, { month: "long", year: "numeric", timeZone: "Europe/Oslo" });
+  const monthDayFormatter = new Intl.DateTimeFormat(localeCode, { day: "2-digit", timeZone: "Europe/Oslo" });
+  const weekdayFormatter = new Intl.DateTimeFormat(localeCode, { weekday: "short", timeZone: "Europe/Oslo" });
+  const dayLabelFormatter = new Intl.DateTimeFormat(localeCode, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Oslo",
+  });
+  const timeFormatter = new Intl.DateTimeFormat(localeCode, {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Oslo",
+  });
+  const monthGroups = Array.from(
+    sortedCalendarEvents
+      .reduce(
+        (groups, event) => {
+          const date = new Date(event.start);
+          const key = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+
+          if (!groups.has(key)) {
+            groups.set(key, { key, label: monthYearFormatter.format(date), events: [] as typeof sortedCalendarEvents });
+          }
+
+          groups.get(key)?.events.push(event);
+          return groups;
+        },
+        new Map<string, { key: string; label: string; events: typeof sortedCalendarEvents }>(),
+      )
+      .values(),
+  ).reverse();
+  const calendarFeedUrl = new URL("/events.ics", siteConfig.url).toString();
+  const calendarSubscriptionUrl = calendarFeedUrl.replace(/^https?:\/\//, "webcal://");
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -425,15 +546,217 @@ export default function EventsPage({ params }: PageProps) {
 
       <section className="section-padding border-t border-line/80">
         <Reveal>
-          <div className="surface-card p-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-secondary">{localized.events.calendarLabel}</p>
-            <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{localized.events.calendarDescription}</p>
-            <Link
-              href={withLocale(locale, "/contact")}
-              className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0d3f4c]"
-            >
-              {localized.events.cta}
-            </Link>
+          <div className="surface-card overflow-hidden p-0">
+            <div className="grid lg:grid-cols-[0.92fr_1.08fr]">
+              <div className="calendar-shell border-b border-line/80 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">{calendarCopy.monthViewLabel}</p>
+                <p className="mt-3 text-sm leading-relaxed text-text-secondary">{calendarCopy.monthViewDescription}</p>
+
+                <div className="mt-6 space-y-4">
+                  {monthGroups.map((monthGroup) => (
+                    <article key={monthGroup.key} className="calendar-month-card rounded-xl border border-line/80 bg-surface/80 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-text-secondary">{monthGroup.label}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {monthGroup.events.map((event) => {
+                          const startDate = new Date(event.start);
+                          const eventText = getLocalizedCalendarEvent(event, locale);
+
+                          return (
+                            <a
+                              key={event.id}
+                              href={`#calendar-event-${event.id}`}
+                              title={eventText.title}
+                              className="calendar-date-chip inline-flex min-w-[64px] flex-col items-center rounded-lg border border-accent/25 bg-accent-soft/70 px-3 py-2 text-center text-accent transition hover:-translate-y-0.5 hover:border-accent/45"
+                            >
+                              <span className="text-sm font-semibold leading-none">{monthDayFormatter.format(startDate)}</span>
+                              <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                                {weekdayFormatter.format(startDate)}
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-6 sm:p-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-accent">{localized.events.calendarLabel}</p>
+                <h2 className="mt-3 text-3xl text-text-primary sm:text-4xl">{calendarCopy.heading}</h2>
+                <p className="mt-4 text-base leading-relaxed text-text-secondary">{calendarCopy.description}</p>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <a
+                    href={calendarSubscriptionUrl}
+                    className="inline-flex rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0d3f4c]"
+                  >
+                    {calendarCopy.subscribeCta}
+                  </a>
+                  <a
+                    href={calendarFeedUrl}
+                    className="inline-flex rounded-full border border-accent/30 bg-accent-soft/70 px-5 py-3 text-sm font-semibold text-accent transition-colors hover:border-accent/50"
+                  >
+                    {calendarCopy.downloadFeedCta}
+                  </a>
+                  <Link
+                    href={withLocale(locale, "/contact")}
+                    className="inline-flex rounded-full border border-line/90 bg-white/70 px-5 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-white"
+                  >
+                    {localized.events.cta}
+                  </Link>
+                </div>
+                <p className="mt-3 text-xs leading-relaxed text-text-secondary">{calendarCopy.subscribeHint}</p>
+
+                <div className="mt-8 space-y-8">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{calendarCopy.upcomingLabel}</p>
+                    <div className="mt-3 space-y-3">
+                      {upcomingCalendarEvents.length > 0 ? (
+                        upcomingCalendarEvents.map((event) => {
+                          const eventText = getLocalizedCalendarEvent(event, locale);
+                          const startDate = new Date(event.start);
+                          const endDate = new Date(event.end);
+
+                          return (
+                            <details
+                              key={event.id}
+                              id={`calendar-event-${event.id}`}
+                              className="calendar-event-card rounded-xl border border-line/80 bg-white/70 px-4 py-4"
+                            >
+                              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+                                <div>
+                                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                                    {dayLabelFormatter.format(startDate)}
+                                  </p>
+                                  <h3 className="mt-2 text-lg text-text-primary">{eventText.title}</h3>
+                                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">{eventText.shortDescription}</p>
+                                </div>
+                                <span className="rounded-full border border-line/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                                  {calendarCopy.openDetails}
+                                </span>
+                              </summary>
+
+                              <div className="mt-4 border-t border-line/70 pt-4">
+                                <p className="text-sm leading-relaxed text-text-secondary">{eventText.fullDescription}</p>
+                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                                  {calendarCopy.timeLabel}: {timeFormatter.format(startDate)} - {timeFormatter.format(endDate)}
+                                </p>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {event.links.map((link) => (
+                                    <a
+                                      key={`${event.id}-${link.type}-${link.href}`}
+                                      href={link.href}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
+                                    >
+                                      {calendarCopy.seminarLinksLabel}: {link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel}
+                                    </a>
+                                  ))}
+                                </div>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  <a
+                                    href={buildGoogleCalendarUrl(event, locale)}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="rounded-full bg-[#0b3a5d] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#0c4a75]"
+                                  >
+                                    {calendarCopy.addGoogleCta}
+                                  </a>
+                                  <a
+                                    href={buildEventIcsDataUri(event, locale)}
+                                    download={`${event.id}.ics`}
+                                    className="rounded-full border border-accent/30 bg-[#fff4e1] px-4 py-2 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
+                                  >
+                                    {calendarCopy.downloadIcsCta}
+                                  </a>
+                                </div>
+                              </div>
+                            </details>
+                          );
+                        })
+                      ) : (
+                        <p className="rounded-xl border border-line/70 bg-white/70 px-4 py-3 text-sm text-text-secondary">{calendarCopy.noUpcoming}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{calendarCopy.pastLabel}</p>
+                    <div className="mt-3 space-y-3">
+                      {pastCalendarEvents.length > 0 ? (
+                        pastCalendarEvents.map((event) => {
+                          const eventText = getLocalizedCalendarEvent(event, locale);
+                          const startDate = new Date(event.start);
+                          const endDate = new Date(event.end);
+
+                          return (
+                            <details
+                              key={event.id}
+                              id={`calendar-event-${event.id}`}
+                              className="calendar-event-card rounded-xl border border-line/80 bg-white/70 px-4 py-4"
+                            >
+                              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
+                                <div>
+                                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                                    {dayLabelFormatter.format(startDate)}
+                                  </p>
+                                  <h3 className="mt-2 text-lg text-text-primary">{eventText.title}</h3>
+                                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">{eventText.shortDescription}</p>
+                                </div>
+                                <span className="rounded-full border border-line/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                                  {calendarCopy.openDetails}
+                                </span>
+                              </summary>
+
+                              <div className="mt-4 border-t border-line/70 pt-4">
+                                <p className="text-sm leading-relaxed text-text-secondary">{eventText.fullDescription}</p>
+                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.1em] text-text-secondary">
+                                  {calendarCopy.timeLabel}: {timeFormatter.format(startDate)} - {timeFormatter.format(endDate)}
+                                </p>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {event.links.map((link) => (
+                                    <a
+                                      key={`${event.id}-${link.type}-${link.href}`}
+                                      href={link.href}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
+                                    >
+                                      {calendarCopy.seminarLinksLabel}: {link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel}
+                                    </a>
+                                  ))}
+                                </div>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  <a
+                                    href={buildGoogleCalendarUrl(event, locale)}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="rounded-full bg-[#0b3a5d] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#0c4a75]"
+                                  >
+                                    {calendarCopy.addGoogleCta}
+                                  </a>
+                                  <a
+                                    href={buildEventIcsDataUri(event, locale)}
+                                    download={`${event.id}.ics`}
+                                    className="rounded-full border border-accent/30 bg-[#fff4e1] px-4 py-2 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
+                                  >
+                                    {calendarCopy.downloadIcsCta}
+                                  </a>
+                                </div>
+                              </div>
+                            </details>
+                          );
+                        })
+                      ) : (
+                        <p className="rounded-xl border border-line/70 bg-white/70 px-4 py-3 text-sm text-text-secondary">{calendarCopy.noPast}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </Reveal>
       </section>

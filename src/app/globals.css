@@ -219,6 +219,48 @@
     animation: boardOrbit 7s linear infinite;
     opacity: 0.95;
   }
+
+  .calendar-shell {
+    background:
+      radial-gradient(circle at 8% 2%, rgba(11, 58, 93, 0.12), transparent 45%),
+      radial-gradient(circle at 95% 90%, rgba(242, 163, 58, 0.18), transparent 40%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(250, 242, 228, 0.86) 100%);
+  }
+
+  .calendar-month-card {
+    transition:
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      transform 220ms ease;
+  }
+
+  .calendar-month-card:hover {
+    border-color: rgba(11, 58, 93, 0.24);
+    box-shadow: 0 14px 30px -22px rgba(8, 47, 76, 0.62);
+    transform: translateY(-1px);
+  }
+
+  .calendar-date-chip {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease;
+    box-shadow: 0 10px 24px -22px rgba(8, 47, 76, 0.85);
+  }
+
+  .calendar-date-chip:hover {
+    box-shadow: 0 12px 28px -18px rgba(8, 47, 76, 0.75);
+  }
+
+  .calendar-event-card {
+    transition:
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .calendar-event-card[open] {
+    border-color: rgba(11, 58, 93, 0.28);
+    box-shadow: 0 20px 36px -28px rgba(8, 47, 76, 0.7);
+  }
 }
 
 @keyframes floatDrift {
