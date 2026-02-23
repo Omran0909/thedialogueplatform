@@ -9,7 +9,7 @@ export const mediaLibrary = {
   },
   heroFocus: {
     home: "50% 28%",
-    about: "50% 24%",
+    about: "50% calc(24% + 60px)",
     dialogues: "50% 38%",
     events: "50% 40%",
     insights: "50% 26%",
