@@ -92,10 +92,6 @@ export const siteConfig = {
       photo: "/assets/media/site/board/abdelhadi-krow.jpg",
     },
     {
-      name: "Eman Hassan",
-      photo: "/assets/media/site/board/eman-hassan.jpg",
-    },
-    {
       name: "Enas Naseir",
       photo: "/assets/media/site/board/enas-naseir.jpg",
     },
