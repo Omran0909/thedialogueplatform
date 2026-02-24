@@ -111,13 +111,15 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
         sources: payload.sources ?? [],
       };
       setMessages((previous) => [...previous, assistantMessage]);
-    } catch {
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message.trim().length > 0 ? error.message.trim() : copy.unavailableMessage;
       setMessages((previous) => [
         ...previous,
         {
           id: makeId(),
           role: "assistant",
-          text: copy.unavailableMessage,
+          text: message,
         },
       ]);
     } finally {
@@ -224,4 +226,3 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
 }
 
 export type { AssistantCopy };
-

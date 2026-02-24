@@ -69,7 +69,7 @@ export function EventMediaReel({ images, alt }: EventMediaReelProps) {
       if (!shouldPause && cycleWidthRef.current > 0) {
         const lastFrame = lastFrameRef.current ?? timestamp;
         const delta = timestamp - lastFrame;
-        const pixelsPerSecond = 10;
+        const pixelsPerSecond = 15;
         const distance = (pixelsPerSecond * delta) / 1000;
         applyOffset(offsetRef.current + distance);
       }

@@ -18,6 +18,11 @@ type AssistantSource = {
   url: string;
 };
 
+type OpenAiRequestMessage = {
+  role: "system" | "user" | "assistant";
+  content: string;
+};
+
 const MAX_MESSAGE_LENGTH = 1500;
 const MAX_HISTORY = 8;
 
@@ -155,6 +160,72 @@ function buildSystemPrompt(locale: Locale) {
   ].join(" ");
 }
 
+function extractApiErrorMessage(payload: unknown) {
+  if (!payload || typeof payload !== "object" || !("error" in payload)) {
+    return "";
+  }
+
+  const error = (payload as { error?: unknown }).error;
+  if (typeof error === "string" && error.trim().length > 0) {
+    return error.trim();
+  }
+
+  if (!error || typeof error !== "object") {
+    return "";
+  }
+
+  const details = error as { message?: unknown; code?: unknown; type?: unknown };
+  const parts: string[] = [];
+
+  if (typeof details.message === "string" && details.message.trim().length > 0) {
+    parts.push(details.message.trim());
+  }
+  if (typeof details.code === "string" && details.code.trim().length > 0) {
+    parts.push(`code: ${details.code.trim()}`);
+  }
+  if (typeof details.type === "string" && details.type.trim().length > 0) {
+    parts.push(`type: ${details.type.trim()}`);
+  }
+
+  return parts.join(" | ");
+}
+
+async function requestOpenAiResponse({
+  openAiKey,
+  model,
+  input,
+  useWebSearch,
+}: {
+  openAiKey: string;
+  model: string;
+  input: OpenAiRequestMessage[];
+  useWebSearch: boolean;
+}) {
+  const body: Record<string, unknown> = {
+    model,
+    input,
+    temperature: 0.2,
+    max_output_tokens: 700,
+  };
+
+  if (useWebSearch) {
+    body.tools = [{ type: "web_search_preview" }];
+    body.tool_choice = "auto";
+  }
+
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${openAiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const raw = (await response.json()) as unknown;
+  return { response, raw };
+}
+
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
@@ -192,41 +263,51 @@ export async function POST(request: Request) {
 
   const normalizedHistory = history
     .slice(-MAX_HISTORY)
-    .map((item) => ({
+    .map((item): OpenAiRequestMessage => ({
       role: item.role === "assistant" ? "assistant" : "user",
       content: clean(item.content),
     }))
     .filter((item) => item.content.length > 0);
 
-  const input = [
+  const input: OpenAiRequestMessage[] = [
     { role: "system", content: buildSystemPrompt(locale) },
     ...normalizedHistory,
     { role: "user", content: message },
   ];
 
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${openAiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: process.env.OPENAI_ASSISTANT_MODEL || "gpt-4.1-mini",
-        input,
-        tools: [{ type: "web_search_preview" }],
-        tool_choice: "auto",
-        temperature: 0.2,
-        max_output_tokens: 700,
-      }),
-    });
+    const model = clean(process.env.OPENAI_ASSISTANT_MODEL) || "gpt-4.1-mini";
 
-    const raw = (await response.json()) as unknown;
+    let { response, raw } = await requestOpenAiResponse({
+      openAiKey,
+      model,
+      input,
+      useWebSearch: true,
+    });
+    let webSearchEnabled = true;
 
     if (!response.ok) {
-      const messageFromApi =
-        raw && typeof raw === "object" && "error" in raw ? String((raw as { error?: unknown }).error) : "Assistant API request failed.";
-      return NextResponse.json({ ok: false, message: messageFromApi }, { status: 502 });
+      const primaryMessage = extractApiErrorMessage(raw) || "Assistant API request failed.";
+      const shouldRetryWithoutWebSearch = response.status >= 400 && response.status < 500;
+
+      if (!shouldRetryWithoutWebSearch) {
+        return NextResponse.json({ ok: false, message: primaryMessage }, { status: 502 });
+      }
+
+      const fallback = await requestOpenAiResponse({
+        openAiKey,
+        model,
+        input,
+        useWebSearch: false,
+      });
+      response = fallback.response;
+      raw = fallback.raw;
+      webSearchEnabled = false;
+
+      if (!response.ok) {
+        const fallbackMessage = extractApiErrorMessage(raw) || primaryMessage;
+        return NextResponse.json({ ok: false, message: fallbackMessage }, { status: 502 });
+      }
     }
 
     const answer = extractOutputText(raw);
@@ -236,9 +317,9 @@ export async function POST(request: Request) {
       ok: true,
       answer: answer || "I could not produce a clear answer for this request. Please try again with a more specific question.",
       sources,
+      webSearchEnabled,
     });
   } catch {
     return NextResponse.json({ ok: false, message: "Assistant request failed. Please try again." }, { status: 502 });
   }
 }
-
