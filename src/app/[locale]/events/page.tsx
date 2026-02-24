@@ -67,7 +67,7 @@ const eventsExtras: Record<
     facebookLabel: "Facebook",
     mediaReelTitle: "From our own media archive",
     mediaReelDescription:
-      "This reel shows the selected best photos from the 24 January 2026 seminar with Khalid Silik and Bakry Aljackm.",
+      "This reel shows all 46 photos from the 24 January 2026 seminar with Khalid Omer Yousif and Bakry Eljack.",
     highlights: {
       "first-meeting-2025": {
         date: "8 February 2025",
@@ -86,17 +86,17 @@ const eventsExtras: Record<
       },
       "silik-dinner-jan-2026": {
         date: "21 January 2026",
-        title: "First dinner meeting with Khalid Silik",
+        title: "First dinner meeting with Khalid Omer Yousif",
         description: "An intimate gathering to strengthen relationships and prepare the next seminar dialogues.",
       },
       "silik-seminar-jan-22-2026": {
         date: "22 January 2026",
-        title: "Khalid Silik seminar (Day 1)",
+        title: "Khalid Omer Yousif seminar (Day 1)",
         description: "Participants discussed peace-centred dialogue methods and civic trust priorities.",
       },
       "silik-seminar-jan-24-2026": {
         date: "24 January 2026",
-        title: "Khalid Silik seminar (Day 2)",
+        title: "Khalid Omer Yousif seminar (Day 2)",
         description: "Continued sessions and reflections with the community and institutional stakeholders.",
       },
       "facebook-community": {
@@ -147,7 +147,7 @@ const eventsExtras: Record<
     facebookLabel: "Facebook",
     mediaReelTitle: "Fra vårt eget mediearkiv",
     mediaReelDescription:
-      "Denne bildefremvisningen viser utvalgte beste bilder fra seminaret 24. januar 2026 med Khalid Silik og Bakry Aljackm.",
+      "Denne bildefremvisningen viser alle 46 bilder fra seminaret 24. januar 2026 med Khalid Omer Yousif og Bakry Eljack.",
     highlights: {
       "first-meeting-2025": {
         date: "8. februar 2025",
@@ -166,17 +166,17 @@ const eventsExtras: Record<
       },
       "silik-dinner-jan-2026": {
         date: "21. januar 2026",
-        title: "Første middagssamling med Khalid Silik",
+        title: "Første middagssamling med Khalid Omer Yousif",
         description: "En mindre samling for å styrke relasjoner og forberede de neste seminarene.",
       },
       "silik-seminar-jan-22-2026": {
         date: "22. januar 2026",
-        title: "Khalid Silik-seminar (dag 1)",
+        title: "Khalid Omer Yousif-seminar (dag 1)",
         description: "Deltakerne drøftet dialogmetoder for fredsbygging og prioriteringer for lokal tillit.",
       },
       "silik-seminar-jan-24-2026": {
         date: "24. januar 2026",
-        title: "Khalid Silik-seminar (dag 2)",
+        title: "Khalid Omer Yousif-seminar (dag 2)",
         description: "Videreførte sesjoner og refleksjoner med lokalsamfunn og institusjonelle aktører.",
       },
       "facebook-community": {
@@ -225,7 +225,7 @@ const eventsExtras: Record<
     youtubeLabel: "يوتيوب",
     facebookLabel: "فيسبوك",
     mediaReelTitle: "من أرشيفنا الإعلامي الخاص",
-    mediaReelDescription: "يعرض هذا الشريط أفضل الصور المختارة من ندوة 24 يناير 2026 مع خالد سيليك وبكري الجاكم.",
+    mediaReelDescription: "يعرض هذا الشريط جميع الصور الـ46 من ندوة 24 يناير 2026 مع خالد عمر يوسف وبكري الجاك.",
     highlights: {
       "first-meeting-2025": {
         date: "8 فبراير 2025",
@@ -244,17 +244,17 @@ const eventsExtras: Record<
       },
       "silik-dinner-jan-2026": {
         date: "21 يناير 2026",
-        title: "لقاء العشاء الأول مع خالد سيليك",
+        title: "لقاء العشاء الأول مع خالد عمر يوسف",
         description: "لقاء تعارفي لتعزيز العلاقات والتحضير لندوات الحوار التالية.",
       },
       "silik-seminar-jan-22-2026": {
         date: "22 يناير 2026",
-        title: "ندوة خالد سيليك (اليوم الأول)",
+        title: "ندوة خالد عمر يوسف (اليوم الأول)",
         description: "ناقش المشاركون منهجيات حوار تبني السلام وتدعم الثقة المجتمعية.",
       },
       "silik-seminar-jan-24-2026": {
         date: "24 يناير 2026",
-        title: "ندوة خالد سيليك (اليوم الثاني)",
+        title: "ندوة خالد عمر يوسف (اليوم الثاني)",
         description: "استكمال الجلسات والنقاشات مع المجتمع والشركاء المؤسسيين.",
       },
       "facebook-community": {

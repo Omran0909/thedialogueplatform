@@ -127,19 +127,19 @@ export const calendarEvents: CalendarEvent[] = [
     ],
     text: {
       en: {
-        title: "Khalid Silik Seminar - Day 1",
+        title: "Khalid Omer Yousif Seminar - Day 1",
         shortDescription: "Day one focused on institutional trust and peace-oriented dialogue design.",
         fullDescription:
           "The first session gathered community members and facilitators to map key trust challenges and identify practical dialogue pathways for institutions.",
       },
       no: {
-        title: "Khalid Silik-seminar - dag 1",
+        title: "Khalid Omer Yousif-seminar - dag 1",
         shortDescription: "Første dag med fokus på institusjonell tillit og fredsorientert dialogdesign.",
         fullDescription:
           "Første samling samlet deltakere og fasilitatorer for å kartlegge sentrale tillitsutfordringer og finne praktiske dialogløp for institusjoner.",
       },
       ar: {
-        title: "ندوة خالد سيليك - اليوم الأول",
+        title: "ندوة خالد عمر يوسف - اليوم الأول",
         shortDescription: "اليوم الأول ركّز على الثقة المؤسسية وتصميم الحوار الموجّه للسلام.",
         fullDescription:
           "جمعت الجلسة الأولى المشاركين والميسّرين لتحديد تحديات الثقة الرئيسية وصياغة مسارات حوار عملية يمكن للمؤسسات تطبيقها.",
@@ -158,19 +158,19 @@ export const calendarEvents: CalendarEvent[] = [
     ],
     text: {
       en: {
-        title: "Khalid Silik Seminar - Day 2",
+        title: "Khalid Omer Yousif Seminar - Day 2",
         shortDescription: "Follow-up sessions and consolidated reflections from participants.",
         fullDescription:
           "The second seminar day documented lessons, participant feedback, and practical recommendations for future trust-building dialogue programs.",
       },
       no: {
-        title: "Khalid Silik-seminar - dag 2",
+        title: "Khalid Omer Yousif-seminar - dag 2",
         shortDescription: "Oppfølgingssesjoner og samlede refleksjoner fra deltakerne.",
         fullDescription:
           "Andre seminardag dokumenterte læringspunkter, tilbakemeldinger og anbefalinger for videre tillitsbyggende dialogarbeid.",
       },
       ar: {
-        title: "ندوة خالد سيليك - اليوم الثاني",
+        title: "ندوة خالد عمر يوسف - اليوم الثاني",
         shortDescription: "جلسات متابعة وخلاصات عملية من المشاركين.",
         fullDescription:
           "وثّق اليوم الثاني الدروس المستفادة وآراء المشاركين والتوصيات العملية لتطوير برامج الحوار القادمة.",
