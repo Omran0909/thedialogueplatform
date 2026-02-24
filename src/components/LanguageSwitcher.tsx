@@ -3,11 +3,9 @@
 import { useId, type ChangeEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n/config";
-import type { LayoutText } from "@/lib/i18n/layout-text";
 
 type LanguageSwitcherProps = {
   locale: Locale;
-  text: LayoutText["language"];
   onLocaleChanged?: () => void;
 };
 
@@ -30,16 +28,18 @@ function localizedHref(targetLocale: Locale, barePath: string) {
   return barePath === "/" ? `/${targetLocale}` : `/${targetLocale}${barePath}`;
 }
 
-export function LanguageSwitcher({ locale, text, onLocaleChanged }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale, onLocaleChanged }: LanguageSwitcherProps) {
   const selectId = useId();
   const router = useRouter();
   const pathname = usePathname();
   const barePath = getPathWithoutLocale(pathname);
+  const languageLabel = "Language / اللغة";
+  const languageChooseLabel = "Choose language / اختر اللغة";
 
   const languageItems: Array<{ code: Locale; label: string }> = [
-    { code: "en", label: text.en },
-    { code: "no", label: text.no },
-    { code: "ar", label: text.ar },
+    { code: "en", label: "English" },
+    { code: "no", label: "Norsk" },
+    { code: "ar", label: "العربية" },
   ];
 
   function handleChange(event: ChangeEvent<HTMLSelectElement>) {
@@ -58,9 +58,9 @@ export function LanguageSwitcher({ locale, text, onLocaleChanged }: LanguageSwit
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-text-secondary">{text.label}</span>
+      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-text-secondary">{languageLabel}</span>
       <label className="sr-only" htmlFor={selectId}>
-        {text.choose}
+        {languageChooseLabel}
       </label>
       <select
         id={selectId}

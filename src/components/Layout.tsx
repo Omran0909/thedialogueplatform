@@ -78,7 +78,7 @@ export function Layout({ children, locale }: LayoutProps) {
                   {text.officialChannels}
                 </a>
               </div>
-              <LanguageSwitcher locale={locale} text={text.language} />
+              <LanguageSwitcher locale={locale} />
             </div>
 
             <div className="relative md:hidden">
@@ -118,7 +118,7 @@ export function Layout({ children, locale }: LayoutProps) {
                     {text.officialChannels}
                   </a>
                   <div className="mt-2 border-t border-line/80 pt-3">
-                    <LanguageSwitcher locale={locale} text={text.language} onLocaleChanged={() => setIsMobileMenuOpen(false)} />
+                    <LanguageSwitcher locale={locale} onLocaleChanged={() => setIsMobileMenuOpen(false)} />
                   </div>
                 </div>
               </div>
