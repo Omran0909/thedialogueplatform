@@ -66,7 +66,8 @@ const eventsExtras: Record<
     youtubeLabel: "YouTube",
     facebookLabel: "Facebook",
     mediaReelTitle: "From our own media archive",
-    mediaReelDescription: "All visuals on this page are from The Dialogue Platform seminars and event documentation.",
+    mediaReelDescription:
+      "This reel shows the selected best photos from the 24 January 2026 seminar with Khalid Silik and Bakry Aljackm.",
     highlights: {
       "first-meeting-2025": {
         date: "8 February 2025",
@@ -145,7 +146,8 @@ const eventsExtras: Record<
     youtubeLabel: "YouTube",
     facebookLabel: "Facebook",
     mediaReelTitle: "Fra vårt eget mediearkiv",
-    mediaReelDescription: "Alle bildene på denne siden kommer fra The Dialogue Platform sine egne seminarer og arrangementer.",
+    mediaReelDescription:
+      "Denne bildefremvisningen viser utvalgte beste bilder fra seminaret 24. januar 2026 med Khalid Silik og Bakry Aljackm.",
     highlights: {
       "first-meeting-2025": {
         date: "8. februar 2025",
@@ -223,7 +225,7 @@ const eventsExtras: Record<
     youtubeLabel: "يوتيوب",
     facebookLabel: "فيسبوك",
     mediaReelTitle: "من أرشيفنا الإعلامي الخاص",
-    mediaReelDescription: "جميع الصور المعروضة هنا من توثيق منصة الحوار لندواتها وفعالياتها.",
+    mediaReelDescription: "يعرض هذا الشريط أفضل الصور المختارة من ندوة 24 يناير 2026 مع خالد سيليك وبكري الجاكم.",
     highlights: {
       "first-meeting-2025": {
         date: "8 فبراير 2025",
