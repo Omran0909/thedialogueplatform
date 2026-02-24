@@ -49,7 +49,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   const apiHistory = useMemo(
     () =>
@@ -61,7 +61,11 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   );
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const container = messagesContainerRef.current;
+    if (!container) {
+      return;
+    }
+    container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
   }, [messages, isSending]);
 
   async function sendPrompt(rawPrompt?: string) {
@@ -159,7 +163,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
           </div>
 
           <div className="bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-6 sm:p-8">
-            <div className="h-[380px] overflow-y-auto rounded-xl border border-line/80 bg-white/70 p-4">
+            <div ref={messagesContainerRef} className="h-[380px] overflow-y-auto rounded-xl border border-line/80 bg-white/70 p-4">
               <div className="space-y-3">
                 {messages.map((message) => (
                   <article
@@ -198,7 +202,6 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                   </article>
                 ) : null}
               </div>
-              <div ref={endRef} />
             </div>
 
             <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
