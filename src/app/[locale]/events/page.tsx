@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
+import { EventMediaReel } from "@/components/EventMediaReel";
 import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
@@ -364,7 +365,6 @@ export default function EventsPage({ params }: PageProps) {
   const localized = getContent(locale);
   const extra = eventsExtras[locale];
   const calendarCopy = calendarSectionCopy[locale];
-  const reelImages = [...mediaLibrary.events.reel, ...mediaLibrary.events.reel];
   const localeCode = locale === "no" ? "nb-NO" : locale === "ar" ? "ar-SA" : "en-US";
   const sortedCalendarEvents = [...calendarEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
   const upcomingCalendarEvents = sortedCalendarEvents.filter((event) => event.phase === "upcoming");
@@ -459,15 +459,7 @@ export default function EventsPage({ params }: PageProps) {
           <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.mediaReelTitle}</h2>
           <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.mediaReelDescription}</p>
         </Reveal>
-        <div className="event-reel mt-8 rounded-2xl border border-line/80 bg-surface/70 p-3">
-          <div className="event-reel-track">
-            {reelImages.map((image, index) => (
-              <figure key={`${image}-${index}`} className="event-reel-item">
-                <Image src={image} alt="Dialogue Platform event moment" width={320} height={210} className="h-[170px] w-[270px] object-cover" />
-              </figure>
-            ))}
-          </div>
-        </div>
+        <EventMediaReel images={mediaLibrary.events.reel} alt="Dialogue Platform event moment" />
       </section>
 
       <section className="section-padding border-t border-line/80">

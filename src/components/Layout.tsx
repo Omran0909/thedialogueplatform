@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site";
 import { withLocale, type Locale } from "@/lib/i18n/config";
 import { layoutText } from "@/lib/i18n/layout-text";
@@ -20,8 +24,14 @@ type LayoutProps = {
 };
 
 export function Layout({ children, locale }: LayoutProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
   const text = layoutText[locale];
   const partners = formatPartners(locale);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -71,16 +81,28 @@ export function Layout({ children, locale }: LayoutProps) {
               <LanguageSwitcher locale={locale} text={text.language} />
             </div>
 
-            <details className="group relative md:hidden">
-              <summary className="cursor-pointer list-none rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold text-[#0b3a5d]">
+            <div className="relative md:hidden">
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                className="cursor-pointer list-none rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold text-[#0b3a5d]"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-nav"
+              >
                 {text.menu}
-              </summary>
-              <div className="absolute right-0 mt-3 w-72 rounded-xl border border-line bg-surface p-3 shadow-lg">
+              </button>
+              <div
+                id="mobile-nav"
+                className={`absolute right-0 mt-3 w-72 rounded-xl border border-line bg-surface p-3 shadow-lg transition ${
+                  isMobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+                }`}
+              >
                 <div className="flex flex-col gap-2">
                   {navLinks.map(({ path, key }) => (
                     <Link
                       key={path}
                       href={withLocale(locale, path)}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className="rounded-md px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-accent-soft hover:text-text-primary"
                     >
                       {text.nav[key]}
@@ -90,16 +112,17 @@ export function Layout({ children, locale }: LayoutProps) {
                     href={siteConfig.socialChannels[0].href}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className="rounded-md px-3 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#fff4df]"
                   >
                     {text.officialChannels}
                   </a>
                   <div className="mt-2 border-t border-line/80 pt-3">
-                    <LanguageSwitcher locale={locale} text={text.language} />
+                    <LanguageSwitcher locale={locale} text={text.language} onLocaleChanged={() => setIsMobileMenuOpen(false)} />
                   </div>
                 </div>
               </div>
-            </details>
+            </div>
           </div>
         </div>
       </header>

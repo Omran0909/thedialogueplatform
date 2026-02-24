@@ -136,11 +136,7 @@
   .event-reel-track {
     display: flex;
     width: max-content;
-    animation: mediaSlide 52s linear infinite;
-  }
-
-  .event-reel-track:hover {
-    animation-play-state: paused;
+    will-change: transform;
   }
 
   .event-reel-item {
@@ -157,6 +153,17 @@
 
   .event-reel-item:hover img {
     transform: scale(1.06);
+  }
+
+  .event-reel-viewport {
+    overflow: hidden;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .event-reel-viewport.is-dragging {
+    cursor: grabbing;
   }
 
   .board-member-card {

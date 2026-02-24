@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, type ChangeEvent } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n/config";
 import type { LayoutText } from "@/lib/i18n/layout-text";
@@ -8,6 +8,7 @@ import type { LayoutText } from "@/lib/i18n/layout-text";
 type LanguageSwitcherProps = {
   locale: Locale;
   text: LayoutText["language"];
+  onLocaleChanged?: () => void;
 };
 
 function getPathWithoutLocale(pathname: string) {
@@ -29,7 +30,7 @@ function localizedHref(targetLocale: Locale, barePath: string) {
   return barePath === "/" ? `/${targetLocale}` : `/${targetLocale}${barePath}`;
 }
 
-export function LanguageSwitcher({ locale, text }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale, text, onLocaleChanged }: LanguageSwitcherProps) {
   const selectId = useId();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,12 +42,18 @@ export function LanguageSwitcher({ locale, text }: LanguageSwitcherProps) {
     { code: "ar", label: text.ar },
   ];
 
-  function handleChange(nextLocale: string) {
+  function handleChange(event: ChangeEvent<HTMLSelectElement>) {
+    const nextLocale = event.target.value;
     if (!locales.includes(nextLocale as Locale)) {
       return;
     }
 
     router.push(localizedHref(nextLocale as Locale, barePath));
+    onLocaleChanged?.();
+    // iOS Safari can keep native selects open in overlays unless focus is cleared.
+    requestAnimationFrame(() => {
+      event.target.blur();
+    });
   }
 
   return (
@@ -58,7 +65,7 @@ export function LanguageSwitcher({ locale, text }: LanguageSwitcherProps) {
       <select
         id={selectId}
         value={locale}
-        onChange={(event) => handleChange(event.target.value)}
+        onChange={handleChange}
         className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-text-secondary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/25"
       >
         {languageItems.map((item) => (
