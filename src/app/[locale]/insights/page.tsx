@@ -28,8 +28,7 @@ const assistantCopy: Record<Locale, AssistantCopy> = {
     inputPlaceholder: "Type your question...",
     sendLabel: "Send",
     thinkingLabel: "Analyzing and preparing an answer...",
-    unavailableMessage:
-      "Assistant is temporarily unavailable. Please try again in a moment, or contact us directly at dialogplattformen@gmail.com.",
+    unavailableMessage: "AI is temporarily unavailable ....",
     welcomeMessage:
       "Welcome. I can answer questions about The Dialogue Platform, our dialogue practice, and latest Sudan updates with links when available.",
     sourcesLabel: "Sources",
@@ -50,8 +49,7 @@ const assistantCopy: Record<Locale, AssistantCopy> = {
     inputPlaceholder: "Skriv spørsmålet ditt...",
     sendLabel: "Send",
     thinkingLabel: "Analyserer og forbereder svar...",
-    unavailableMessage:
-      "Assistenten er midlertidig utilgjengelig. Prøv igjen om litt, eller kontakt oss på dialogplattformen@gmail.com.",
+    unavailableMessage: "AI is temporarily unavailable ....",
     welcomeMessage:
       "Velkommen. Jeg kan svare på spørsmål om The Dialogue Platform, dialogarbeidet vårt og siste oppdateringer fra Sudan med kildelenker når mulig.",
     sourcesLabel: "Kilder",
@@ -72,8 +70,7 @@ const assistantCopy: Record<Locale, AssistantCopy> = {
     inputPlaceholder: "اكتب سؤالك هنا...",
     sendLabel: "إرسال",
     thinkingLabel: "جارٍ التحليل وإعداد الإجابة...",
-    unavailableMessage:
-      "المساعد غير متاح مؤقتاً. حاول مرة أخرى بعد قليل، أو تواصل معنا مباشرة عبر dialogplattformen@gmail.com.",
+    unavailableMessage: "AI is temporarily unavailable ....",
     welcomeMessage:
       "مرحباً بك. يمكنني الإجابة عن أسئلتك حول منصة الحوار، ومنهجنا في الحوار، وآخر تحديثات السودان مع روابط للمصادر عند توفرها.",
     sourcesLabel: "المصادر",

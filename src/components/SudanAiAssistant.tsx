@@ -101,7 +101,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
       };
 
       if (!response.ok || !payload.ok || !payload.answer) {
-        throw new Error(payload.message || copy.unavailableMessage);
+        throw new Error(copy.unavailableMessage);
       }
 
       const assistantMessage: AssistantMessage = {
@@ -111,15 +111,13 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
         sources: payload.sources ?? [],
       };
       setMessages((previous) => [...previous, assistantMessage]);
-    } catch (error) {
-      const message =
-        error instanceof Error && error.message.trim().length > 0 ? error.message.trim() : copy.unavailableMessage;
+    } catch {
       setMessages((previous) => [
         ...previous,
         {
           id: makeId(),
           role: "assistant",
-          text: message,
+          text: copy.unavailableMessage,
         },
       ]);
     } finally {
