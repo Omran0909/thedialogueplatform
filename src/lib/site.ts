@@ -129,4 +129,4 @@ export const siteConfig = {
   ],
 };
 
-export const mainRoutes = ["/", "/about", "/dialogues", "/events", "/insights", "/contact"] as const;
+export const mainRoutes = ["/", "/about", "/dialogues", "/events", "/news", "/insights", "/contact"] as const;

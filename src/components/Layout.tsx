@@ -14,6 +14,7 @@ const navLinks = [
   { path: "/about", key: "about" },
   { path: "/dialogues", key: "dialogues" },
   { path: "/events", key: "events" },
+  { path: "/news", key: "news" },
   { path: "/insights", key: "insights" },
   { path: "/contact", key: "contact" },
 ] as const;

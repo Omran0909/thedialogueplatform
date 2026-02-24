@@ -5,6 +5,7 @@ export type LayoutText = {
     about: string;
     dialogues: string;
     events: string;
+    news: string;
     insights: string;
     contact: string;
   };
@@ -33,6 +34,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       about: "About",
       dialogues: "Dialogues",
       events: "Events",
+      news: "News",
       insights: "Insights",
       contact: "Contact",
     },
@@ -59,6 +61,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       about: "Om oss",
       dialogues: "Dialoger",
       events: "Arrangementer",
+      news: "Nyheter",
       insights: "Innsikt",
       contact: "Kontakt",
     },
@@ -85,6 +88,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       about: "من نحن",
       dialogues: "الحوارات",
       events: "الفعاليات",
+      news: "الأخبار",
       insights: "المعارف",
       contact: "تواصل",
     },
