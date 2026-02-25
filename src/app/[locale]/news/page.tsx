@@ -24,11 +24,11 @@ const newsPageCopy: Record<
     badge: "News",
     title: "Latest Sudan world news with verified source links.",
     description:
-      "This section tracks fresh headlines about Sudan from international outlets, ordered by publication time and linked directly to each source.",
+      "This section tracks broad Sudan coverage from international outlets, including diplomacy, humanitarian updates, research, policy, and public statements, ordered by publication time.",
     feed: {
       statusLabel: "Live Sudan monitor",
       statusDescription:
-        "Automatic feed from neutral international coverage. Stories are filtered for legitimacy and balance, then stream in one continuous direction.",
+        "Automatic feed from international coverage with broad topic scope. Stories are filtered for legitimacy and balance, then stream in one continuous direction.",
       refreshLabel: "Refresh now",
       lastUpdatedLabel: "Updated",
       loadingLabel: "Loading latest Sudan headlines...",
@@ -45,11 +45,11 @@ const newsPageCopy: Record<
     badge: "Nyheter",
     title: "Siste verdensnyheter om Sudan med verifiserte kildelenker.",
     description:
-      "Denne seksjonen følger nye overskrifter om Sudan fra internasjonale medier, sortert etter publiseringstid med direkte lenker til kildene.",
+      "Denne seksjonen følger bred dekning av Sudan fra internasjonale medier, inkludert diplomati, humanitære oppdateringer, forskning, politikk og offentlige uttalelser, sortert etter publiseringstid.",
     feed: {
       statusLabel: "Live Sudan-overvåkning",
       statusDescription:
-        "Automatisk feed fra nøytral internasjonal dekning. Nyhetene filtreres for legitime kilder og balanse, og ruller i én kontinuerlig retning.",
+        "Automatisk feed fra internasjonal dekning med bredt temaomfang. Nyhetene filtreres for legitime kilder og balanse, og ruller i én kontinuerlig retning.",
       refreshLabel: "Oppdater nå",
       lastUpdatedLabel: "Oppdatert",
       loadingLabel: "Laster inn siste Sudan-nyheter...",
@@ -66,11 +66,11 @@ const newsPageCopy: Record<
     badge: "الأخبار",
     title: "آخر أخبار السودان العالمية مع روابط مصدر موثوقة.",
     description:
-      "يتابع هذا القسم أحدث العناوين عن السودان من وسائل إعلام دولية، مرتبة حسب وقت النشر مع روابط مباشرة لكل مصدر.",
+      "يتابع هذا القسم تغطية واسعة عن السودان من وسائل إعلام دولية، تشمل الدبلوماسية والوضع الإنساني والأبحاث والسياسات والتصريحات الرسمية، مرتبة حسب وقت النشر.",
     feed: {
       statusLabel: "مراقبة السودان المباشرة",
       statusDescription:
-        "تغذية تلقائية من تغطية دولية محايدة. يتم تصفية الأخبار لمصادر موثوقة ومتوازنة وتتحرك في اتجاه واحد بشكل مستمر.",
+        "تغذية تلقائية من تغطية دولية واسعة الموضوعات. يتم تصفية الأخبار لمصادر موثوقة ومتوازنة وتتحرك في اتجاه واحد بشكل مستمر.",
       refreshLabel: "تحديث الآن",
       lastUpdatedLabel: "آخر تحديث",
       loadingLabel: "جارٍ تحميل أحدث عناوين السودان...",

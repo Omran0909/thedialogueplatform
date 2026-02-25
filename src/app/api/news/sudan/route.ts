@@ -12,16 +12,23 @@ type SudanNewsItem = {
 };
 
 const SEARCH_QUERIES = [
-  "Sudan RSF SAF humanitarian when:6h",
-  "Sudan civilians displacement aid ceasefire when:24h",
-  "Sudan RSF SAF peace talks UN when:24h",
-  "Sudan war international response",
+  "Sudan when:1h",
+  "Sudan diplomacy foreign minister statement envoy when:6h",
+  "Sudan UN AU IGAD mediation ceasefire talks when:12h",
+  "Sudan humanitarian aid relief OCHA WFP UNICEF UNHCR WHO when:12h",
+  "Sudan refugees displacement famine cholera aid response when:24h",
+  "Sudan policy sanctions UN Security Council ICC when:24h",
+  "Sudan research study university journal report",
+  "Sudan economy inflation IMF World Bank trade investment",
+  "Sudan civil society education culture diaspora conference",
+  "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement",
+  "السودان الأمم المتحدة مساعدات دبلوماسية",
 ];
 
 const REQUEST_TIMEOUT_MS = 9000;
 const MAX_ITEMS = 30;
-const PRIMARY_FRESH_HOURS = 24;
-const SECONDARY_FRESH_HOURS = 72;
+const PRIMARY_FRESH_HOURS = 12;
+const SECONDARY_FRESH_HOURS = 48;
 
 const BLOCKED_SOURCE_HOSTS = ["aljazeera.com", "aljazeera.net"];
 const BLOCKED_SOURCE_NAME_PATTERNS = [/al[\s-]?jazeera/i];
@@ -52,6 +59,27 @@ const TRUSTED_SOURCE_HOSTS = [
   "amnesty.org",
   "icrc.org",
   "msf.org",
+  "state.gov",
+  "whitehouse.gov",
+  "gov.uk",
+  "europa.eu",
+  "consilium.europa.eu",
+  "un.org",
+  "unocha.org",
+  "wfp.org",
+  "worldbank.org",
+  "imf.org",
+  "au.int",
+  "igad.int",
+  "thenewhumanitarian.org",
+  "crisisgroup.org",
+  "chathamhouse.org",
+  "brookings.edu",
+  "csis.org",
+  "carnegieendowment.org",
+  "nature.com",
+  "thelancet.com",
+  "bmj.com",
 ];
 
 const TRUSTED_SOURCE_NAMES = [
@@ -81,9 +109,29 @@ const TRUSTED_SOURCE_NAMES = [
   "ICRC",
   "Doctors Without Borders",
   "MSF",
+  "US Department of State",
+  "The White House",
+  "UK Foreign Office",
+  "European Council",
+  "European External Action Service",
+  "World Bank",
+  "International Monetary Fund",
+  "African Union",
+  "IGAD",
+  "UN OCHA",
+  "World Food Programme",
+  "The New Humanitarian",
+  "International Crisis Group",
+  "Chatham House",
+  "Brookings",
+  "CSIS",
+  "Carnegie Endowment",
+  "Nature",
+  "The Lancet",
+  "BMJ",
 ];
 
-const BALANCE_ORDER = ["both", "rsf", "neutral", "saf"] as const;
+const BALANCE_ORDER = ["neutral", "both", "rsf", "saf"] as const;
 
 function buildFeedUrl(query: string) {
   const params = new URLSearchParams({
@@ -152,6 +200,21 @@ function hostMatchesList(host: string, list: readonly string[]) {
     return false;
   }
   return list.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
+}
+
+function isInstitutionalHost(host: string) {
+  if (!host) {
+    return false;
+  }
+
+  return (
+    host.endsWith(".int") ||
+    host.endsWith(".gov") ||
+    host.endsWith(".edu") ||
+    /\.gov\.[a-z.]+$/i.test(host) ||
+    /\.edu\.[a-z.]+$/i.test(host) ||
+    /\.ac\.[a-z.]+$/i.test(host)
+  );
 }
 
 function isTrustedSourceName(name: string) {
@@ -304,6 +367,10 @@ function mentionsRsf(text: string) {
   return /\b(rsf|rapid support forces)\b/i.test(text);
 }
 
+function mentionsMuslimBrotherhood(text: string) {
+  return /\b(muslim brotherhood|ikhwan|islamic movement)\b/i.test(text);
+}
+
 function looksLikeOneSidedSafNarrative(item: SudanNewsItem) {
   const combined = `${item.title} ${item.summary}`.toLowerCase();
   const hasSaf = mentionsSaf(combined);
@@ -318,6 +385,24 @@ function looksLikeOneSidedSafNarrative(item: SudanNewsItem) {
     /\b(humanitarian|civilian|aid|ceasefire|talks|rights|displacement|famine|sanction|mediation)\b/i.test(combined);
 
   return militaryCelebration && !neutralContext;
+}
+
+function looksLikeOneSidedMuslimBrotherhoodNarrative(item: SudanNewsItem) {
+  const combined = `${item.title} ${item.summary}`.toLowerCase();
+  if (!mentionsMuslimBrotherhood(combined)) {
+    return false;
+  }
+
+  const propagandistTone =
+    /\b(glorious|heroic|triumph|victory|martyr|holy battle|jihad|purge|cleansed|defenders of faith|traitors)\b/i.test(
+      combined,
+    );
+  const neutralContext =
+    /\b(report|analysis|investigation|rights|humanitarian|aid|ceasefire|talks|sanction|court|displacement|famine|mediation)\b/i.test(
+      combined,
+    );
+
+  return propagandistTone && !neutralContext;
 }
 
 function classifyItem(item: SudanNewsItem) {
@@ -422,11 +507,17 @@ export async function GET() {
 
     const trustedByHost = hostMatchesList(host, TRUSTED_SOURCE_HOSTS);
     const trustedByName = isTrustedSourceName(item.source);
-    if (!trustedByHost && !trustedByName) {
+    const institutionalByHost = isInstitutionalHost(host);
+
+    if (!trustedByHost && !trustedByName && !institutionalByHost) {
       return false;
     }
 
     if (looksLikeOneSidedSafNarrative(item)) {
+      return false;
+    }
+
+    if (looksLikeOneSidedMuslimBrotherhoodNarrative(item)) {
       return false;
     }
 
