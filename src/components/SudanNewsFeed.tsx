@@ -44,6 +44,7 @@ type SudanNewsFeedProps = {
 
 const REFRESH_INTERVAL_MS = 15000;
 const AUTO_SCROLL_PX_PER_SECOND = 10;
+const WHEEL_SCROLL_MULTIPLIER = 2.4;
 
 function normalizeLoopedScroll(scrollTop: number, loopHeight: number) {
   if (loopHeight <= 0) {
@@ -307,6 +308,31 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     updatePausedState();
   };
 
+  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    const viewport = viewportRef.current;
+    const loopHeight = loopHeightRef.current;
+    if (!viewport || loopHeight <= 0) {
+      return;
+    }
+
+    // Keep mouse-wheel interaction inside the news lane and avoid page scroll.
+    event.preventDefault();
+    event.stopPropagation();
+
+    const baseDelta =
+      event.deltaMode === 1
+        ? event.deltaY * 16
+        : event.deltaMode === 2
+          ? event.deltaY * viewport.clientHeight
+          : event.deltaY;
+
+    const nextScroll = normalizeLoopedScroll(
+      viewport.scrollTop + baseDelta * WHEEL_SCROLL_MULTIPLIER,
+      loopHeight,
+    );
+    viewport.scrollTop = nextScroll;
+  };
+
   const { topFive, featuredVisualItem, visualStrip } = useMemo(() => {
     const byTime = [...items].sort(
       (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
@@ -411,6 +437,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                   <div
                     ref={viewportRef}
                     className={`news-notification-viewport ${isDragging ? "is-dragging" : ""}`}
+                    onWheel={handleWheel}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={stopDragging}

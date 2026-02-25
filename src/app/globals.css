@@ -278,6 +278,7 @@
     position: relative;
     height: 470px;
     overflow: hidden;
+    overscroll-behavior: contain;
     cursor: grab;
     touch-action: none;
     user-select: none;
