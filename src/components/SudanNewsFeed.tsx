@@ -107,6 +107,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const [isDragging, setIsDragging] = useState(false);
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const newsLaneRef = useRef<HTMLDivElement | null>(null);
   const baseTrackRef = useRef<HTMLDivElement | null>(null);
   const loopHeightRef = useRef(0);
   const rafRef = useRef<number | null>(null);
@@ -241,6 +242,42 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     };
   }, [items.length]);
 
+  useEffect(() => {
+    const lane = newsLaneRef.current;
+    if (!lane) {
+      return;
+    }
+
+    const handleLaneWheel = (event: WheelEvent) => {
+      const viewport = viewportRef.current;
+      const loopHeight = loopHeightRef.current;
+      if (!viewport || loopHeight <= 0) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const baseDelta =
+        event.deltaMode === 1
+          ? event.deltaY * 16
+          : event.deltaMode === 2
+            ? event.deltaY * viewport.clientHeight
+            : event.deltaY;
+
+      const nextScroll = normalizeLoopedScroll(
+        viewport.scrollTop + baseDelta * WHEEL_SCROLL_MULTIPLIER,
+        loopHeight,
+      );
+      viewport.scrollTop = nextScroll;
+    };
+
+    lane.addEventListener("wheel", handleLaneWheel, { passive: false });
+    return () => {
+      lane.removeEventListener("wheel", handleLaneWheel);
+    };
+  }, []);
+
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) {
       return;
@@ -306,31 +343,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const handleMouseLeave = () => {
     hoverRef.current = false;
     updatePausedState();
-  };
-
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    const viewport = viewportRef.current;
-    const loopHeight = loopHeightRef.current;
-    if (!viewport || loopHeight <= 0) {
-      return;
-    }
-
-    // Keep mouse-wheel interaction inside the news lane and avoid page scroll.
-    event.preventDefault();
-    event.stopPropagation();
-
-    const baseDelta =
-      event.deltaMode === 1
-        ? event.deltaY * 16
-        : event.deltaMode === 2
-          ? event.deltaY * viewport.clientHeight
-          : event.deltaY;
-
-    const nextScroll = normalizeLoopedScroll(
-      viewport.scrollTop + baseDelta * WHEEL_SCROLL_MULTIPLIER,
-      loopHeight,
-    );
-    viewport.scrollTop = nextScroll;
   };
 
   const { topFive, featuredVisualItem, visualStrip } = useMemo(() => {
@@ -429,7 +441,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
               ) : null}
 
               {items.length > 0 ? (
-                <div className="news-notification-lane surface-card !rounded-xl p-3">
+                <div ref={newsLaneRef} className="news-notification-lane surface-card !rounded-xl p-3">
                   <div className="mb-2 flex items-center justify-between gap-2 px-2">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">{copy.notificationLabel}</p>
                     <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-accent">{copy.dragHint}</span>
@@ -437,7 +449,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                   <div
                     ref={viewportRef}
                     className={`news-notification-viewport ${isDragging ? "is-dragging" : ""}`}
-                    onWheel={handleWheel}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={stopDragging}
