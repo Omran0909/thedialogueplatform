@@ -8,15 +8,94 @@ type SudanNewsItem = {
   sourceUrl: string;
   publishedAt: string;
   summary: string;
+  imageUrl: string;
 };
 
-const FEED_URLS = [
-  "https://news.google.com/rss/search?q=Sudan&hl=en-US&gl=US&ceid=US:en",
-  "https://news.google.com/rss/search?q=Sudan+humanitarian&hl=en-US&gl=US&ceid=US:en",
+const SEARCH_QUERIES = [
+  "Sudan RSF SAF humanitarian when:6h",
+  "Sudan civilians displacement aid ceasefire when:24h",
+  "Sudan RSF SAF peace talks UN when:24h",
+  "Sudan war international response",
 ];
 
-const MAX_ITEMS = 30;
 const REQUEST_TIMEOUT_MS = 9000;
+const MAX_ITEMS = 30;
+const PRIMARY_FRESH_HOURS = 24;
+const SECONDARY_FRESH_HOURS = 72;
+
+const BLOCKED_SOURCE_HOSTS = ["aljazeera.com", "aljazeera.net"];
+const BLOCKED_SOURCE_NAME_PATTERNS = [/al[\s-]?jazeera/i];
+
+const TRUSTED_SOURCE_HOSTS = [
+  "reuters.com",
+  "apnews.com",
+  "bbc.com",
+  "bbc.co.uk",
+  "theguardian.com",
+  "nytimes.com",
+  "washingtonpost.com",
+  "cnn.com",
+  "france24.com",
+  "dw.com",
+  "africanews.com",
+  "allafrica.com",
+  "ft.com",
+  "bloomberg.com",
+  "economist.com",
+  "npr.org",
+  "reliefweb.int",
+  "news.un.org",
+  "unhcr.org",
+  "unicef.org",
+  "who.int",
+  "hrw.org",
+  "amnesty.org",
+  "icrc.org",
+  "msf.org",
+];
+
+const TRUSTED_SOURCE_NAMES = [
+  "Reuters",
+  "Associated Press",
+  "AP News",
+  "BBC",
+  "The Guardian",
+  "New York Times",
+  "Washington Post",
+  "CNN",
+  "France 24",
+  "DW",
+  "Africanews",
+  "allAfrica",
+  "Financial Times",
+  "Bloomberg",
+  "The Economist",
+  "NPR",
+  "ReliefWeb",
+  "UN News",
+  "UNHCR",
+  "UNICEF",
+  "WHO",
+  "Human Rights Watch",
+  "Amnesty International",
+  "ICRC",
+  "Doctors Without Borders",
+  "MSF",
+];
+
+const BALANCE_ORDER = ["both", "rsf", "neutral", "saf"] as const;
+
+function buildFeedUrl(query: string) {
+  const params = new URLSearchParams({
+    q: query,
+    hl: "en-US",
+    gl: "US",
+    ceid: "US:en",
+  });
+  return `https://news.google.com/rss/search?${params.toString()}`;
+}
+
+const FEED_URLS = SEARCH_QUERIES.map(buildFeedUrl);
 
 function stripCdata(input: string) {
   return input
@@ -60,24 +139,46 @@ function decodeHtml(input: string) {
   });
 }
 
+function normalizeHost(url: string) {
+  try {
+    return new URL(url).hostname.toLowerCase().replace(/^www\./i, "");
+  } catch {
+    return "";
+  }
+}
+
+function hostMatchesList(host: string, list: readonly string[]) {
+  if (!host) {
+    return false;
+  }
+  return list.some((candidate) => host === candidate || host.endsWith(`.${candidate}`));
+}
+
+function isTrustedSourceName(name: string) {
+  const normalized = name.toLowerCase();
+  return TRUSTED_SOURCE_NAMES.some((trusted) => normalized.includes(trusted.toLowerCase()));
+}
+
+function isBlockedSourceName(name: string) {
+  return BLOCKED_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(name));
+}
+
 function getTagContent(block: string, tagName: string) {
   const match = block.match(new RegExp(`<${tagName}>([\\s\\S]*?)</${tagName}>`, "i"));
   if (!match) {
     return "";
   }
-
   return decodeHtml(stripCdata(match[1])).trim();
 }
 
 function getSource(block: string, fallbackUrl: string) {
   const match = block.match(/<source(?:\s+url="([^"]*)")?[^>]*>([\s\S]*?)<\/source>/i);
   if (!match) {
-    try {
-      const host = new URL(fallbackUrl).hostname.replace(/^www\./i, "");
-      return { source: host, sourceUrl: fallbackUrl };
-    } catch {
-      return { source: "Unknown source", sourceUrl: fallbackUrl };
-    }
+    const fallbackHost = normalizeHost(fallbackUrl);
+    return {
+      source: fallbackHost || "Unknown source",
+      sourceUrl: fallbackUrl,
+    };
   }
 
   const source = decodeHtml(stripCdata(match[2])).trim();
@@ -87,16 +188,10 @@ function getSource(block: string, fallbackUrl: string) {
     return { source, sourceUrl };
   }
 
-  if (source) {
-    return { source, sourceUrl: fallbackUrl };
-  }
-
-  try {
-    const host = new URL(fallbackUrl).hostname.replace(/^www\./i, "");
-    return { source: host, sourceUrl: sourceUrl || fallbackUrl };
-  } catch {
-    return { source: "Unknown source", sourceUrl: sourceUrl || fallbackUrl };
-  }
+  return {
+    source: source || normalizeHost(fallbackUrl) || "Unknown source",
+    sourceUrl: sourceUrl || fallbackUrl,
+  };
 }
 
 function normalizeSummary(description: string) {
@@ -104,8 +199,26 @@ function normalizeSummary(description: string) {
   if (!text) {
     return "Open source article for full context.";
   }
+  return text.length > 220 ? `${text.slice(0, 217)}...` : text;
+}
 
-  return text.length > 180 ? `${text.slice(0, 177)}...` : text;
+function extractImageUrl(description: string) {
+  const imageMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (!imageMatch) {
+    return "";
+  }
+
+  const candidate = decodeHtml(imageMatch[1]).trim();
+  if (!candidate) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(candidate);
+    return parsed.toString();
+  } catch {
+    return "";
+  }
 }
 
 function parseDate(rawDate: string) {
@@ -113,7 +226,6 @@ function parseDate(rawDate: string) {
   if (Number.isNaN(parsed.getTime())) {
     return null;
   }
-
   return parsed;
 }
 
@@ -127,6 +239,7 @@ function parseRss(xml: string) {
     const url = getTagContent(block, "link");
     const pubDate = getTagContent(block, "pubDate");
     const description = getTagContent(block, "description");
+    const rawDescription = block.match(/<description>([\s\S]*?)<\/description>/i)?.[1] ?? "";
 
     if (!title || !url || !pubDate) {
       continue;
@@ -139,6 +252,7 @@ function parseRss(xml: string) {
 
     const sourceData = getSource(block, url);
     const summary = normalizeSummary(description);
+    const imageUrl = extractImageUrl(rawDescription);
 
     items.push({
       id: `${parsedDate.getTime()}-${title}-${url}`.toLowerCase(),
@@ -148,6 +262,7 @@ function parseRss(xml: string) {
       sourceUrl: sourceData.sourceUrl || url,
       publishedAt: parsedDate.toISOString(),
       summary,
+      imageUrl,
     });
   }
 
@@ -181,6 +296,102 @@ async function fetchFeed(url: string) {
   }
 }
 
+function mentionsSaf(text: string) {
+  return /\b(saf|sudanese armed forces|sudanese army)\b/i.test(text);
+}
+
+function mentionsRsf(text: string) {
+  return /\b(rsf|rapid support forces)\b/i.test(text);
+}
+
+function looksLikeOneSidedSafNarrative(item: SudanNewsItem) {
+  const combined = `${item.title} ${item.summary}`.toLowerCase();
+  const hasSaf = mentionsSaf(combined);
+  const hasRsf = mentionsRsf(combined);
+  if (!hasSaf || hasRsf) {
+    return false;
+  }
+
+  const militaryCelebration =
+    /\b(victory|victories|liberated|liberates|crushed|crushes|annihilat|eliminat|decisive defeat)\b/i.test(combined);
+  const neutralContext =
+    /\b(humanitarian|civilian|aid|ceasefire|talks|rights|displacement|famine|sanction|mediation)\b/i.test(combined);
+
+  return militaryCelebration && !neutralContext;
+}
+
+function classifyItem(item: SudanNewsItem) {
+  const combined = `${item.title} ${item.summary}`.toLowerCase();
+  const hasSaf = mentionsSaf(combined);
+  const hasRsf = mentionsRsf(combined);
+
+  if (hasSaf && hasRsf) {
+    return "both";
+  }
+  if (hasRsf) {
+    return "rsf";
+  }
+  if (hasSaf) {
+    return "saf";
+  }
+  return "neutral";
+}
+
+function sortAndBalance(items: SudanNewsItem[]) {
+  const sorted = [...items].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  const buckets: Record<(typeof BALANCE_ORDER)[number], SudanNewsItem[]> = {
+    both: [],
+    rsf: [],
+    neutral: [],
+    saf: [],
+  };
+
+  for (const item of sorted) {
+    buckets[classifyItem(item)].push(item);
+  }
+
+  const balanced: SudanNewsItem[] = [];
+  while (balanced.length < sorted.length) {
+    let pushed = false;
+    for (const bucketName of BALANCE_ORDER) {
+      const next = buckets[bucketName].shift();
+      if (next) {
+        balanced.push(next);
+        pushed = true;
+      }
+    }
+    if (!pushed) {
+      break;
+    }
+  }
+
+  return balanced;
+}
+
+function withinHours(value: string, hours: number) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return false;
+  }
+
+  const maxAgeMs = hours * 60 * 60 * 1000;
+  return Date.now() - parsed.getTime() <= maxAgeMs;
+}
+
+function pickFreshItems(items: SudanNewsItem[]) {
+  const primary = items.filter((item) => withinHours(item.publishedAt, PRIMARY_FRESH_HOURS));
+  if (primary.length >= 8) {
+    return primary;
+  }
+
+  const secondary = items.filter((item) => withinHours(item.publishedAt, SECONDARY_FRESH_HOURS));
+  if (secondary.length > 0) {
+    return secondary;
+  }
+
+  return items;
+}
+
 export const runtime = "nodejs";
 
 export async function GET() {
@@ -189,28 +400,52 @@ export async function GET() {
 
   for (const feedItems of allFeeds) {
     for (const item of feedItems) {
-      const key = `${item.url}::${item.title}`.toLowerCase();
-      if (!deduped.has(key)) {
-        deduped.set(key, item);
+      const dedupeKey = `${item.title}::${item.url}`.toLowerCase();
+      if (!deduped.has(dedupeKey)) {
+        deduped.set(dedupeKey, item);
       }
     }
   }
 
-  const items = Array.from(deduped.values())
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, MAX_ITEMS);
+  const filtered = Array.from(deduped.values()).filter((item) => {
+    const sourceHost = normalizeHost(item.sourceUrl);
+    const articleHost = normalizeHost(item.url);
+    const host = sourceHost || articleHost;
+
+    if (hostMatchesList(host, BLOCKED_SOURCE_HOSTS)) {
+      return false;
+    }
+
+    if (isBlockedSourceName(item.source)) {
+      return false;
+    }
+
+    const trustedByHost = hostMatchesList(host, TRUSTED_SOURCE_HOSTS);
+    const trustedByName = isTrustedSourceName(item.source);
+    if (!trustedByHost && !trustedByName) {
+      return false;
+    }
+
+    if (looksLikeOneSidedSafNarrative(item)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const items = sortAndBalance(pickFreshItems(filtered)).slice(0, MAX_ITEMS);
 
   if (items.length === 0) {
     return NextResponse.json(
       {
         ok: false,
-        message: "Live news is temporarily unavailable.",
+        message: "Live Sudan news is temporarily unavailable.",
         items: [],
       },
       {
         status: 503,
         headers: {
-          "Cache-Control": "no-store",
+          "Cache-Control": "no-store, max-age=0",
         },
       },
     );
@@ -224,7 +459,7 @@ export async function GET() {
     },
     {
       headers: {
-        "Cache-Control": "s-maxage=120, stale-while-revalidate=240",
+        "Cache-Control": "no-store, max-age=0",
       },
     },
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -12,6 +12,7 @@ type SudanNewsItem = {
   sourceUrl: string;
   publishedAt: string;
   summary: string;
+  imageUrl: string;
 };
 
 type SudanNewsApiResponse = {
@@ -29,7 +30,8 @@ export type NewsFeedCopy = {
   loadingLabel: string;
   latestLabel: string;
   notificationLabel: string;
-  secondaryNotificationLabel: string;
+  dragHint: string;
+  visualLabel: string;
   openStoryLabel: string;
   openSourceLabel: string;
   unavailableMessage: string;
@@ -40,7 +42,21 @@ type SudanNewsFeedProps = {
   copy: NewsFeedCopy;
 };
 
-const REFRESH_INTERVAL_MS = 180000;
+const REFRESH_INTERVAL_MS = 15000;
+const AUTO_SCROLL_PX_PER_SECOND = 10;
+
+function normalizeLoopedScroll(scrollTop: number, loopHeight: number) {
+  if (loopHeight <= 0) {
+    return scrollTop;
+  }
+
+  let normalized = scrollTop % loopHeight;
+  if (normalized < 0) {
+    normalized += loopHeight;
+  }
+
+  return normalized;
+}
 
 function formatAbsoluteDate(value: string, locale: Locale) {
   const localeCode = locale === "ar" ? "ar-SA" : locale === "no" ? "nb-NO" : "en-US";
@@ -68,6 +84,9 @@ function formatRelativeDate(value: string, locale: Locale) {
   const absSeconds = Math.abs(diffSeconds);
   const formatter = new Intl.RelativeTimeFormat(localeCode, { numeric: "auto" });
 
+  if (absSeconds < 60) {
+    return formatter.format(0, "second");
+  }
   if (absSeconds < 3600) {
     return formatter.format(Math.round(diffSeconds / 60), "minute");
   }
@@ -84,6 +103,39 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const baseTrackRef = useRef<HTMLDivElement | null>(null);
+  const loopHeightRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const lastTimestampRef = useRef(0);
+  const hoverRef = useRef(false);
+  const pausedRef = useRef(false);
+  const draggingRef = useRef(false);
+  const dragStartYRef = useRef(0);
+  const dragStartScrollRef = useRef(0);
+  const dragPointerIdRef = useRef<number | null>(null);
+  const reduceMotionRef = useRef(false);
+
+  const updatePausedState = useCallback(() => {
+    pausedRef.current = hoverRef.current || draggingRef.current;
+  }, []);
+
+  const measureLoop = useCallback(() => {
+    const viewport = viewportRef.current;
+    const baseTrack = baseTrackRef.current;
+    if (!viewport || !baseTrack) {
+      loopHeightRef.current = 0;
+      return;
+    }
+
+    const nextLoopHeight = baseTrack.scrollHeight;
+    loopHeightRef.current = nextLoopHeight;
+    if (nextLoopHeight > 0) {
+      viewport.scrollTop = normalizeLoopedScroll(viewport.scrollTop, nextLoopHeight);
+    }
+  }, []);
 
   const loadNews = useCallback(
     async (isBackgroundRefresh = false) => {
@@ -126,23 +178,148 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     };
   }, [loadNews]);
 
-  const { primaryLane, secondaryLane, topFive } = useMemo(() => {
-    const base = items.length > 0 ? items : [];
-    const first = base.filter((_, index) => index % 2 === 0);
-    const second = base.filter((_, index) => index % 2 === 1);
+  useEffect(() => {
+    measureLoop();
+    const onResize = () => {
+      measureLoop();
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [items, measureLoop]);
 
-    const normalizedPrimary = first.length > 0 ? first : base.slice(0, Math.max(1, base.length));
-    const normalizedSecondary = second.length > 0 ? second : base.slice(0, Math.max(1, base.length));
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => {
+      reduceMotionRef.current = mediaQuery.matches;
+    };
+
+    sync();
+    mediaQuery.addEventListener("change", sync);
+    return () => {
+      mediaQuery.removeEventListener("change", sync);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+
+    const tick = (timestamp: number) => {
+      const viewport = viewportRef.current;
+      if (!viewport) {
+        rafRef.current = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      if (!lastTimestampRef.current) {
+        lastTimestampRef.current = timestamp;
+      }
+
+      const deltaMs = timestamp - lastTimestampRef.current;
+      lastTimestampRef.current = timestamp;
+
+      if (!pausedRef.current && !reduceMotionRef.current && loopHeightRef.current > 0) {
+        const nextScroll =
+          viewport.scrollTop + (deltaMs / 1000) * AUTO_SCROLL_PX_PER_SECOND;
+        viewport.scrollTop = normalizeLoopedScroll(nextScroll, loopHeightRef.current);
+      }
+
+      rafRef.current = window.requestAnimationFrame(tick);
+    };
+
+    rafRef.current = window.requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+      rafRef.current = null;
+      lastTimestampRef.current = 0;
+    };
+  }, [items.length]);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    if (target.closest("a")) {
+      return;
+    }
+
+    const viewport = viewportRef.current;
+    if (!viewport || loopHeightRef.current <= 0) {
+      return;
+    }
+
+    draggingRef.current = true;
+    setIsDragging(true);
+    dragStartYRef.current = event.clientY;
+    dragStartScrollRef.current = viewport.scrollTop;
+    dragPointerIdRef.current = event.pointerId;
+    viewport.setPointerCapture(event.pointerId);
+    updatePausedState();
+    event.preventDefault();
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current || dragPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const viewport = viewportRef.current;
+    if (!viewport || loopHeightRef.current <= 0) {
+      return;
+    }
+
+    const delta = event.clientY - dragStartYRef.current;
+    const nextScroll = normalizeLoopedScroll(dragStartScrollRef.current - delta, loopHeightRef.current);
+    viewport.scrollTop = nextScroll;
+    event.preventDefault();
+  };
+
+  const stopDragging = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current || dragPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    const viewport = viewportRef.current;
+    if (viewport && viewport.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+
+    draggingRef.current = false;
+    dragPointerIdRef.current = null;
+    setIsDragging(false);
+    updatePausedState();
+  };
+
+  const handleMouseEnter = () => {
+    hoverRef.current = true;
+    updatePausedState();
+  };
+
+  const handleMouseLeave = () => {
+    hoverRef.current = false;
+    updatePausedState();
+  };
+
+  const { topFive, featuredVisualItem, visualStrip } = useMemo(() => {
+    const byTime = [...items].sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    );
+    const topItems = byTime.slice(0, 5);
+    const withImages = byTime.filter((item) => Boolean(item.imageUrl));
 
     return {
-      primaryLane: [...normalizedPrimary, ...normalizedPrimary],
-      secondaryLane: [...normalizedSecondary, ...normalizedSecondary],
-      topFive: base.slice(0, 5),
+      topFive: topItems,
+      featuredVisualItem: withImages[0] || items[0] || null,
+      visualStrip: withImages.slice(1, 5),
     };
   }, [items]);
-
-  const primaryDuration = `${Math.max(28, Math.min(78, primaryLane.length * 4.6))}s`;
-  const secondaryDuration = `${Math.max(30, Math.min(82, secondaryLane.length * 4.8))}s`;
 
   return (
     <section className="section-padding border-t border-line/80">
@@ -161,8 +338,13 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                 >
                   {copy.refreshLabel}
                 </button>
-                <span className="rounded-full border border-[#f2a33a]/45 bg-[#f2a33a]/20 px-3 py-1 text-xs font-semibold tracking-[0.1em] text-[#fff2df]">
-                  {isLoading || isRefreshing ? copy.loadingLabel : `${copy.lastUpdatedLabel}: ${formatAbsoluteDate(updatedAt, locale)}`}
+                <span
+                  className="rounded-full border border-[#f2a33a]/45 bg-[#f2a33a]/20 px-3 py-1 text-xs font-semibold tracking-[0.1em] text-[#fff2df]"
+                  title={updatedAt ? formatAbsoluteDate(updatedAt, locale) : ""}
+                >
+                  {isLoading || isRefreshing
+                    ? copy.loadingLabel
+                    : `${copy.lastUpdatedLabel}: ${formatRelativeDate(updatedAt, locale)}`}
                 </span>
               </div>
             </div>
@@ -172,18 +354,80 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                 <p className="rounded-xl border border-[#e7c391]/80 bg-[#fff4df] px-4 py-3 text-sm text-[#6c5840]">{error}</p>
               ) : null}
 
+              {featuredVisualItem ? (
+                <article className="mb-4 overflow-hidden rounded-xl border border-line/80 bg-white/85 shadow-[0_12px_30px_-24px_rgba(8,47,76,0.7)]">
+                  <a href={featuredVisualItem.url} target="_blank" rel="noreferrer" className="block">
+                    {featuredVisualItem.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={featuredVisualItem.imageUrl}
+                        alt={featuredVisualItem.title}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        className="h-44 w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-44 items-center justify-center bg-[linear-gradient(155deg,#0b3657_0%,#1a5371_72%,#f2a33a_140%)] px-5 text-center text-sm font-semibold text-white">
+                        {featuredVisualItem.source}
+                      </div>
+                    )}
+                    <div className="p-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-accent">{copy.visualLabel}</p>
+                      <p className="mt-1 text-sm font-semibold leading-snug text-text-primary">{featuredVisualItem.title}</p>
+                    </div>
+                  </a>
+                </article>
+              ) : null}
+
+              {visualStrip.length > 0 ? (
+                <div className="mb-5 grid grid-cols-4 gap-2">
+                  {visualStrip.map((item) => (
+                    <a
+                      key={`${item.id}-thumb`}
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="overflow-hidden rounded-lg border border-line/80 bg-white/80"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.imageUrl}
+                        alt={item.title}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        className="h-20 w-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+
               {items.length > 0 ? (
-                <div className="grid gap-4 lg:grid-cols-2">
-                  <div className="news-notification-lane surface-card !rounded-xl p-3">
-                    <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">{copy.notificationLabel}</p>
-                    <div className="news-notification-viewport">
-                      <div className="news-notification-track" style={{ animationDuration: primaryDuration }}>
-                        {primaryLane.map((item, index) => (
+                <div className="news-notification-lane surface-card !rounded-xl p-3">
+                  <div className="mb-2 flex items-center justify-between gap-2 px-2">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">{copy.notificationLabel}</p>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-accent">{copy.dragHint}</span>
+                  </div>
+                  <div
+                    ref={viewportRef}
+                    className={`news-notification-viewport ${isDragging ? "is-dragging" : ""}`}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={stopDragging}
+                    onPointerCancel={stopDragging}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="news-notification-track">
+                      <div ref={baseTrackRef} className="news-notification-track-set">
+                        {items.map((item) => (
                           <article
-                            key={`${item.id}-up-${index}`}
+                            key={`${item.id}-base`}
                             className="rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
                           >
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">{formatRelativeDate(item.publishedAt, locale)}</p>
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+                              {formatRelativeDate(item.publishedAt, locale)}
+                            </p>
                             <a
                               href={item.url}
                               target="_blank"
@@ -204,21 +448,16 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                           </article>
                         ))}
                       </div>
-                    </div>
-                  </div>
 
-                  <div className="news-notification-lane news-notification-lane-down surface-card !rounded-xl p-3">
-                    <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">
-                      {copy.secondaryNotificationLabel}
-                    </p>
-                    <div className="news-notification-viewport">
-                      <div className="news-notification-track" style={{ animationDuration: secondaryDuration }}>
-                        {secondaryLane.map((item, index) => (
+                      <div aria-hidden className="news-notification-track-set">
+                        {items.map((item) => (
                           <article
-                            key={`${item.id}-down-${index}`}
+                            key={`${item.id}-clone`}
                             className="rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
                           >
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">{formatRelativeDate(item.publishedAt, locale)}</p>
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+                              {formatRelativeDate(item.publishedAt, locale)}
+                            </p>
                             <a
                               href={item.url}
                               target="_blank"
