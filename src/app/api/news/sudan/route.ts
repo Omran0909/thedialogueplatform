@@ -24,6 +24,10 @@ const SEARCH_QUERIES_BY_LOCALE: Record<Locale, string[]> = {
     "Sudan economy inflation IMF World Bank trade investment when:7d",
     "Sudan civil society education culture diaspora conference when:7d",
     "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement when:7d",
+    "Sudan ministry of foreign affairs official statement when:24h",
+    "Sudan RSF SAF official statement government agency when:7d",
+    "Sudan sanctions OFAC UK FCDO EU Council UN statement when:30d",
+    "Sudan armed groups rebel movements declaration peace talks when:7d",
   ],
   no: [
     "Sudan when:1h",
@@ -33,6 +37,10 @@ const SEARCH_QUERIES_BY_LOCALE: Record<Locale, string[]> = {
     "Sudan politikk sanksjoner sikkerhetsraadet ICC when:7d",
     "Sudan forskning rapport universitet analyse when:7d",
     "Sudan Norge EU USA offentlig uttalelse when:7d",
+    "Sudan offisiell uttalelse utenriksdepartement regjering when:24h",
+    "Sudan RSF SAF offisiell uttalelse myndigheter when:7d",
+    "Sudan sanksjoner OFAC EU Storbritannia FN uttalelse when:30d",
+    "Sudan vaepnede grupper opprorsgrupper erklaering fredssamtaler when:7d",
   ],
   ar: [
     "السودان when:1h",
@@ -42,6 +50,10 @@ const SEARCH_QUERIES_BY_LOCALE: Record<Locale, string[]> = {
     "السودان سياسة عقوبات مجلس الأمن المحكمة الجنائية الدولية when:7d",
     "السودان بحث دراسة تقرير جامعة تحليل when:7d",
     "السودان مصر السعودية الإمارات تركيا قطر روسيا الولايات المتحدة الاتحاد الأوروبي بيان when:7d",
+    "السودان بيان رسمي وزارة الخارجية الحكومة when:24h",
+    "السودان قوات الدعم السريع الجيش السوداني بيان رسمي when:7d",
+    "السودان عقوبات أوفاك الاتحاد الأوروبي بريطانيا الأمم المتحدة بيان when:30d",
+    "السودان الحركات المسلحة فصائل متمردة إعلان مفاوضات سلام when:7d",
   ],
 };
 
@@ -247,10 +259,20 @@ function isInstitutionalHost(host: string) {
   return (
     host.endsWith(".int") ||
     host.endsWith(".gov") ||
+    host.endsWith(".mil") ||
+    host.endsWith(".gc.ca") ||
+    host.endsWith(".canada.ca") ||
     host.endsWith(".edu") ||
     /\.gov\.[a-z.]+$/i.test(host) ||
+    /\.gob\.[a-z.]+$/i.test(host) ||
+    /\.go\.[a-z.]+$/i.test(host) ||
+    /\.gouv\.[a-z.]+$/i.test(host) ||
+    /\.govt\.[a-z.]+$/i.test(host) ||
+    /\.mil\.[a-z.]+$/i.test(host) ||
     /\.edu\.[a-z.]+$/i.test(host) ||
-    /\.ac\.[a-z.]+$/i.test(host)
+    /\.ac\.[a-z.]+$/i.test(host) ||
+    /(^|\.)mofa\./i.test(host) ||
+    /foreignaffairs|foreign-office|foreignoffice|diplomatie|diplo/i.test(host)
   );
 }
 
@@ -424,6 +446,24 @@ function mentionsMuslimBrotherhood(text: string) {
   return /\b(muslim brotherhood|ikhwan|islamic movement)\b/i.test(text);
 }
 
+function mentionsSudanReference(text: string) {
+  return /\b(sudan|sudanese|khartoum|darfur|port sudan|el[\s-]?fasher|geneina|oum[\s-]?durman|kordofan)\b|السودان|سوداني|الخرطوم|دارفور|بورتسودان|الفاشر|الجنينة|كردفان/i.test(
+    text,
+  );
+}
+
+function mentionsCoreSudanActors(text: string) {
+  return /\b(rsf|rapid support forces|saf|sudanese armed forces|sudanese army)\b|قوات الدعم السريع|الجيش السوداني/i.test(
+    text,
+  );
+}
+
+function mentionsSudanRebelActors(text: string) {
+  return /\b(splm-?n|sudan people'?s liberation movement(?:-north)?|sudan liberation army|justice and equality movement|jem|abdelaziz al-hilu|al-hilu)\b|الحركة الشعبية|الحركات المسلحة|الحركات المتمردة|جيش تحرير السودان|حركة العدل والمساواة/i.test(
+    text,
+  );
+}
+
 function looksLikeOneSidedSafNarrative(item: SudanNewsItem) {
   const combined = `${item.title} ${item.summary}`.toLowerCase();
   const hasSaf = mentionsSaf(combined);
@@ -518,7 +558,11 @@ export async function GET(request: Request) {
     }
 
     const normalizedText = `${item.title} ${item.summary}`.toLowerCase();
-    if (!/\bsudan\b|السودان/i.test(normalizedText)) {
+    const hasSudanReference = mentionsSudanReference(normalizedText);
+    const hasCoreActor = mentionsCoreSudanActors(normalizedText);
+    const hasRebelActor = mentionsSudanRebelActors(normalizedText);
+
+    if (!hasSudanReference && !hasCoreActor && !hasRebelActor) {
       return false;
     }
 
