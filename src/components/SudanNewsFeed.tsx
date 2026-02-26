@@ -410,20 +410,23 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   }, [items.length]);
 
   useEffect(() => {
-    const lane = newsLaneRef.current;
-    if (!lane) {
+    const viewport = viewportRef.current;
+    if (!viewport) {
       return;
     }
 
-    const handleLaneWheel = (event: WheelEvent) => {
-      const viewport = viewportRef.current;
-      const loopHeight = loopHeightRef.current;
-      if (!viewport || loopHeight <= 0) {
+    const handleViewportWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) {
         return;
       }
 
       event.preventDefault();
       event.stopPropagation();
+
+      const loopHeight = loopHeightRef.current;
+      if (loopHeight <= 0) {
+        return;
+      }
 
       const baseDelta =
         event.deltaMode === 1
@@ -439,11 +442,11 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       viewport.scrollTop = nextScroll;
     };
 
-    lane.addEventListener("wheel", handleLaneWheel, { passive: false });
+    viewport.addEventListener("wheel", handleViewportWheel, { passive: false, capture: true });
     return () => {
-      lane.removeEventListener("wheel", handleLaneWheel);
+      viewport.removeEventListener("wheel", handleViewportWheel, true);
     };
-  }, []);
+  }, [items.length]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) {
