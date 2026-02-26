@@ -41,9 +41,11 @@ export default function ContactPage({ params }: PageProps) {
             <Reveal delay={0.1}>
               <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.contact.title}</h1>
             </Reveal>
-            <Reveal delay={0.18}>
-              <p className="mt-4 max-w-prose text-base leading-relaxed text-white/90">{localized.contact.intro}</p>
-            </Reveal>
+            {localized.contact.intro ? (
+              <Reveal delay={0.18}>
+                <p className="mt-4 max-w-prose text-base leading-relaxed text-white/90">{localized.contact.intro}</p>
+              </Reveal>
+            ) : null}
           </div>
         </div>
       </section>

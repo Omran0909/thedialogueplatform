@@ -24,9 +24,8 @@ const hubCopy: Record<
 > = {
   en: {
     badge: "Dialogue Intelligence Hub",
-    title: "AI guidance and real-time Sudan updates in one place.",
-    description:
-      "This hub combines The Dialogue Platform AI assistant with continuously refreshed Sudan coverage from trusted international sources.",
+    title: "AI guidance and real-time Sudan updates in one place",
+    description: "",
     assistant: {
       badge: "Dialogue AI Desk",
       title: "Ask our AI assistant about The Dialogue Platform and Sudan updates.",
@@ -218,9 +217,11 @@ export default function NewsPage({ params }: PageProps) {
             <Reveal delay={0.1}>
               <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{copy.title}</h1>
             </Reveal>
-            <Reveal delay={0.16}>
-              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">{copy.description}</p>
-            </Reveal>
+            {copy.description ? (
+              <Reveal delay={0.16}>
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">{copy.description}</p>
+              </Reveal>
+            ) : null}
           </div>
         </div>
       </section>

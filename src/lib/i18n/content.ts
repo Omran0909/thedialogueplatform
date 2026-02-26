@@ -97,7 +97,7 @@ export const content: Record<Locale, Content> = {
     home: {
       heroBadge: "Trust and Peace Through Dialogue",
       collaborationLine: "In collaboration with",
-      title: "Building inclusive dialogue systems that strengthen trust, cooperation, and peace.",
+      title: "Building inclusive dialogue systems that strengthen trust, cooperation, and peace",
       description: "",
       primaryCta: "Explore dialogue formats",
       secondaryCta: "Learn our mission",
@@ -149,7 +149,7 @@ export const content: Record<Locale, Content> = {
     },
     about: {
       title: "About",
-      heroTitle: "A dialogue platform dedicated to building trust and peace in public life.",
+      heroTitle: "A dialogue platform dedicated to building trust and peace in public life",
       intro:
         "The Dialogue Platform helps institutions navigate difficult conversations with legitimacy, transparency, and care. In collaboration with Nansen Peace Center and Lillestrom Municipality, our focus is to build civic trust, support peaceful coexistence, and strengthen democratic dialogue across communities.",
       principlesTitle: "Principles",
@@ -174,7 +174,7 @@ export const content: Record<Locale, Content> = {
     },
     dialogues: {
       title: "Dialogues",
-      heroTitle: "Structured dialogues designed for inclusion, trust, and concrete outcomes.",
+      heroTitle: "Structured dialogues designed for inclusion, trust, and concrete outcomes",
       formats: [
         {
           title: "Public Assemblies",
@@ -202,7 +202,7 @@ export const content: Record<Locale, Content> = {
     },
     events: {
       title: "Events",
-      heroTitle: "Convenings designed to strengthen relationships and civic confidence.",
+      heroTitle: "Convenings designed to strengthen relationships and civic confidence",
       eventTypes: [
         {
           title: "Community Trust Forums",
@@ -224,7 +224,7 @@ export const content: Record<Locale, Content> = {
     },
     insights: {
       title: "Insights",
-      heroTitle: "Practical knowledge for institutions working to build trust through dialogue.",
+      heroTitle: "Practical knowledge for institutions working to build trust through dialogue",
       insightTypes: [
         {
           title: "Dialogue Briefs",
@@ -244,9 +244,8 @@ export const content: Record<Locale, Content> = {
         "Current insight publications are being prepared with transparent references to dialogue contexts, participants, and decision implications.",
     },
     contact: {
-      title: "Let’s build inclusive dialogue and trust together.",
-      intro:
-        "We work with institutions, municipalities, and civil society partners to strengthen trust, social cohesion, and peace through dialogue.",
+      title: "Let’s build inclusive dialogue and trust together",
+      intro: "",
       directLabel: "Direct contact",
       collaborationLine: "In collaboration with Nansen Peace Center and Lillestrom Municipality, we support practical dialogue work that builds long-term civic trust.",
       firstMessageLabel: "Useful first message",
