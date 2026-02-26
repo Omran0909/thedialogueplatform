@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isLocale, type Locale } from "@/lib/i18n/config";
 
 type SudanNewsItem = {
   id: string;
@@ -11,19 +12,44 @@ type SudanNewsItem = {
   imageUrl: string;
 };
 
-const SEARCH_QUERIES = [
-  "Sudan when:1h",
-  "Sudan diplomacy foreign minister statement envoy when:6h",
-  "Sudan UN AU IGAD mediation ceasefire talks when:12h",
-  "Sudan humanitarian aid relief OCHA WFP UNICEF UNHCR WHO when:12h",
-  "Sudan refugees displacement famine cholera aid response when:24h",
-  "Sudan policy sanctions UN Security Council ICC when:24h",
-  "Sudan research study university journal report when:7d",
-  "Sudan economy inflation IMF World Bank trade investment when:7d",
-  "Sudan civil society education culture diaspora conference when:7d",
-  "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement when:7d",
-  "السودان الأمم المتحدة مساعدات دبلوماسية خلال 7 أيام",
-];
+const SEARCH_QUERIES_BY_LOCALE: Record<Locale, string[]> = {
+  en: [
+    "Sudan when:1h",
+    "Sudan diplomacy foreign minister statement envoy when:6h",
+    "Sudan UN AU IGAD mediation ceasefire talks when:12h",
+    "Sudan humanitarian aid relief OCHA WFP UNICEF UNHCR WHO when:12h",
+    "Sudan refugees displacement famine cholera aid response when:24h",
+    "Sudan policy sanctions UN Security Council ICC when:24h",
+    "Sudan research study university journal report when:7d",
+    "Sudan economy inflation IMF World Bank trade investment when:7d",
+    "Sudan civil society education culture diaspora conference when:7d",
+    "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement when:7d",
+  ],
+  no: [
+    "Sudan when:1h",
+    "Sudan diplomati utenriksminister uttalelse when:12h",
+    "Sudan FN AU IGAD mekling vaapenhvile samtaler when:24h",
+    "Sudan humanitaer hjelp noedhjelp flyktninger fordrivelse when:24h",
+    "Sudan politikk sanksjoner sikkerhetsraadet ICC when:7d",
+    "Sudan forskning rapport universitet analyse when:7d",
+    "Sudan Norge EU USA offentlig uttalelse when:7d",
+  ],
+  ar: [
+    "السودان when:1h",
+    "السودان دبلوماسية وزير الخارجية بيان when:12h",
+    "السودان الأمم المتحدة الاتحاد الافريقي ايغاد وساطة وقف إطلاق النار when:24h",
+    "السودان مساعدات انسانية اغاثة نزوح لاجئين مجاعة كوليرا when:24h",
+    "السودان سياسة عقوبات مجلس الأمن المحكمة الجنائية الدولية when:7d",
+    "السودان بحث دراسة تقرير جامعة تحليل when:7d",
+    "السودان مصر السعودية الإمارات تركيا قطر روسيا الولايات المتحدة الاتحاد الأوروبي بيان when:7d",
+  ],
+};
+
+const FEED_LOCALE_CONFIG: Record<Locale, { hl: string; gl: string; ceid: string }> = {
+  en: { hl: "en-US", gl: "US", ceid: "US:en" },
+  no: { hl: "nb", gl: "NO", ceid: "NO:no" },
+  ar: { hl: "ar", gl: "SA", ceid: "SA:ar" },
+};
 
 const REQUEST_TIMEOUT_MS = 9000;
 const MAX_ITEMS = 120;
@@ -132,17 +158,29 @@ const TRUSTED_SOURCE_NAMES = [
   "BMJ",
 ];
 
-function buildFeedUrl(query: string) {
+function clean(value: unknown) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function resolveLocale(request: Request): Locale {
+  const locale = clean(new URL(request.url).searchParams.get("locale"));
+  return isLocale(locale) ? locale : "en";
+}
+
+function buildFeedUrl(query: string, locale: Locale) {
+  const localeConfig = FEED_LOCALE_CONFIG[locale];
   const params = new URLSearchParams({
     q: query,
-    hl: "en-US",
-    gl: "US",
-    ceid: "US:en",
+    hl: localeConfig.hl,
+    gl: localeConfig.gl,
+    ceid: localeConfig.ceid,
   });
   return `https://news.google.com/rss/search?${params.toString()}`;
 }
 
-const FEED_URLS = SEARCH_QUERIES.map(buildFeedUrl);
+function buildFeedUrls(locale: Locale) {
+  return SEARCH_QUERIES_BY_LOCALE[locale].map((query) => buildFeedUrl(query, locale));
+}
 
 function stripCdata(input: string) {
   return input
@@ -443,8 +481,10 @@ function pickFreshItems(items: SudanNewsItem[]) {
 
 export const runtime = "nodejs";
 
-export async function GET() {
-  const allFeeds = await Promise.all(FEED_URLS.map((url) => fetchFeed(url)));
+export async function GET(request: Request) {
+  const locale = resolveLocale(request);
+  const feedUrls = buildFeedUrls(locale);
+  const allFeeds = await Promise.all(feedUrls.map((url) => fetchFeed(url)));
   const deduped = new Map<string, SudanNewsItem>();
 
   for (const feedItems of allFeeds) {
@@ -521,6 +561,7 @@ export async function GET() {
   return NextResponse.json(
     {
       ok: true,
+      locale,
       updatedAt: new Date().toISOString(),
       items,
     },

@@ -293,7 +293,9 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       }
 
       try {
-        const response = await fetch(`/api/news/sudan?ts=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`/api/news/sudan?locale=${encodeURIComponent(locale)}&ts=${Date.now()}`, {
+          cache: "no-store",
+        });
         const payload = (await response.json()) as SudanNewsApiResponse;
 
         if (!response.ok || !payload.ok || !Array.isArray(payload.items)) {
@@ -310,7 +312,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
         setIsRefreshing(false);
       }
     },
-    [copy.unavailableMessage],
+    [copy.unavailableMessage, locale],
   );
 
   useEffect(() => {
