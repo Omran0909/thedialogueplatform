@@ -82,13 +82,6 @@ export function LanguageSwitcher({ locale, onLocaleChanged }: LanguageSwitcherPr
         { type: "auto", value: "om", label: "Afaan Oromoo", target: "om" },
         { type: "auto", value: "ha", label: "Hausa", target: "ha" },
         { type: "auto", value: "ff", label: "Fulfulde", target: "ff" },
-        { type: "auto", value: "nobiin-soon", label: "Nobiin (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "beja-soon", label: "Beja / Bedawi (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "fur-soon", label: "Fur (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "masalit-soon", label: "Masalit (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "zaghawa-soon", label: "Zaghawa (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "dinka-soon", label: "Dinka (coming soon)", target: "en", disabled: true },
-        { type: "auto", value: "nuer-soon", label: "Nuer (coming soon)", target: "en", disabled: true },
       ],
     },
     {
