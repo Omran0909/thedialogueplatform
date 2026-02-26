@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 
 type AssistantSource = {
@@ -35,8 +35,19 @@ type SudanAiAssistantProps = {
   copy: AssistantCopy;
 };
 
+const PROMPT_BUTTON_COUNT = 4;
+
 function makeId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function pickRandomPrompts(prompts: string[], count: number) {
+  const pool = [...prompts];
+  for (let index = pool.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [pool[index], pool[swapIndex]] = [pool[swapIndex], pool[index]];
+  }
+  return pool.slice(0, Math.max(0, Math.min(count, pool.length)));
 }
 
 export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
@@ -49,6 +60,9 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [visiblePrompts, setVisiblePrompts] = useState<string[]>(() =>
+    pickRandomPrompts(copy.starterPrompts, PROMPT_BUTTON_COUNT),
+  );
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
   const apiHistory = useMemo(
@@ -68,6 +82,39 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
     container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
   }, [messages, isSending]);
 
+  useEffect(() => {
+    setVisiblePrompts(pickRandomPrompts(copy.starterPrompts, PROMPT_BUTTON_COUNT));
+  }, [copy.starterPrompts, locale]);
+
+  const rotateStarterPrompts = useCallback(
+    (lastPrompt?: string) => {
+      setVisiblePrompts((previous) => {
+        const normalizedLastPrompt = (lastPrompt ?? "").trim().toLowerCase();
+        const filteredPool = copy.starterPrompts.filter((prompt) => {
+          if (!normalizedLastPrompt) {
+            return true;
+          }
+          return prompt.trim().toLowerCase() !== normalizedLastPrompt;
+        });
+        const pool = filteredPool.length >= PROMPT_BUTTON_COUNT ? filteredPool : copy.starterPrompts;
+        const pickCount = Math.min(PROMPT_BUTTON_COUNT, pool.length);
+        if (pickCount === 0) {
+          return [];
+        }
+
+        for (let attempt = 0; attempt < 6; attempt += 1) {
+          const next = pickRandomPrompts(pool, pickCount);
+          if (next.join("||") !== previous.join("||")) {
+            return next;
+          }
+        }
+
+        return pickRandomPrompts(pool, pickCount);
+      });
+    },
+    [copy.starterPrompts],
+  );
+
   async function sendPrompt(rawPrompt?: string) {
     const prompt = (rawPrompt ?? input).trim();
     if (!prompt || isSending) {
@@ -81,6 +128,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
     };
 
     setMessages((previous) => [...previous, userMessage]);
+    rotateStarterPrompts(prompt);
     setInput("");
     setIsSending(true);
 
@@ -147,7 +195,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {copy.starterPrompts.map((prompt) => (
+              {visiblePrompts.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"

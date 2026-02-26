@@ -18,17 +18,18 @@ const SEARCH_QUERIES = [
   "Sudan humanitarian aid relief OCHA WFP UNICEF UNHCR WHO when:12h",
   "Sudan refugees displacement famine cholera aid response when:24h",
   "Sudan policy sanctions UN Security Council ICC when:24h",
-  "Sudan research study university journal report",
-  "Sudan economy inflation IMF World Bank trade investment",
-  "Sudan civil society education culture diaspora conference",
-  "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement",
-  "السودان الأمم المتحدة مساعدات دبلوماسية",
+  "Sudan research study university journal report when:7d",
+  "Sudan economy inflation IMF World Bank trade investment when:7d",
+  "Sudan civil society education culture diaspora conference when:7d",
+  "Sudan Egypt Saudi UAE Turkey Qatar Russia USA EU statement when:7d",
+  "السودان الأمم المتحدة مساعدات دبلوماسية خلال 7 أيام",
 ];
 
 const REQUEST_TIMEOUT_MS = 9000;
 const MAX_ITEMS = 30;
 const PRIMARY_FRESH_HOURS = 12;
-const SECONDARY_FRESH_HOURS = 48;
+const SECONDARY_FRESH_HOURS = 36;
+const HARD_MAX_FRESH_HOURS = 72;
 
 const BLOCKED_SOURCE_HOSTS = ["aljazeera.com", "aljazeera.net"];
 const BLOCKED_SOURCE_NAME_PATTERNS = [/al[\s-]?jazeera/i];
@@ -474,7 +475,12 @@ function pickFreshItems(items: SudanNewsItem[]) {
     return secondary;
   }
 
-  return items;
+  const hardMax = items.filter((item) => withinHours(item.publishedAt, HARD_MAX_FRESH_HOURS));
+  if (hardMax.length > 0) {
+    return hardMax;
+  }
+
+  return [];
 }
 
 export const runtime = "nodejs";

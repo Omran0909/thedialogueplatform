@@ -1,8 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
-import { SudanAiAssistant, type AssistantCopy } from "@/components/SudanAiAssistant";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import { isLocale, type Locale, withLocale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { mediaLibrary } from "@/lib/media";
 
@@ -12,69 +12,35 @@ type PageProps = {
   };
 };
 
-const assistantCopy: Record<Locale, AssistantCopy> = {
+const hubCtaCopy: Record<
+  Locale,
+  {
+    label: string;
+    title: string;
+    description: string;
+    cta: string;
+  }
+> = {
   en: {
-    badge: "Dialogue AI Desk",
-    title: "Ask our AI assistant about The Dialogue Platform and Sudan updates.",
+    label: "Dialogue Intelligence Hub",
+    title: "Ask the AI assistant and follow real-time Sudan updates in one place.",
     description:
-      "Start a direct conversation about our dialogue work, events, and public resources. You can also ask for latest Sudan context updates and get source-linked summaries.",
-    quickStartLabel: "Start with one click",
-    starterPrompts: [
-      "Latest humanitarian updates in Sudan and what they mean for civilians",
-      "What do you know about Sudan right now?",
-      "What is The Dialogue Platform and how can institutions collaborate with you?",
-      "Give me a short summary of your latest events and where to watch them",
-    ],
-    inputPlaceholder: "Type your question...",
-    sendLabel: "Send",
-    thinkingLabel: "Analyzing and preparing an answer...",
-    unavailableMessage: "AI is temporarily unavailable ....",
-    welcomeMessage:
-      "Welcome. I can answer questions about The Dialogue Platform, our dialogue practice, and latest Sudan updates with links when available.",
-    sourcesLabel: "Sources",
-    note: "For live Sudan updates, ask a time-based question (for example: “What changed this week?”).",
+      "Use our combined intelligence hub to chat with the assistant and monitor verified, time-ordered Sudan updates with source links.",
+    cta: "Open Intelligence Hub",
   },
   no: {
-    badge: "Dialog AI-desk",
-    title: "Spør AI-assistenten om The Dialogue Platform og oppdateringer fra Sudan.",
+    label: "Dialog Intelligenshub",
+    title: "Spør AI-assistenten og følg sanntidsoppdateringer om Sudan på ett sted.",
     description:
-      "Start en direkte samtale om dialogarbeidet vårt, arrangementer og offentlige ressurser. Du kan også be om siste oppdateringer om situasjonen i Sudan med kilder.",
-    quickStartLabel: "Start med ett klikk",
-    starterPrompts: [
-      "Siste humanitære oppdateringer i Sudan og hva dette betyr for sivile",
-      "Hva vet du om situasjonen i Sudan akkurat nå?",
-      "Hva er The Dialogue Platform, og hvordan kan institusjoner samarbeide med dere?",
-      "Gi meg en kort oppsummering av de siste arrangementene og hvor jeg kan se dem",
-    ],
-    inputPlaceholder: "Skriv spørsmålet ditt...",
-    sendLabel: "Send",
-    thinkingLabel: "Analyserer og forbereder svar...",
-    unavailableMessage: "AI is temporarily unavailable ....",
-    welcomeMessage:
-      "Velkommen. Jeg kan svare på spørsmål om The Dialogue Platform, dialogarbeidet vårt og siste oppdateringer fra Sudan med kildelenker når mulig.",
-    sourcesLabel: "Kilder",
-    note: "For ferske Sudan-oppdateringer: still tidsavgrensede spørsmål, for eksempel «Hva har skjedd denne uken?»",
+      "Bruk vår samlede intelligenshub for å chatte med assistenten og følge verifiserte, tidsordnede oppdateringer om Sudan med kilder.",
+    cta: "Åpne Intelligenshub",
   },
   ar: {
-    badge: "مكتب الذكاء الاصطناعي",
-    title: "اسأل مساعدنا الذكي عن منصة الحوار وآخر التطورات في السودان.",
+    label: "مركز الذكاء الحواري",
+    title: "اسأل المساعد الذكي وتابع تحديثات السودان المباشرة في مكان واحد.",
     description:
-      "ابدأ محادثة مباشرة حول عمل المنصة وفعالياتها ومواردها العامة. ويمكنك أيضاً طلب آخر التحديثات عن الوضع في السودان مع روابط للمصادر.",
-    quickStartLabel: "ابدأ بنقرة واحدة",
-    starterPrompts: [
-      "آخر المستجدات الإنسانية في السودان وما أثرها على المدنيين",
-      "ماذا تعرف عن الوضع الحالي في السودان؟",
-      "ما هي منصة الحوار وكيف يمكن للمؤسسات التعاون معكم؟",
-      "قدّم لي ملخصاً قصيراً لأحدث فعالياتكم وروابط المتابعة",
-    ],
-    inputPlaceholder: "اكتب سؤالك هنا...",
-    sendLabel: "إرسال",
-    thinkingLabel: "جارٍ التحليل وإعداد الإجابة...",
-    unavailableMessage: "AI is temporarily unavailable ....",
-    welcomeMessage:
-      "مرحباً بك. يمكنني الإجابة عن أسئلتك حول منصة الحوار، ومنهجنا في الحوار، وآخر تحديثات السودان مع روابط للمصادر عند توفرها.",
-    sourcesLabel: "المصادر",
-    note: "للحصول على تحديثات مباشرة عن السودان، اسأل سؤالاً مرتبطاً بالوقت مثل: «ما الذي تغيّر هذا الأسبوع؟».",
+      "استخدم مركز الذكاء المتكامل للدردشة مع المساعد ومتابعة التحديثات الموثوقة عن السودان مرتبة زمنياً مع روابط المصادر.",
+    cta: "فتح مركز الذكاء",
   },
 };
 
@@ -85,6 +51,7 @@ export default function InsightsPage({ params }: PageProps) {
 
   const locale = params.locale as Locale;
   const localized = getContent(locale);
+  const hubCta = hubCtaCopy[locale];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -130,7 +97,21 @@ export default function InsightsPage({ params }: PageProps) {
         </Reveal>
       </section>
 
-      <SudanAiAssistant locale={locale} copy={assistantCopy[locale]} />
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <div className="surface-card bg-[linear-gradient(150deg,#0b3657_0%,#1a5a77_62%,#f2a33a_140%)] p-8 text-white">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/80">{hubCta.label}</p>
+            <h2 className="mt-3 max-w-3xl text-3xl leading-tight">{hubCta.title}</h2>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90">{hubCta.description}</p>
+            <Link
+              href={withLocale(locale, "/news")}
+              className="mt-6 inline-flex rounded-full border border-white/35 bg-white/12 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              {hubCta.cta}
+            </Link>
+          </div>
+        </Reveal>
+      </section>
     </div>
   );
 }
