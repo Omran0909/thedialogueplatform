@@ -98,8 +98,7 @@ export const content: Record<Locale, Content> = {
       heroBadge: "Trust and Peace Through Dialogue",
       collaborationLine: "In collaboration with",
       title: "Building inclusive dialogue systems that strengthen trust, cooperation, and peace.",
-      description:
-        "The Dialogue Platform helps institutions transform complex public conversations into shared understanding, practical decisions, and durable civic relationships.",
+      description: "",
       primaryCta: "Explore dialogue formats",
       secondaryCta: "Learn our mission",
       trustSectionTitle: "Why this platform exists",
@@ -280,8 +279,7 @@ export const content: Record<Locale, Content> = {
       heroBadge: "Tillit og fred gjennom dialog",
       collaborationLine: "I samarbeid med",
       title: "Vi bygger inkluderende dialogsystemer som styrker tillit, samarbeid og fred.",
-      description:
-        "Plattformen hjelper institusjoner med å gjøre komplekse offentlige samtaler om til felles forståelse, praktiske beslutninger og varige relasjoner.",
+      description: "",
       primaryCta: "Utforsk dialogformater",
       secondaryCta: "Les om vårt oppdrag",
       trustSectionTitle: "Hvorfor denne plattformen finnes",
@@ -462,8 +460,7 @@ export const content: Record<Locale, Content> = {
       heroBadge: "الثقة والسلام عبر الحوار",
       collaborationLine: "بالتعاون مع",
       title: "نبني أنظمة حوار شاملة تعزز الثقة والتعاون والسلام.",
-      description:
-        "تساعد منصة الحوار المؤسسات على تحويل النقاشات العامة المعقدة إلى فهم مشترك وقرارات عملية وعلاقات مجتمعية مستدامة.",
+      description: "",
       primaryCta: "استكشف صيغ الحوار",
       secondaryCta: "تعرّف إلى رسالتنا",
       trustSectionTitle: "لماذا وُجدت هذه المنصة",

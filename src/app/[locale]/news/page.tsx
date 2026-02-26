@@ -70,6 +70,11 @@ const hubCopy: Record<
       visualLabel: "Latest image",
       openStoryLabel: "Story source",
       openSourceLabel: "Source",
+      reportCenterLabel: "Daily report center",
+      reportDescription: "Generate and download a concise daily Sudan briefing as PDF, then re-open previous reports from the archive.",
+      downloadReportLabel: "Download PDF",
+      archiveLabel: "Report archive",
+      archiveEmptyLabel: "No archived reports yet. Your first report appears after the next verified updates.",
       unavailableMessage: "Live Sudan news is temporarily unavailable. Please try again in a moment.",
     },
   },
@@ -121,6 +126,11 @@ const hubCopy: Record<
       visualLabel: "Siste bilde",
       openStoryLabel: "Sakskilde",
       openSourceLabel: "Kilde",
+      reportCenterLabel: "Daglig rapportsenter",
+      reportDescription: "Generer og last ned en kort daglig Sudan-brief som PDF, og åpne tidligere rapporter fra arkivet.",
+      downloadReportLabel: "Last ned PDF",
+      archiveLabel: "Rapportarkiv",
+      archiveEmptyLabel: "Ingen arkiverte rapporter ennå. Første rapport vises etter neste verifiserte oppdateringer.",
       unavailableMessage: "Live nyheter om Sudan er midlertidig utilgjengelige. Prøv igjen om litt.",
     },
   },
@@ -172,6 +182,11 @@ const hubCopy: Record<
       visualLabel: "أحدث صورة",
       openStoryLabel: "مصدر الخبر",
       openSourceLabel: "المصدر",
+      reportCenterLabel: "مركز التقرير اليومي",
+      reportDescription: "أنشئ تقريراً يومياً موجزاً عن السودان بصيغة PDF وقم بتحميله، ثم ارجع إلى التقارير السابقة من الأرشيف.",
+      downloadReportLabel: "تنزيل PDF",
+      archiveLabel: "أرشيف التقارير",
+      archiveEmptyLabel: "لا توجد تقارير مؤرشفة بعد. سيظهر أول تقرير بعد وصول التحديثات الموثوقة التالية.",
       unavailableMessage: "تغطية أخبار السودان المباشرة غير متاحة حالياً. حاول مرة أخرى بعد قليل.",
     },
   },
@@ -190,11 +205,11 @@ export default function NewsPage({ params }: PageProps) {
       <section className="section-padding pt-12 sm:pt-16">
         <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
           <Image
-            src={mediaLibrary.heroes.insights}
+            src={mediaLibrary.heroes.news}
             alt="Dialogue intelligence hub"
             fill
             className="hero-image-motion object-cover"
-            style={{ objectPosition: mediaLibrary.heroFocus.insights }}
+            style={{ objectPosition: mediaLibrary.heroFocus.news }}
           />
           <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
             <Reveal>

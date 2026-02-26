@@ -50,9 +50,11 @@ export default function HomePage({ params }: PageProps) {
               <Reveal delay={0.1}>
                 <h1 className="mt-4 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">{localized.home.title}</h1>
               </Reveal>
-              <Reveal delay={0.2}>
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">{localized.home.description}</p>
-              </Reveal>
+              {localized.home.description ? (
+                <Reveal delay={0.2}>
+                  <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">{localized.home.description}</p>
+                </Reveal>
+              ) : null}
               <Reveal delay={0.3} className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={withLocale(locale, "/dialogues")}

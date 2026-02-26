@@ -39,6 +39,11 @@ export type NewsFeedCopy = {
   visualLabel: string;
   openStoryLabel: string;
   openSourceLabel: string;
+  reportCenterLabel: string;
+  reportDescription: string;
+  downloadReportLabel: string;
+  archiveLabel: string;
+  archiveEmptyLabel: string;
   unavailableMessage: string;
 };
 
@@ -51,6 +56,16 @@ const REFRESH_INTERVAL_MS = 15000;
 const AUTO_SCROLL_PX_PER_SECOND = 10;
 const WHEEL_SCROLL_MULTIPLIER = 2.4;
 const LATEST_NEWS_FALLBACK_IMAGE = "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg";
+const REPORT_ARCHIVE_STORAGE_KEY = "dialogue-platform-sudan-briefing-archive-v1";
+const REPORT_ARCHIVE_MAX_ITEMS = 30;
+
+type BriefingReportRecord = {
+  id: string;
+  generatedAt: string;
+  locale: Locale;
+  lines: string[];
+  headlineTitles: string[];
+};
 
 function normalizeLoopedScroll(scrollTop: number, loopHeight: number) {
   if (loopHeight <= 0) {
@@ -155,6 +170,78 @@ function buildThemeSummary(items: SudanNewsItem[]) {
   return ranked.join(", ");
 }
 
+function toPdfSafeText(input: string) {
+  return input
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7E]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function escapePdfText(input: string) {
+  return input.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+}
+
+function buildSimplePdfBlob(title: string, lines: string[]) {
+  const encoder = new TextEncoder();
+  const pageWidth = 612;
+  const pageHeight = 792;
+  const left = 50;
+  const top = 760;
+  const titleFontSize = 14;
+  const bodyFontSize = 10;
+  const lineHeight = 14;
+
+  const safeTitle = escapePdfText(toPdfSafeText(title) || "Sudan Briefing");
+  const safeLines = lines
+    .map((line) => escapePdfText(toPdfSafeText(line)))
+    .filter(Boolean)
+    .slice(0, 46);
+
+  const contentParts: string[] = [];
+  contentParts.push("BT");
+  contentParts.push(`/F1 ${titleFontSize} Tf`);
+  contentParts.push(`${left} ${top} Td`);
+  contentParts.push(`(${safeTitle}) Tj`);
+  contentParts.push(`0 -${lineHeight + 4} Td`);
+  contentParts.push(`/F1 ${bodyFontSize} Tf`);
+
+  for (const line of safeLines) {
+    contentParts.push(`(${line}) Tj`);
+    contentParts.push(`0 -${lineHeight} Td`);
+  }
+  contentParts.push("ET");
+
+  const contentStream = `${contentParts.join("\n")}\n`;
+  const contentLength = encoder.encode(contentStream).length;
+
+  const objects: string[] = [
+    "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+    "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`,
+    "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
+    `5 0 obj\n<< /Length ${contentLength} >>\nstream\n${contentStream}endstream\nendobj\n`,
+  ];
+
+  let pdf = "%PDF-1.4\n";
+  const offsets: number[] = [0];
+
+  for (const object of objects) {
+    offsets.push(encoder.encode(pdf).length);
+    pdf += object;
+  }
+
+  const xrefStart = encoder.encode(pdf).length;
+  pdf += `xref\n0 ${objects.length + 1}\n`;
+  pdf += "0000000000 65535 f \n";
+  for (let i = 1; i < offsets.length; i += 1) {
+    pdf += `${offsets[i].toString().padStart(10, "0")} 00000 n \n`;
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
+
+  return new Blob([encoder.encode(pdf)], { type: "application/pdf" });
+}
+
 export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const [items, setItems] = useState<SudanNewsItem[]>([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -162,6 +249,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [reportArchive, setReportArchive] = useState<BriefingReportRecord[]>([]);
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const newsLaneRef = useRef<HTMLDivElement | null>(null);
@@ -430,7 +518,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     [items],
   );
 
-  const { topFive, featuredVisualItem, visualStrip, todayBriefing } = useMemo(() => {
+  const { topFive, featuredVisualItem, visualStrip, todayBriefing, todayHeadlineTitles } = useMemo(() => {
     const byTime = sortedItems;
     const now = Date.now();
     const todaysItems = byTime.filter((item) => now - new Date(item.publishedAt).getTime() <= 24 * 60 * 60 * 1000);
@@ -470,8 +558,81 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       featuredVisualItem: withImages[0] || byTime[0] || null,
       visualStrip: stripItems,
       todayBriefing: briefingLines,
+      todayHeadlineTitles: todaysItems.slice(0, 8).map((item) => item.title),
     };
   }, [copy.briefingCoverageLabel, copy.briefingEmpty, copy.briefingSourceMixLabel, copy.briefingThemesLabel, sortedItems]);
+
+  const currentReport = useMemo<BriefingReportRecord | null>(() => {
+    if (todayBriefing.length === 0) {
+      return null;
+    }
+
+    const dayKey = new Date().toISOString().slice(0, 10);
+    return {
+      id: dayKey,
+      generatedAt: new Date().toISOString(),
+      locale,
+      lines: todayBriefing,
+      headlineTitles: todayHeadlineTitles,
+    };
+  }, [locale, todayBriefing, todayHeadlineTitles]);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(REPORT_ARCHIVE_STORAGE_KEY);
+      if (!raw) {
+        setReportArchive([]);
+        return;
+      }
+      const parsed = JSON.parse(raw) as BriefingReportRecord[];
+      if (!Array.isArray(parsed)) {
+        setReportArchive([]);
+        return;
+      }
+      setReportArchive(parsed.slice(0, REPORT_ARCHIVE_MAX_ITEMS));
+    } catch {
+      setReportArchive([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!currentReport) {
+      return;
+    }
+
+    setReportArchive((previous) => {
+      const filtered = previous.filter((report) => report.id !== currentReport.id);
+      const next = [currentReport, ...filtered].slice(0, REPORT_ARCHIVE_MAX_ITEMS);
+      try {
+        window.localStorage.setItem(REPORT_ARCHIVE_STORAGE_KEY, JSON.stringify(next));
+      } catch {
+        // Ignore storage quota or browser storage errors.
+      }
+      return next;
+    });
+  }, [currentReport]);
+
+  const handleDownloadPdf = useCallback((report: BriefingReportRecord) => {
+    const titleDate = formatAbsoluteDate(report.generatedAt, report.locale);
+    const lines: string[] = [
+      ...report.lines,
+      "",
+      "Top stories:",
+      ...report.headlineTitles.map((headline, index) => `${index + 1}. ${headline}`),
+      "",
+      `Generated: ${titleDate}`,
+    ];
+
+    const blob = buildSimplePdfBlob(`Sudan Briefing - ${report.id}`, lines);
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `sudan-briefing-${report.id}.pdf`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.URL.revokeObjectURL(url);
+  }, []);
 
   return (
     <section className="section-padding border-t border-line/80">
@@ -510,6 +671,48 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                   ))}
                 </div>
               </div>
+
+              <div className="mt-4 rounded-xl border border-white/24 bg-[#082f4c]/38 p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85">{copy.reportCenterLabel}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/86">{copy.reportDescription}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currentReport) {
+                        handleDownloadPdf(currentReport);
+                      }
+                    }}
+                    disabled={!currentReport}
+                    className="rounded-full border border-[#f2a33a]/75 bg-[#f2a33a]/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-[#082f4c] transition hover:bg-[#f3b14f] disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {copy.downloadReportLabel}
+                  </button>
+                </div>
+
+                <div className="mt-4 rounded-lg border border-white/16 bg-white/10 p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/80">{copy.archiveLabel}</p>
+                  {reportArchive.length === 0 ? (
+                    <p className="mt-2 text-xs text-white/70">{copy.archiveEmptyLabel}</p>
+                  ) : (
+                    <div className="mt-2 max-h-44 space-y-2 overflow-y-auto pr-1">
+                      {reportArchive.map((report) => (
+                        <button
+                          type="button"
+                          key={report.id}
+                          onClick={() => handleDownloadPdf(report)}
+                          className="w-full rounded-md border border-white/16 bg-white/8 px-3 py-2 text-left text-xs text-white/88 transition hover:border-white/35 hover:bg-white/14"
+                        >
+                          <span className="block font-semibold">{report.id}</span>
+                          <span className="mt-0.5 block text-[11px] text-white/72">
+                            {formatAbsoluteDate(report.generatedAt, locale)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="p-6 sm:p-8">
@@ -520,20 +723,14 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
               {featuredVisualItem ? (
                 <article className="mb-4 overflow-hidden rounded-xl border border-line/80 bg-white/85 shadow-[0_12px_30px_-24px_rgba(8,47,76,0.7)]">
                   <a href={featuredVisualItem.url} target="_blank" rel="noreferrer" className="block">
-                    {featuredVisualItem.imageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={featuredVisualItem.imageUrl}
-                        alt={featuredVisualItem.title}
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                        className="h-44 w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-44 items-center justify-center bg-[linear-gradient(155deg,#0b3657_0%,#1a5371_72%,#f2a33a_140%)] px-5 text-center text-sm font-semibold text-white">
-                        {featuredVisualItem.source}
-                      </div>
-                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={featuredVisualItem.imageUrl || LATEST_NEWS_FALLBACK_IMAGE}
+                      alt={featuredVisualItem.title}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      className="h-44 w-full object-cover"
+                    />
                     <div className="p-3">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-accent">{copy.visualLabel}</p>
                       <p className="mt-1 text-sm font-semibold leading-snug text-text-primary">{featuredVisualItem.title}</p>

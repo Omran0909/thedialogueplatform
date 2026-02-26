@@ -29,6 +29,14 @@ export function Layout({ children, locale }: LayoutProps) {
   const pathname = usePathname();
   const text = layoutText[locale];
   const partners = formatPartners(locale);
+  const channelActionText = locale === "ar" ? "افتح القناة" : locale === "no" ? "Åpne kanal" : "Open channel";
+  const membershipLabel = locale === "ar" ? "استمارة العضوية" : locale === "no" ? "Medlemsskjema" : "Membership form";
+  const membershipDescription =
+    locale === "ar"
+      ? "انضم إلى شبكة المنصة وتابع الفعاليات والفرص الجديدة."
+      : locale === "no"
+        ? "Bli med i plattformens nettverk og få oppdateringer om aktiviteter."
+        : "Join the platform network and receive updates about activities.";
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -48,8 +56,8 @@ export function Layout({ children, locale }: LayoutProps) {
               <Image
                 src="/assets/logo.png"
                 alt={siteConfig.name}
-                width={40}
-                height={40}
+                width={44}
+                height={44}
                 className="rounded-md object-contain"
                 priority
               />
@@ -158,16 +166,17 @@ export function Layout({ children, locale }: LayoutProps) {
 
             <div>
               <p className="text-sm font-semibold text-text-primary">{text.footer.channels}</p>
-              <div className="mt-3 flex flex-col gap-2">
+              <div className="mt-3 grid gap-3">
                 {siteConfig.socialChannels.map((channel) => (
                   <a
                     key={channel.href}
                     href={channel.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-fit text-sm text-accent transition-colors hover:text-text-primary"
+                    className="group rounded-xl border border-line/80 bg-[linear-gradient(145deg,#f8fcff_0%,#fff3df_100%)] px-4 py-3 transition hover:border-[#0b3a5d]/35 hover:shadow-[0_14px_26px_-22px_rgba(8,47,76,0.9)]"
                   >
-                    {channel.label}
+                    <p className="text-sm font-semibold text-[#0b3a5d]">{channel.label}</p>
+                    <p className="mt-1 text-xs text-text-secondary">{channelActionText}</p>
                   </a>
                 ))}
                 {siteConfig.membershipFormUrl ? (
@@ -175,9 +184,10 @@ export function Layout({ children, locale }: LayoutProps) {
                     href={siteConfig.membershipFormUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-fit text-sm font-semibold text-[#d4871f] transition-colors hover:text-[#0b3a5d]"
+                    className="rounded-xl border border-[#f2a33a]/40 bg-[#fff4df] px-4 py-3 transition hover:border-[#0b3a5d]/30 hover:shadow-[0_14px_26px_-22px_rgba(8,47,76,0.9)]"
                   >
-                    {locale === "ar" ? "استمارة العضوية" : locale === "no" ? "Medlemsskjema" : "Membership form"}
+                    <p className="text-sm font-semibold text-[#d4871f]">{membershipLabel}</p>
+                    <p className="mt-1 text-xs text-text-secondary">{membershipDescription}</p>
                   </a>
                 ) : null}
               </div>
