@@ -29,6 +29,11 @@ export type NewsFeedCopy = {
   lastUpdatedLabel: string;
   loadingLabel: string;
   latestLabel: string;
+  briefingLabel: string;
+  briefingEmpty: string;
+  briefingCoverageLabel: string;
+  briefingSourceMixLabel: string;
+  briefingThemesLabel: string;
   notificationLabel: string;
   dragHint: string;
   visualLabel: string;
@@ -98,6 +103,57 @@ function formatRelativeDate(value: string, locale: Locale) {
   return formatter.format(Math.round(diffSeconds / 86400), "day");
 }
 
+function toNormalizedText(item: SudanNewsItem) {
+  return `${item.title} ${item.summary}`.toLowerCase();
+}
+
+function buildThemeSummary(items: SudanNewsItem[]) {
+  const counters = {
+    diplomacy: 0,
+    humanitarian: 0,
+    policy: 0,
+    research: 0,
+    publicStatements: 0,
+  };
+
+  for (const item of items) {
+    const text = toNormalizedText(item);
+
+    if (/\b(diplom|foreign minister|envoy|mediation|talks|ceasefire|un|au|igad|eu)\b/i.test(text)) {
+      counters.diplomacy += 1;
+    }
+    if (/\b(humanitarian|aid|relief|ocha|wfp|unhcr|unicef|who|displacement|refugee|famine|cholera)\b/i.test(text)) {
+      counters.humanitarian += 1;
+    }
+    if (/\b(policy|sanction|security council|resolution|icc|law|governance)\b/i.test(text)) {
+      counters.policy += 1;
+    }
+    if (/\b(research|study|report|analysis|journal|university)\b/i.test(text)) {
+      counters.research += 1;
+    }
+    if (/\b(statement|announced|announces|minister|government|official|press)\b/i.test(text)) {
+      counters.publicStatements += 1;
+    }
+  }
+
+  const ranked = Object.entries(counters)
+    .sort((a, b) => b[1] - a[1])
+    .filter(([, count]) => count > 0)
+    .slice(0, 3)
+    .map(([label]) => {
+      if (label === "publicStatements") {
+        return "public statements";
+      }
+      return label;
+    });
+
+  if (ranked.length === 0) {
+    return "mixed coverage";
+  }
+
+  return ranked.join(", ");
+}
+
 export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   const [items, setItems] = useState<SudanNewsItem[]>([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -148,7 +204,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       }
 
       try {
-        const response = await fetch("/api/news/sudan", { cache: "no-store" });
+        const response = await fetch(`/api/news/sudan?ts=${Date.now()}`, { cache: "no-store" });
         const payload = (await response.json()) as SudanNewsApiResponse;
 
         if (!response.ok || !payload.ok || !Array.isArray(payload.items)) {
@@ -177,6 +233,26 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
 
     return () => {
       window.clearInterval(interval);
+    };
+  }, [loadNews]);
+
+  useEffect(() => {
+    const onFocus = () => {
+      void loadNews(true);
+    };
+
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        void loadNews(true);
+      }
+    };
+
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [loadNews]);
 
@@ -345,19 +421,56 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     updatePausedState();
   };
 
-  const { topFive, featuredVisualItem, visualStrip } = useMemo(() => {
-    const byTime = [...items].sort(
-      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-    );
-    const topItems = byTime.slice(0, 5);
+  const sortedItems = useMemo(
+    () =>
+      [...items].sort(
+        (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+      ),
+    [items],
+  );
+
+  const { topFive, featuredVisualItem, visualStrip, todayBriefing } = useMemo(() => {
+    const byTime = sortedItems;
+    const now = Date.now();
+    const todaysItems = byTime.filter((item) => now - new Date(item.publishedAt).getTime() <= 24 * 60 * 60 * 1000);
+    const sourceCounts = new Map<string, number>();
+    for (const item of todaysItems) {
+      sourceCounts.set(item.source, (sourceCounts.get(item.source) ?? 0) + 1);
+    }
+
+    const topSources = [...sourceCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([source]) => source)
+      .join(", ");
+
+    const themeText = buildThemeSummary(todaysItems);
+
+    const briefingLines =
+      todaysItems.length === 0
+        ? [copy.briefingEmpty]
+        : [
+            `${copy.briefingCoverageLabel}: ${todaysItems.length} updates from ${sourceCounts.size} sources`,
+            `${copy.briefingSourceMixLabel}: ${topSources || "multiple sources"}`,
+            `${copy.briefingThemesLabel}: ${themeText}`,
+          ];
+
+    const topItems = byTime.slice(0, 6);
     const withImages = byTime.filter((item) => Boolean(item.imageUrl));
+    const stripItems = withImages.slice(1, 5);
+
+    const topItemsWithVisuals = topItems.map((item) => ({
+      ...item,
+      imageUrl: item.imageUrl || withImages[0]?.imageUrl || "",
+    }));
 
     return {
-      topFive: topItems,
-      featuredVisualItem: withImages[0] || items[0] || null,
-      visualStrip: withImages.slice(1, 5),
+      topFive: topItemsWithVisuals,
+      featuredVisualItem: withImages[0] || byTime[0] || null,
+      visualStrip: stripItems,
+      todayBriefing: briefingLines,
     };
-  }, [items]);
+  }, [copy.briefingCoverageLabel, copy.briefingEmpty, copy.briefingSourceMixLabel, copy.briefingThemesLabel, sortedItems]);
 
   return (
     <section className="section-padding border-t border-line/80">
@@ -384,6 +497,17 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                     ? copy.loadingLabel
                     : `${copy.lastUpdatedLabel}: ${formatRelativeDate(updatedAt, locale)}`}
                 </span>
+              </div>
+
+              <div className="mt-6 rounded-xl border border-white/18 bg-white/10 p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/82">{copy.briefingLabel}</p>
+                <div className="mt-3 space-y-2">
+                  {todayBriefing.map((line) => (
+                    <p key={line} className="text-sm leading-relaxed text-white/90">
+                      {line}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -440,7 +564,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                 </div>
               ) : null}
 
-              {items.length > 0 ? (
+              {sortedItems.length > 0 ? (
                 <div ref={newsLaneRef} className="news-notification-lane surface-card !rounded-xl p-3">
                   <div className="mb-2 flex items-center justify-between gap-2 px-2">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">{copy.notificationLabel}</p>
@@ -458,10 +582,10 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                   >
                     <div className="news-notification-track">
                       <div ref={baseTrackRef} className="news-notification-track-set">
-                        {items.map((item) => (
+                        {sortedItems.map((item) => (
                           <article
                             key={`${item.id}-base`}
-                            className="rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
+                            className="news-stream-card rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
                           >
                             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
                               {formatRelativeDate(item.publishedAt, locale)}
@@ -488,10 +612,10 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                       </div>
 
                       <div aria-hidden className="news-notification-track-set">
-                        {items.map((item) => (
+                        {sortedItems.map((item) => (
                           <article
                             key={`${item.id}-clone`}
-                            className="rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
+                            className="news-stream-card rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
                           >
                             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
                               {formatRelativeDate(item.publishedAt, locale)}
@@ -528,26 +652,42 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{copy.latestLabel}</p>
                   {topFive.map((item) => (
                     <HoverCard key={`${item.id}-latest`} className="!transform-none">
-                      <article className="rounded-lg border border-line/80 bg-white/80 px-3 py-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sm font-semibold text-text-primary transition-colors hover:text-accent"
-                          >
-                            {item.title}
-                          </a>
-                          <span className="text-xs text-text-secondary">{formatAbsoluteDate(item.publishedAt, locale)}</span>
+                      <article className="news-latest-card rounded-lg border border-line/80 bg-white/80 px-3 py-3">
+                        <div className="flex gap-3">
+                          {item.imageUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={item.imageUrl}
+                              alt={item.title}
+                              loading="lazy"
+                              referrerPolicy="no-referrer"
+                              className="h-16 w-24 shrink-0 rounded-md object-cover"
+                            />
+                          ) : (
+                            <div className="h-16 w-24 shrink-0 rounded-md bg-[linear-gradient(150deg,#0b3657_0%,#1e5873_66%,#f2a33a_135%)]" />
+                          )}
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-semibold text-text-primary transition-colors hover:text-accent"
+                              >
+                                {item.title}
+                              </a>
+                              <span className="text-xs text-text-secondary">{formatAbsoluteDate(item.publishedAt, locale)}</span>
+                            </div>
+                            <a
+                              href={item.sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="mt-1 inline-flex text-xs font-semibold text-[#0b3a5d] underline-offset-4 hover:underline"
+                            >
+                              {copy.openStoryLabel}: {item.source}
+                            </a>
+                          </div>
                         </div>
-                        <a
-                          href={item.sourceUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="mt-1 inline-flex text-xs font-semibold text-[#0b3a5d] underline-offset-4 hover:underline"
-                        >
-                          {copy.openStoryLabel}: {item.source}
-                        </a>
                       </article>
                     </HoverCard>
                   ))}

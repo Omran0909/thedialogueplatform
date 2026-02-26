@@ -26,10 +26,8 @@ const SEARCH_QUERIES = [
 ];
 
 const REQUEST_TIMEOUT_MS = 9000;
-const MAX_ITEMS = 30;
-const PRIMARY_FRESH_HOURS = 12;
-const SECONDARY_FRESH_HOURS = 36;
-const HARD_MAX_FRESH_HOURS = 72;
+const MAX_ITEMS = 120;
+const HARD_MAX_FRESH_HOURS = 168;
 
 const BLOCKED_SOURCE_HOSTS = ["aljazeera.com", "aljazeera.net"];
 const BLOCKED_SOURCE_NAME_PATTERNS = [/al[\s-]?jazeera/i];
@@ -131,8 +129,6 @@ const TRUSTED_SOURCE_NAMES = [
   "The Lancet",
   "BMJ",
 ];
-
-const BALANCE_ORDER = ["neutral", "both", "rsf", "saf"] as const;
 
 function buildFeedUrl(query: string) {
   const params = new URLSearchParams({
@@ -266,23 +262,39 @@ function normalizeSummary(description: string) {
   return text.length > 220 ? `${text.slice(0, 217)}...` : text;
 }
 
-function extractImageUrl(description: string) {
-  const imageMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
-  if (!imageMatch) {
-    return "";
-  }
-
-  const candidate = decodeHtml(imageMatch[1]).trim();
-  if (!candidate) {
+function parseSafeImageUrl(candidate: string) {
+  const value = decodeHtml(candidate).trim();
+  if (!value) {
     return "";
   }
 
   try {
-    const parsed = new URL(candidate);
+    const parsed = new URL(value);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return "";
+    }
     return parsed.toString();
   } catch {
     return "";
   }
+}
+
+function extractImageUrl(block: string, description: string) {
+  const candidatePatterns = [
+    description.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1] ?? "",
+    block.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1] ?? "",
+    block.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1] ?? "",
+    block.match(/<enclosure[^>]+url=["']([^"']+)["']/i)?.[1] ?? "",
+  ];
+
+  for (const candidate of candidatePatterns) {
+    const parsed = parseSafeImageUrl(candidate);
+    if (parsed) {
+      return parsed;
+    }
+  }
+
+  return "";
 }
 
 function parseDate(rawDate: string) {
@@ -316,7 +328,7 @@ function parseRss(xml: string) {
 
     const sourceData = getSource(block, url);
     const summary = normalizeSummary(description);
-    const imageUrl = extractImageUrl(rawDescription);
+    const imageUrl = extractImageUrl(block, rawDescription);
 
     items.push({
       id: `${parsedDate.getTime()}-${title}-${url}`.toLowerCase(),
@@ -406,54 +418,6 @@ function looksLikeOneSidedMuslimBrotherhoodNarrative(item: SudanNewsItem) {
   return propagandistTone && !neutralContext;
 }
 
-function classifyItem(item: SudanNewsItem) {
-  const combined = `${item.title} ${item.summary}`.toLowerCase();
-  const hasSaf = mentionsSaf(combined);
-  const hasRsf = mentionsRsf(combined);
-
-  if (hasSaf && hasRsf) {
-    return "both";
-  }
-  if (hasRsf) {
-    return "rsf";
-  }
-  if (hasSaf) {
-    return "saf";
-  }
-  return "neutral";
-}
-
-function sortAndBalance(items: SudanNewsItem[]) {
-  const sorted = [...items].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-  const buckets: Record<(typeof BALANCE_ORDER)[number], SudanNewsItem[]> = {
-    both: [],
-    rsf: [],
-    neutral: [],
-    saf: [],
-  };
-
-  for (const item of sorted) {
-    buckets[classifyItem(item)].push(item);
-  }
-
-  const balanced: SudanNewsItem[] = [];
-  while (balanced.length < sorted.length) {
-    let pushed = false;
-    for (const bucketName of BALANCE_ORDER) {
-      const next = buckets[bucketName].shift();
-      if (next) {
-        balanced.push(next);
-        pushed = true;
-      }
-    }
-    if (!pushed) {
-      break;
-    }
-  }
-
-  return balanced;
-}
-
 function withinHours(value: string, hours: number) {
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) {
@@ -465,22 +429,7 @@ function withinHours(value: string, hours: number) {
 }
 
 function pickFreshItems(items: SudanNewsItem[]) {
-  const primary = items.filter((item) => withinHours(item.publishedAt, PRIMARY_FRESH_HOURS));
-  if (primary.length >= 8) {
-    return primary;
-  }
-
-  const secondary = items.filter((item) => withinHours(item.publishedAt, SECONDARY_FRESH_HOURS));
-  if (secondary.length > 0) {
-    return secondary;
-  }
-
-  const hardMax = items.filter((item) => withinHours(item.publishedAt, HARD_MAX_FRESH_HOURS));
-  if (hardMax.length > 0) {
-    return hardMax;
-  }
-
-  return [];
+  return items.filter((item) => withinHours(item.publishedAt, HARD_MAX_FRESH_HOURS));
 }
 
 export const runtime = "nodejs";
@@ -530,7 +479,9 @@ export async function GET() {
     return true;
   });
 
-  const items = sortAndBalance(pickFreshItems(filtered)).slice(0, MAX_ITEMS);
+  const items = pickFreshItems(filtered)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .slice(0, MAX_ITEMS);
 
   if (items.length === 0) {
     return NextResponse.json(
