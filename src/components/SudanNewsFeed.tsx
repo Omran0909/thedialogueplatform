@@ -50,6 +50,7 @@ type SudanNewsFeedProps = {
 const REFRESH_INTERVAL_MS = 15000;
 const AUTO_SCROLL_PX_PER_SECOND = 10;
 const WHEEL_SCROLL_MULTIPLIER = 2.4;
+const LATEST_NEWS_FALLBACK_IMAGE = "/assets/media/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg";
 
 function normalizeLoopedScroll(scrollTop: number, loopHeight: number) {
   if (loopHeight <= 0) {
@@ -461,7 +462,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
 
     const topItemsWithVisuals = topItems.map((item) => ({
       ...item,
-      imageUrl: item.imageUrl || withImages[0]?.imageUrl || "",
+      imageUrl: item.imageUrl || withImages[0]?.imageUrl || LATEST_NEWS_FALLBACK_IMAGE,
     }));
 
     return {
@@ -654,18 +655,14 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                     <HoverCard key={`${item.id}-latest`} className="!transform-none">
                       <article className="news-latest-card rounded-lg border border-line/80 bg-white/80 px-3 py-3">
                         <div className="flex gap-3">
-                          {item.imageUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={item.imageUrl}
-                              alt={item.title}
-                              loading="lazy"
-                              referrerPolicy="no-referrer"
-                              className="h-16 w-24 shrink-0 rounded-md object-cover"
-                            />
-                          ) : (
-                            <div className="h-16 w-24 shrink-0 rounded-md bg-[linear-gradient(150deg,#0b3657_0%,#1e5873_66%,#f2a33a_135%)]" />
-                          )}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={item.imageUrl || LATEST_NEWS_FALLBACK_IMAGE}
+                            alt={item.title}
+                            loading="lazy"
+                            referrerPolicy="no-referrer"
+                            className="h-16 w-24 shrink-0 rounded-md object-cover"
+                          />
                           <div className="min-w-0 flex-1">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                               <a

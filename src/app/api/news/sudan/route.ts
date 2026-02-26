@@ -28,6 +28,8 @@ const SEARCH_QUERIES = [
 const REQUEST_TIMEOUT_MS = 9000;
 const MAX_ITEMS = 120;
 const HARD_MAX_FRESH_HOURS = 168;
+const MIN_FRESH_ITEMS = 20;
+const FRESHNESS_WINDOWS_HOURS = [12, 24, 48, 72, HARD_MAX_FRESH_HOURS] as const;
 
 const BLOCKED_SOURCE_HOSTS = ["aljazeera.com", "aljazeera.net"];
 const BLOCKED_SOURCE_NAME_PATTERNS = [/al[\s-]?jazeera/i];
@@ -429,6 +431,13 @@ function withinHours(value: string, hours: number) {
 }
 
 function pickFreshItems(items: SudanNewsItem[]) {
+  for (const windowHours of FRESHNESS_WINDOWS_HOURS) {
+    const windowItems = items.filter((item) => withinHours(item.publishedAt, windowHours));
+    if (windowItems.length >= MIN_FRESH_ITEMS) {
+      return windowItems;
+    }
+  }
+
   return items.filter((item) => withinHours(item.publishedAt, HARD_MAX_FRESH_HOURS));
 }
 
@@ -463,8 +472,18 @@ export async function GET() {
     const trustedByHost = hostMatchesList(host, TRUSTED_SOURCE_HOSTS);
     const trustedByName = isTrustedSourceName(item.source);
     const institutionalByHost = isInstitutionalHost(host);
+    const hasSourceSignal = Boolean(host) || Boolean(item.source?.trim());
+    if (!hasSourceSignal) {
+      return false;
+    }
 
-    if (!trustedByHost && !trustedByName && !institutionalByHost) {
+    const normalizedText = `${item.title} ${item.summary}`.toLowerCase();
+    if (!/\bsudan\b|السودان/i.test(normalizedText)) {
+      return false;
+    }
+
+    const likelyNoise = /\b(live score|odds|betting|coupon|promo|discount)\b/i.test(normalizedText);
+    if (likelyNoise && !trustedByHost && !trustedByName && !institutionalByHost) {
       return false;
     }
 
