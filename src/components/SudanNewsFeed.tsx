@@ -67,17 +67,15 @@ type BriefingReportRecord = {
   headlineTitles: string[];
 };
 
-function normalizeLoopedScroll(scrollTop: number, loopHeight: number) {
-  if (loopHeight <= 0) {
-    return scrollTop;
+function clampScrollTop(scrollTop: number, maxScrollTop: number) {
+  if (maxScrollTop <= 0) {
+    return 0;
   }
+  return Math.min(maxScrollTop, Math.max(0, scrollTop));
+}
 
-  let normalized = scrollTop % loopHeight;
-  if (normalized < 0) {
-    normalized += loopHeight;
-  }
-
-  return normalized;
+function getMaxScrollTop(viewport: HTMLDivElement) {
+  return Math.max(0, viewport.scrollHeight - viewport.clientHeight);
 }
 
 function formatAbsoluteDate(value: string, locale: Locale) {
@@ -253,8 +251,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
 
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const newsLaneRef = useRef<HTMLDivElement | null>(null);
-  const baseTrackRef = useRef<HTMLDivElement | null>(null);
-  const loopHeightRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef(0);
   const hoverRef = useRef(false);
@@ -267,21 +263,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
 
   const updatePausedState = useCallback(() => {
     pausedRef.current = hoverRef.current || draggingRef.current;
-  }, []);
-
-  const measureLoop = useCallback(() => {
-    const viewport = viewportRef.current;
-    const baseTrack = baseTrackRef.current;
-    if (!viewport || !baseTrack) {
-      loopHeightRef.current = 0;
-      return;
-    }
-
-    const nextLoopHeight = baseTrack.scrollHeight;
-    loopHeightRef.current = nextLoopHeight;
-    if (nextLoopHeight > 0) {
-      viewport.scrollTop = normalizeLoopedScroll(viewport.scrollTop, nextLoopHeight);
-    }
   }, []);
 
   const loadNews = useCallback(
@@ -348,17 +329,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
   }, [loadNews]);
 
   useEffect(() => {
-    measureLoop();
-    const onResize = () => {
-      measureLoop();
-    };
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  }, [items, measureLoop]);
-
-  useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => {
       reduceMotionRef.current = mediaQuery.matches;
@@ -390,10 +360,13 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       const deltaMs = timestamp - lastTimestampRef.current;
       lastTimestampRef.current = timestamp;
 
-      if (!pausedRef.current && !reduceMotionRef.current && loopHeightRef.current > 0) {
-        const nextScroll =
-          viewport.scrollTop + (deltaMs / 1000) * AUTO_SCROLL_PX_PER_SECOND;
-        viewport.scrollTop = normalizeLoopedScroll(nextScroll, loopHeightRef.current);
+      if (!pausedRef.current && !reduceMotionRef.current) {
+        const maxScrollTop = getMaxScrollTop(viewport);
+        if (maxScrollTop > 0) {
+          const nextScroll =
+            viewport.scrollTop + (deltaMs / 1000) * AUTO_SCROLL_PX_PER_SECOND;
+          viewport.scrollTop = clampScrollTop(nextScroll, maxScrollTop);
+        }
       }
 
       rafRef.current = window.requestAnimationFrame(tick);
@@ -423,11 +396,6 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
       event.preventDefault();
       event.stopPropagation();
 
-      const loopHeight = loopHeightRef.current;
-      if (loopHeight <= 0) {
-        return;
-      }
-
       const baseDelta =
         event.deltaMode === 1
           ? event.deltaY * 16
@@ -435,9 +403,10 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
             ? event.deltaY * viewport.clientHeight
             : event.deltaY;
 
-      const nextScroll = normalizeLoopedScroll(
+      const maxScrollTop = getMaxScrollTop(viewport);
+      const nextScroll = clampScrollTop(
         viewport.scrollTop + baseDelta * WHEEL_SCROLL_MULTIPLIER,
-        loopHeight,
+        maxScrollTop,
       );
       viewport.scrollTop = nextScroll;
     };
@@ -459,7 +428,7 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     }
 
     const viewport = viewportRef.current;
-    if (!viewport || loopHeightRef.current <= 0) {
+    if (!viewport || getMaxScrollTop(viewport) <= 0) {
       return;
     }
 
@@ -479,12 +448,12 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
     }
 
     const viewport = viewportRef.current;
-    if (!viewport || loopHeightRef.current <= 0) {
+    if (!viewport) {
       return;
     }
 
     const delta = event.clientY - dragStartYRef.current;
-    const nextScroll = normalizeLoopedScroll(dragStartScrollRef.current - delta, loopHeightRef.current);
+    const nextScroll = clampScrollTop(dragStartScrollRef.current - delta, getMaxScrollTop(viewport));
     viewport.scrollTop = nextScroll;
     event.preventDefault();
   };
@@ -784,65 +753,33 @@ export function SudanNewsFeed({ locale, copy }: SudanNewsFeedProps) {
                     onMouseLeave={handleMouseLeave}
                   >
                     <div className="news-notification-track">
-                      <div ref={baseTrackRef} className="news-notification-track-set">
-                        {sortedItems.map((item) => (
-                          <article
-                            key={`${item.id}-base`}
-                            className="news-stream-card rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
+                      {sortedItems.map((item) => (
+                        <article
+                          key={item.id}
+                          className="news-stream-card rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
+                        >
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+                            {formatRelativeDate(item.publishedAt, locale)}
+                          </p>
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-2 block text-sm font-semibold leading-snug text-text-primary transition-colors hover:text-accent"
                           >
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
-                              {formatRelativeDate(item.publishedAt, locale)}
-                            </p>
-                            <a
-                              href={item.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="mt-2 block text-sm font-semibold leading-snug text-text-primary transition-colors hover:text-accent"
-                            >
-                              {item.title}
-                            </a>
-                            <p className="mt-2 text-xs leading-relaxed text-text-secondary">{item.summary}</p>
-                            <a
-                              href={item.sourceUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="mt-2 inline-flex text-xs font-semibold text-[#0b3a5d] underline-offset-4 hover:underline"
-                            >
-                              {copy.openSourceLabel}: {item.source}
-                            </a>
-                          </article>
-                        ))}
-                      </div>
-
-                      <div aria-hidden className="news-notification-track-set">
-                        {sortedItems.map((item) => (
-                          <article
-                            key={`${item.id}-clone`}
-                            className="news-stream-card rounded-lg border border-line/80 bg-white/90 p-3 shadow-[0_8px_24px_-22px_rgba(8,47,76,0.85)]"
+                            {item.title}
+                          </a>
+                          <p className="mt-2 text-xs leading-relaxed text-text-secondary">{item.summary}</p>
+                          <a
+                            href={item.sourceUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-2 inline-flex text-xs font-semibold text-[#0b3a5d] underline-offset-4 hover:underline"
                           >
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
-                              {formatRelativeDate(item.publishedAt, locale)}
-                            </p>
-                            <a
-                              href={item.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="mt-2 block text-sm font-semibold leading-snug text-text-primary transition-colors hover:text-accent"
-                            >
-                              {item.title}
-                            </a>
-                            <p className="mt-2 text-xs leading-relaxed text-text-secondary">{item.summary}</p>
-                            <a
-                              href={item.sourceUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="mt-2 inline-flex text-xs font-semibold text-[#0b3a5d] underline-offset-4 hover:underline"
-                            >
-                              {copy.openSourceLabel}: {item.source}
-                            </a>
-                          </article>
-                        ))}
-                      </div>
+                            {copy.openSourceLabel}: {item.source}
+                          </a>
+                        </article>
+                      ))}
                     </div>
                   </div>
                 </div>

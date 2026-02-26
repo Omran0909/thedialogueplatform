@@ -277,7 +277,8 @@
   .news-notification-viewport {
     position: relative;
     height: 470px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     overscroll-behavior: contain;
     cursor: grab;
     touch-action: none;
@@ -318,12 +319,6 @@
   .news-notification-track {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    will-change: transform;
-  }
-
-  .news-notification-track-set {
-    display: grid;
     gap: 0.75rem;
     width: 100%;
   }
