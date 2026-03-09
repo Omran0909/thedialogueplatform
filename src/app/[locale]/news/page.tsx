@@ -202,7 +202,7 @@ export default function NewsPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
+        <div className="hero-media min-h-[360px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
           <Image
             src={mediaLibrary.heroes.news}
             alt="Dialogue intelligence hub"
@@ -210,18 +210,20 @@ export default function NewsPage({ params }: PageProps) {
             className="hero-image-motion object-cover"
             style={{ objectPosition: mediaLibrary.heroFocus.news }}
           />
-          <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
-            <Reveal>
-              <span className="eyebrow border-white/20 bg-white/15 text-white">{copy.badge}</span>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{copy.title}</h1>
-            </Reveal>
-            {copy.description ? (
-              <Reveal delay={0.16}>
-                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">{copy.description}</p>
+          <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
+            <div className="max-w-3xl rounded-2xl border border-white/25 bg-[linear-gradient(140deg,rgba(6,35,57,0.86)_0%,rgba(8,47,76,0.74)_58%,rgba(26,90,119,0.58)_100%)] p-5 shadow-[0_18px_40px_-26px_rgba(3,20,34,0.9)] backdrop-blur-[2px] sm:p-7">
+              <Reveal>
+                <span className="eyebrow border-white/25 bg-white/18 text-white">{copy.badge}</span>
               </Reveal>
-            ) : null}
+              <Reveal delay={0.1}>
+                <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{copy.title}</h1>
+              </Reveal>
+              {copy.description ? (
+                <Reveal delay={0.16}>
+                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">{copy.description}</p>
+                </Reveal>
+              ) : null}
+            </div>
           </div>
         </div>
       </section>

@@ -35,17 +35,19 @@ export default function ContactPage({ params }: PageProps) {
             style={{ objectPosition: mediaLibrary.heroFocus.contact }}
           />
           <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
-            <Reveal>
-              <span className="eyebrow border-white/20 bg-white/15 text-white">{layout.nav.contact}</span>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.contact.title}</h1>
-            </Reveal>
-            {localized.contact.intro ? (
-              <Reveal delay={0.18}>
-                <p className="mt-4 max-w-prose text-base leading-relaxed text-white/90">{localized.contact.intro}</p>
+            <div className="max-w-3xl rounded-2xl border border-white/25 bg-[linear-gradient(140deg,rgba(6,35,57,0.86)_0%,rgba(8,47,76,0.74)_58%,rgba(26,90,119,0.58)_100%)] p-5 shadow-[0_18px_40px_-26px_rgba(3,20,34,0.9)] backdrop-blur-[2px] sm:p-7">
+              <Reveal>
+                <span className="eyebrow border-white/25 bg-white/18 text-white">{layout.nav.contact}</span>
               </Reveal>
-            ) : null}
+              <Reveal delay={0.1}>
+                <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.contact.title}</h1>
+              </Reveal>
+              {localized.contact.intro ? (
+                <Reveal delay={0.18}>
+                  <p className="mt-4 max-w-prose text-base leading-relaxed text-white/90">{localized.contact.intro}</p>
+                </Reveal>
+              ) : null}
+            </div>
           </div>
         </div>
       </section>
