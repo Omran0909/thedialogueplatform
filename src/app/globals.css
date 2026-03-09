@@ -100,6 +100,14 @@
     @apply border-white/25 bg-white/20 text-white;
   }
 
+  .hero-copy-pill {
+    @apply inline-flex w-fit items-center rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white;
+    background: linear-gradient(140deg, rgba(6, 35, 57, 0.82) 0%, rgba(8, 47, 76, 0.68) 55%, rgba(26, 90, 119, 0.5) 100%);
+    box-shadow: 0 14px 30px -20px rgba(3, 20, 34, 0.85);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
   .noise-mask {
     position: relative;
   }

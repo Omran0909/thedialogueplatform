@@ -37,13 +37,13 @@ export default function HomePage({ params }: PageProps) {
           />
 
           <div className="relative flex min-h-[540px] flex-col justify-between p-8 sm:p-12">
-            <div className="float-ornament inline-flex w-fit rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            <div className="hero-copy-pill float-ornament">
               {localized.home.heroBadge}
             </div>
 
             <div className="hero-copy-panel max-w-4xl">
               <Reveal>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white/92">
+                <p className="inline-flex rounded-full border border-white/20 bg-white/12 px-3 py-1 text-sm font-semibold uppercase tracking-[0.16em] text-white/95">
                   {localized.home.collaborationLine} {partners}
                 </p>
               </Reveal>
