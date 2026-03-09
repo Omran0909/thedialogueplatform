@@ -138,8 +138,12 @@ export default function HomePage({ params }: PageProps) {
 
       <section className="section-padding border-t border-line/80">
         <Reveal>
-          <div className="surface-card overflow-hidden p-8 sm:p-10">
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
+          <div className="surface-card relative overflow-hidden p-8 sm:p-10">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.16]">
+              <Image src={mediaLibrary.backgrounds.sections} alt="" fill className="object-cover" sizes="(min-width: 1024px) 1200px, 100vw" />
+            </div>
+            <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.88)_20%,rgba(255,245,225,0.78)_100%)]" />
+            <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
               <div>
                 <h2 className="text-3xl text-text-primary sm:text-4xl">{localized.home.channelsTitle}</h2>
                 <p className="mt-3 max-w-prose text-base leading-relaxed text-text-secondary">{localized.home.channelsDescription}</p>

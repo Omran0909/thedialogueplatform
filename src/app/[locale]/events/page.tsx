@@ -408,7 +408,7 @@ export default function EventsPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
+        <div className="hero-media min-h-[360px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_72%,#f2a33a_125%)]">
           <Image
             src={mediaLibrary.heroes.events}
             alt="Dialogue event participants"
@@ -416,7 +416,7 @@ export default function EventsPage({ params }: PageProps) {
             className="hero-image-motion object-cover"
             style={{ objectPosition: mediaLibrary.heroFocus.events }}
           />
-          <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
+          <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
               <span className="eyebrow border-white/20 bg-white/15 text-white">{localized.events.title}</span>
             </Reveal>

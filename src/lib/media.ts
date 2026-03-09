@@ -1,21 +1,24 @@
 export const mediaLibrary = {
   heroes: {
-    home: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
-    about: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
-    dialogues: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0747.jpg",
-    events: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0791.jpg",
+    home: "/images/dialogue-platform/homepage-hero.png",
+    about: "/images/dialogue-platform/about-connections.png",
+    dialogues: "/images/dialogue-platform/dialogues-panel.png",
+    events: "/images/dialogue-platform/events-outdoor-circle.png",
     news: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0425.jpg",
-    insights: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0237.jpg",
-    contact: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0394.jpg",
+    insights: "/images/dialogue-platform/insights-ideas.png",
+    contact: "/images/dialogue-platform/contact-bubbles.png",
   },
   heroFocus: {
-    home: "50% 28%",
-    about: "50% calc(24% - 60px)",
-    dialogues: "50% 38%",
-    events: "50% 40%",
+    home: "50% 50%",
+    about: "50% 48%",
+    dialogues: "50% 50%",
+    events: "50% 50%",
     news: "50% 42%",
-    insights: "50% 26%",
-    contact: "50% calc(36% + 60px)",
+    insights: "50% 50%",
+    contact: "50% 50%",
+  },
+  backgrounds: {
+    sections: "/images/dialogue-platform/background-sections.png",
   },
   events: {
     reel: [

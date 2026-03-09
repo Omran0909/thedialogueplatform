@@ -56,7 +56,7 @@ export default function InsightsPage({ params }: PageProps) {
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
       <section className="section-padding pt-12 sm:pt-16">
-        <div className="hero-media min-h-[320px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_70%,#f2a33a_122%)]">
+        <div className="hero-media min-h-[360px] bg-[linear-gradient(145deg,#0b3657_0%,#1e5873_70%,#f2a33a_122%)]">
           <Image
             src={mediaLibrary.heroes.insights}
             alt="Dialogue notes and participant materials"
@@ -64,7 +64,7 @@ export default function InsightsPage({ params }: PageProps) {
             className="hero-image-motion object-cover"
             style={{ objectPosition: mediaLibrary.heroFocus.insights }}
           />
-          <div className="relative flex min-h-[320px] flex-col justify-end p-8 sm:p-10">
+          <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
             <Reveal>
               <span className="eyebrow border-white/20 bg-white/15 text-white">{localized.insights.title}</span>
             </Reveal>
