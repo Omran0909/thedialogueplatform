@@ -417,12 +417,14 @@ export default function EventsPage({ params }: PageProps) {
             style={{ objectPosition: mediaLibrary.heroFocus.events }}
           />
           <div className="relative flex min-h-[360px] flex-col justify-end p-8 sm:p-10">
-            <Reveal>
-              <span className="eyebrow border-white/20 bg-white/15 text-white">{localized.events.title}</span>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.events.heroTitle}</h1>
-            </Reveal>
+            <div className="hero-copy-panel max-w-3xl">
+              <Reveal>
+                <span className="eyebrow hero-copy-eyebrow">{localized.events.title}</span>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <h1 className="mt-5 max-w-3xl text-4xl leading-tight text-white sm:text-5xl">{localized.events.heroTitle}</h1>
+              </Reveal>
+            </div>
           </div>
         </div>
       </section>

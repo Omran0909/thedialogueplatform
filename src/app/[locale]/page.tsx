@@ -41,9 +41,9 @@ export default function HomePage({ params }: PageProps) {
               {localized.home.heroBadge}
             </div>
 
-            <div className="max-w-3xl">
+            <div className="hero-copy-panel max-w-4xl">
               <Reveal>
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white/85">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white/92">
                   {localized.home.collaborationLine} {partners}
                 </p>
               </Reveal>

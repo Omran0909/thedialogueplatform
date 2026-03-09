@@ -88,6 +88,18 @@
     transform-origin: center;
   }
 
+  .hero-copy-panel {
+    @apply rounded-2xl border border-white/25 p-5 sm:p-7;
+    background: linear-gradient(140deg, rgba(6, 35, 57, 0.86) 0%, rgba(8, 47, 76, 0.74) 58%, rgba(26, 90, 119, 0.58) 100%);
+    box-shadow: 0 18px 40px -26px rgba(3, 20, 34, 0.9);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .hero-copy-eyebrow {
+    @apply border-white/25 bg-white/20 text-white;
+  }
+
   .noise-mask {
     position: relative;
   }
