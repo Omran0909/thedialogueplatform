@@ -45,7 +45,7 @@ export const siteConfig = {
   url: normalizedUrl,
   description:
     "The Dialogue Platform builds trust and peace through inclusive, structured dialogue in collaboration with Nansen Peace Center and Lillestrom Municipality.",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "dialogplattformen@gmail.com",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@thedialogueplatform.com",
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   partners: ["Nansen Peace Center", "Lillestrom Municipality"],
   partnerProfiles: [
@@ -129,4 +129,4 @@ export const siteConfig = {
   ],
 };
 
-export const mainRoutes = ["/", "/about", "/dialogues", "/events", "/news", "/insights", "/contact"] as const;
+export const mainRoutes = ["/", "/portfolio", "/about", "/dialogues", "/events", "/news", "/insights", "/contact"] as const;
