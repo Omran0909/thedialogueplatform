@@ -21,6 +21,8 @@ const navLinks = [
   { path: "/contact", key: "contact" },
 ] as const;
 
+const SITE_NOTICE_DISMISSED_KEY = "tdp-site-notice-funding-scholarships-v1";
+
 const siteNotice = {
   en: {
     badge: "Site notice",
@@ -30,6 +32,7 @@ const siteNotice = {
     fundingCta: "Funding",
     scholarshipsCta: "Scholarships",
     feedbackCta: "Send feedback",
+    closeLabel: "Close notice",
   },
   no: {
     badge: "Nettsidevarsel",
@@ -39,6 +42,7 @@ const siteNotice = {
     fundingCta: "Finansiering",
     scholarshipsCta: "Stipender",
     feedbackCta: "Send tilbakemelding",
+    closeLabel: "Lukk varsel",
   },
   ar: {
     badge: "تنبيه داخل الموقع",
@@ -48,6 +52,7 @@ const siteNotice = {
     fundingCta: "قسم التمويل",
     scholarshipsCta: "قسم المنح الدراسية",
     feedbackCta: "أرسل ملاحظاتك",
+    closeLabel: "إغلاق التنبيه",
   },
 } as const;
 
@@ -58,6 +63,7 @@ type LayoutProps = {
 
 export function Layout({ children, locale }: LayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNoticeVisible, setIsNoticeVisible] = useState(true);
   const pathname = usePathname();
   const text = layoutText[locale];
   const notice = siteNotice[locale];
@@ -74,6 +80,25 @@ export function Layout({ children, locale }: LayoutProps) {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(SITE_NOTICE_DISMISSED_KEY) === "true") {
+        setIsNoticeVisible(false);
+      }
+    } catch {
+      // Ignore storage access errors.
+    }
+  }, []);
+
+  const dismissNotice = () => {
+    setIsNoticeVisible(false);
+    try {
+      window.localStorage.setItem(SITE_NOTICE_DISMISSED_KEY, "true");
+    } catch {
+      // Ignore storage access errors.
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -169,17 +194,28 @@ export function Layout({ children, locale }: LayoutProps) {
         </div>
       </header>
 
-      <section className="border-b border-line/70 bg-[linear-gradient(180deg,#fbf7ef_0%,#f7f0e3_100%)]">
-        <div className="mx-auto max-w-content px-6 py-4">
-          <div className="rounded-2xl border border-[#e2d1b2] bg-[linear-gradient(145deg,rgba(255,255,255,0.92)_0%,rgba(255,244,223,0.88)_100%)] p-4 shadow-[0_16px_34px_-30px_rgba(8,47,76,0.72)] sm:p-5">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-4xl">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">{notice.badge}</p>
-                <p className="mt-2 text-sm leading-relaxed text-text-primary sm:text-[15px]">{notice.message}</p>
-                <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">{notice.note}</p>
+      {isNoticeVisible ? (
+        <section className="border-b border-line/70 bg-[linear-gradient(180deg,#fbf7ef_0%,#f7f0e3_100%)]">
+          <div className="mx-auto max-w-content px-6 py-4">
+            <div className="rounded-2xl border border-[#e2d1b2] bg-[linear-gradient(145deg,rgba(255,255,255,0.92)_0%,rgba(255,244,223,0.88)_100%)] p-4 shadow-[0_16px_34px_-30px_rgba(8,47,76,0.72)] sm:p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="max-w-4xl flex-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">{notice.badge}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-text-primary sm:text-[15px]">{notice.message}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">{notice.note}</p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={dismissNotice}
+                  aria-label={notice.closeLabel}
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#0b3a5d]/15 bg-white/75 text-lg font-semibold leading-none text-[#0b3a5d] transition hover:border-[#0b3a5d]/35 hover:bg-white"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 <Link
                   href={withLocale(locale, "/funding")}
                   className="rounded-full border border-[#0b3a5d]/20 bg-white/80 px-4 py-2 text-sm font-semibold text-[#0b3a5d] transition hover:border-[#0b3a5d]/35 hover:bg-white"
@@ -201,8 +237,8 @@ export function Layout({ children, locale }: LayoutProps) {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       <main className="flex-1">{children}</main>
 
