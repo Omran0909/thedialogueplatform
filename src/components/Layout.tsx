@@ -21,6 +21,36 @@ const navLinks = [
   { path: "/contact", key: "contact" },
 ] as const;
 
+const siteNotice = {
+  en: {
+    badge: "Site notice",
+    message:
+      "As promised, we have added a scholarships section for academics and students, together with a funding section for organisations and community initiatives.",
+    note: "This is an experimental version. We welcome your feedback to help us improve it.",
+    fundingCta: "Funding",
+    scholarshipsCta: "Scholarships",
+    feedbackCta: "Send feedback",
+  },
+  no: {
+    badge: "Nettsidevarsel",
+    message:
+      "Som lovet har vi lagt til en stipendseksjon for akademikere og studenter, sammen med en finansieringsseksjon for organisasjoner og lokale initiativer.",
+    note: "Dette er en prøveversjon. Vi tar gjerne imot tilbakemeldinger for å forbedre den videre.",
+    fundingCta: "Finansiering",
+    scholarshipsCta: "Stipender",
+    feedbackCta: "Send tilbakemelding",
+  },
+  ar: {
+    badge: "تنبيه داخل الموقع",
+    message:
+      "يسرّنا أن نعلن أنه، وفاءً لوعدنا، تمت إضافة قسم خاص بالمنح الدراسية للأكاديميين والطلاب، إلى جانب قسم خاص بفرص التمويل المتاحة للمنظمات والمبادرات.",
+    note: "ملاحظة: هذه نسخة تجريبية، ونرحّب بملاحظاتكم واقتراحاتكم للمساعدة في تحسينها وتطويرها.",
+    fundingCta: "قسم التمويل",
+    scholarshipsCta: "قسم المنح الدراسية",
+    feedbackCta: "أرسل ملاحظاتك",
+  },
+} as const;
+
 type LayoutProps = {
   children: React.ReactNode;
   locale: Locale;
@@ -30,6 +60,7 @@ export function Layout({ children, locale }: LayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const text = layoutText[locale];
+  const notice = siteNotice[locale];
   const partners = formatPartners(locale);
   const channelActionText = locale === "ar" ? "افتح القناة" : locale === "no" ? "Åpne kanal" : "Open channel";
   const membershipLabel = locale === "ar" ? "استمارة العضوية" : locale === "no" ? "Medlemsskjema" : "Membership form";
@@ -137,6 +168,41 @@ export function Layout({ children, locale }: LayoutProps) {
           </div>
         </div>
       </header>
+
+      <section className="border-b border-line/70 bg-[linear-gradient(180deg,#fbf7ef_0%,#f7f0e3_100%)]">
+        <div className="mx-auto max-w-content px-6 py-4">
+          <div className="rounded-2xl border border-[#e2d1b2] bg-[linear-gradient(145deg,rgba(255,255,255,0.92)_0%,rgba(255,244,223,0.88)_100%)] p-4 shadow-[0_16px_34px_-30px_rgba(8,47,76,0.72)] sm:p-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-4xl">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">{notice.badge}</p>
+                <p className="mt-2 text-sm leading-relaxed text-text-primary sm:text-[15px]">{notice.message}</p>
+                <p className="mt-2 text-xs leading-relaxed text-text-secondary sm:text-sm">{notice.note}</p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href={withLocale(locale, "/funding")}
+                  className="rounded-full border border-[#0b3a5d]/20 bg-white/80 px-4 py-2 text-sm font-semibold text-[#0b3a5d] transition hover:border-[#0b3a5d]/35 hover:bg-white"
+                >
+                  {notice.fundingCta}
+                </Link>
+                <Link
+                  href={withLocale(locale, "/scholarships")}
+                  className="rounded-full border border-[#0b3a5d]/20 bg-white/80 px-4 py-2 text-sm font-semibold text-[#0b3a5d] transition hover:border-[#0b3a5d]/35 hover:bg-white"
+                >
+                  {notice.scholarshipsCta}
+                </Link>
+                <Link
+                  href={withLocale(locale, "/contact")}
+                  className="rounded-full bg-[#0b3a5d] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0d456e]"
+                >
+                  {notice.feedbackCta}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <main className="flex-1">{children}</main>
 
