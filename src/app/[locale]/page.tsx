@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
-import { isLocale, withLocale } from "@/lib/i18n/config";
+import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
 import { formatPartners } from "@/lib/i18n/helpers";
@@ -14,14 +14,57 @@ type PageProps = {
   };
 };
 
+const accessCopy = {
+  en: {
+    title: "Verified access to funding and scholarships",
+    description:
+      "We now surface direct-source opportunities for organisations and for academic applicants, designed to reduce dependency on intermediaries and help people apply at the original source.",
+    fundingTitle: "Funding routes",
+    fundingDescription:
+      "Official calls and portals for grassroots groups, civil society organisations, and local initiatives seeking direct access to legitimate funding.",
+    scholarshipsTitle: "Scholarship routes",
+    scholarshipsDescription:
+      "Verified scholarship and education pathways for students, lecturers, researchers, and refugee academics seeking credible opportunities.",
+    fundingCta: "Open funding",
+    scholarshipsCta: "Open scholarships",
+  },
+  no: {
+    title: "Verifisert tilgang til finansiering og stipender",
+    description:
+      "Vi samler nå direkte muligheter både for organisasjoner og akademiske søkere, for å redusere avhengigheten av mellomledd og hjelpe folk å søke direkte ved kilden.",
+    fundingTitle: "Finansieringsveier",
+    fundingDescription:
+      "Offisielle utlysninger og portaler for grasrotgrupper, sivilsamfunnsorganisasjoner og lokale initiativer som søker legitim finansiering direkte.",
+    scholarshipsTitle: "Stipendveier",
+    scholarshipsDescription:
+      "Verifiserte stipend og utdanningsveier for studenter, forelesere, forskere og flyktningakademikere som søker troverdige muligheter.",
+    fundingCta: "Åpne finansiering",
+    scholarshipsCta: "Åpne stipender",
+  },
+  ar: {
+    title: "وصول موثق إلى التمويل والمنح الدراسية",
+    description:
+      "نقوم الآن بجمع فرص مباشرة للمنظمات وللمتقدمين الأكاديميين بهدف تقليل الاعتماد على الوسطاء ومساعدة الناس على التقديم مباشرة من المصدر الأصلي.",
+    fundingTitle: "مسارات التمويل",
+    fundingDescription:
+      "دعوات وبوابات رسمية للمبادرات المجتمعية ومنظمات المجتمع المدني والمجموعات المحلية التي تبحث عن تمويل شرعي مباشر.",
+    scholarshipsTitle: "مسارات المنح الدراسية",
+    scholarshipsDescription:
+      "منح ومسارات تعليم موثقة للطلاب والمحاضرين والباحثين والأكاديميين من اللاجئين الباحثين عن فرص موثوقة.",
+    fundingCta: "افتح التمويل",
+    scholarshipsCta: "افتح المنح",
+  },
+} as const;
+
 export default function HomePage({ params }: PageProps) {
   if (!isLocale(params.locale)) {
     notFound();
   }
 
-  const locale = params.locale;
+  const locale = params.locale as Locale;
   const localized = getContent(locale);
   const partners = formatPartners(locale);
+  const accessSection = accessCopy[locale];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -133,6 +176,41 @@ export default function HomePage({ params }: PageProps) {
               </a>
             </HoverCard>
           ))}
+        </div>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <h2 className="text-3xl text-text-primary sm:text-4xl">{accessSection.title}</h2>
+          <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{accessSection.description}</p>
+        </Reveal>
+
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <Reveal>
+            <div className="surface-card h-full p-7">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">{accessSection.fundingTitle}</p>
+              <p className="mt-4 text-base leading-relaxed text-text-secondary">{accessSection.fundingDescription}</p>
+              <Link
+                href={withLocale(locale, "/funding")}
+                className="mt-6 inline-flex rounded-full bg-[#0b3a5d] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0d456e]"
+              >
+                {accessSection.fundingCta}
+              </Link>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="surface-card h-full p-7">
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">{accessSection.scholarshipsTitle}</p>
+              <p className="mt-4 text-base leading-relaxed text-text-secondary">{accessSection.scholarshipsDescription}</p>
+              <Link
+                href={withLocale(locale, "/scholarships")}
+                className="mt-6 inline-flex rounded-full bg-[#0b3a5d] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#0d456e]"
+              >
+                {accessSection.scholarshipsCta}
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 

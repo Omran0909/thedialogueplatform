@@ -15,6 +15,8 @@ const navLinks = [
   { path: "/dialogues", key: "dialogues" },
   { path: "/events", key: "events" },
   { path: "/news", key: "news" },
+  { path: "/funding", key: "funding" },
+  { path: "/scholarships", key: "scholarships" },
   { path: "/insights", key: "insights" },
   { path: "/contact", key: "contact" },
 ] as const;
@@ -68,7 +70,7 @@ export function Layout({ children, locale }: LayoutProps) {
             </Link>
 
             <div className="hidden items-end gap-3 md:flex md:flex-col">
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap items-center justify-end gap-5">
                 {navLinks.map(({ path, key }) => (
                   <Link
                     key={path}
