@@ -28,8 +28,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
     return {
       statusLabel: "Verifiserte muligheter",
       statusDescription:
-        "Denne demosiden viser bare offisielle kilder eller UN-verifiserte inngangspunkter. Ingen søknader går gjennom The Dialogue Platform, og ingen mellomledd skal kreve penger for å koble deg til disse mulighetene.",
-      snapshotLabel: "Demoversjon kontrollert",
+        "Denne demosiden samler bare offisielle kilder fra myndigheter, universiteter, stiftelser, FN og andre verifiserte institusjoner. The Dialogue Platform mottar ikke søknader eller betalinger; søk alltid direkte ved den opprinnelige kilden.",
+      snapshotLabel: "Kurert demoversjon kontrollert",
       openLabel: "Åpen",
       rollingLabel: "Løpende",
       seasonalLabel: "Sesongbasert",
@@ -56,8 +56,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
     return {
       statusLabel: "فرص موثقة",
       statusDescription:
-        "تعرض هذه النسخة التجريبية فقط المصادر الرسمية أو المسارات التي تم التحقق منها من الأمم المتحدة. لا تتم أي طلبات عبر منصة الحوار، ولا ينبغي لأي وسيط أن يطلب مالاً مقابل الوصول إلى هذه الفرص.",
-      snapshotLabel: "تم التحقق من النسخة التجريبية",
+        "تعرض هذه النسخة التجريبية فقط مصادر رسمية صادرة عن الحكومات والجامعات والمؤسسات والجهات المانحة والأمم المتحدة أو الجهات التي تم التحقق منها مؤسسياً. منصة الحوار لا تستقبل الطلبات ولا الرسوم؛ قدّموا دائماً عبر المصدر الأصلي مباشرة.",
+      snapshotLabel: "نسخة تجريبية منسقة وتم التحقق منها",
       openLabel: "مفتوح",
       rollingLabel: "مستمر",
       seasonalLabel: "موسمي",
@@ -83,8 +83,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
   return {
     statusLabel: "Verified opportunities",
     statusDescription:
-      "This demo shows only official sources or UN-verified entry points. No applications run through The Dialogue Platform, and no intermediary should charge money to connect people to these opportunities.",
-    snapshotLabel: "Demo snapshot reviewed",
+      "This demo curates only official government, university, foundation, UN, and institutionally verified sources. The Dialogue Platform does not collect applications or fees; always apply at the original source.",
+    snapshotLabel: "Curated demo snapshot reviewed",
     openLabel: "Open",
     rollingLabel: "Rolling",
     seasonalLabel: "Seasonal",
@@ -113,32 +113,32 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
   if (locale === "no") {
     return {
       badge: "Direkte finansieringsdesk",
-      title: "Legitime finansieringskilder for lokalsamfunn og organisasjoner",
+      title: "Verifiserte finansieringsveier for organisasjoner, institusjoner og samfunnsnyttige initiativer",
       description:
-        "Bygget som en demoversjon for å hjelpe flyktningledede initiativer, lokalsamfunnsgrupper og små organisasjoner å gå direkte til bekreftede givere, portaler og utlysninger uten uærlige mellomledd.",
+        "Denne demoversjonen samler legitime finansieringsportaler og programmer for organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og andre kvalifiserte initiativer på tvers av land og sektorer. Hver oppføring peker til den opprinnelige kilden slik at søkere kan kontrollere krav og sende inn søknaden direkte.",
       feed,
-      supportTitle: "Slik stiller organisasjonen sterkere",
+      supportTitle: "Slik bruker dere seksjonen best",
       supportCards: [
         {
-          title: "Hold dokumentene klare",
+          title: "Sjekk kravene først",
           description:
-            "Samle registreringsbevis, styringsstruktur, styreliste, bankinformasjon, referanser og en kort organisasjonsprofil før dere søker.",
+            "Les alltid hvem som kan søke, hvilke land eller institusjonstyper som er kvalifisert, og om utlysningen krever registrering, partnerstruktur eller tematisk relevans.",
         },
         {
-          title: "Søk direkte ved kilden",
+          title: "Hold organisasjonsmappen klar",
           description:
-            "Bruk alltid lenken i den offisielle utlysningen eller portalen. Ikke betal tredjeparter for tilgang til søknadsskjemaer eller kontakt med givere.",
+            "Ha registreringsbevis, styringsstruktur, bankopplysninger, tidligere resultater, etterlevelsesdokumenter og en kort organisasjonsprofil klare for opplasting.",
         },
         {
-          title: "Vis lokal troverdighet",
+          title: "Søk bare ved den opprinnelige kilden",
           description:
-            "Forklar tydelig hvem dere når, hvordan dere dokumenterer resultater, og hvordan midlene faktisk kommer fram til mennesker på bakken.",
+            "Bruk alltid den offisielle portalen eller programlenken i oppføringen. Ikke betal agenter eller mellomledd for tilgang, registrering eller raskere behandling.",
         },
       ],
       crossLink: {
-        title: "Legg til akademiske muligheter",
+        title: "Legg til stipend- og akademiske muligheter",
         description:
-          "Flyktningledere, lærere og studenter trenger ofte stipendinformasjon parallelt med organisasjonsfinansiering. Derfor er stipendseksjonen bygd i samme stil.",
+          "Mange organisasjoner arbeider samtidig med studenter, forskere, forelesere og fagpersoner. Derfor bruker stipendseksjonen den samme verifiserte modellen med direkte lenker til kilden.",
         href: "/scholarships",
         cta: "Åpne stipendseksjonen",
       },
@@ -148,32 +148,32 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
   if (locale === "ar") {
     return {
       badge: "مكتب التمويل المباشر",
-      title: "مصادر تمويل شرعية للمبادرات المجتمعية والمنظمات",
+      title: "مسارات تمويل موثقة للمنظمات والمؤسسات والمبادرات ذات النفع العام",
       description:
-        "تم تصميم هذه النسخة التجريبية لمساعدة المبادرات التي يقودها اللاجئون والمنظمات الصغيرة على الوصول مباشرة إلى الجهات المانحة والبوابات الرسمية والدعوات الموثقة دون وسطاء غير أمناء.",
+        "تجمع هذه النسخة التجريبية بوابات وبرامج تمويل شرعية للمنظمات والجامعات والفرق البحثية والمبادرات المجتمعية وغيرها من الجهات المؤهلة عبر بلدان وقطاعات متعددة. كل فرصة تقود إلى المصدر الأصلي مباشرة حتى يتمكن المتقدم من مراجعة شروط الأهلية والتقديم بنفسه.",
       feed,
-      supportTitle: "كيف تصبح المنظمة أكثر جاهزية",
+      supportTitle: "كيف تستخدمون هذا القسم بشكل أفضل",
       supportCards: [
         {
-          title: "جهزوا ملفاتكم الأساسية",
+          title: "تحققوا من الأهلية أولاً",
           description:
-            "اجمعوا شهادة التسجيل، وهيكل الحوكمة، وقائمة المجلس، والمعلومات البنكية، وخطابات المرجعية، وملفاً تعريفياً مختصراً عن المنظمة قبل التقديم.",
+            "اقرأوا دائماً من يحق له التقديم، وما هي الدول أو أنواع المؤسسات المؤهلة، وما إذا كانت الفرصة تتطلب تسجيلاً قانونياً أو شركاء أو نطاقاً موضوعياً محدداً.",
         },
         {
-          title: "قدّموا مباشرة من المصدر",
+          title: "جهزوا ملف المؤسسة",
           description:
-            "استخدموا دائماً الرابط الموجود في الدعوة الرسمية أو البوابة الأصلية. لا تدفعوا لأي وسيط مقابل الوصول إلى الاستمارات أو المانحين.",
+            "احتفظوا بوثائق التسجيل والحوكمة والمعلومات البنكية ونتائج العمل السابقة ووثائق الامتثال وملف تعريفي مختصر عن الجهة في صيغة جاهزة للرفع.",
         },
         {
-          title: "أثبتوا المصداقية المحلية",
+          title: "قدّموا فقط عبر المصدر الأصلي",
           description:
-            "اشرحوا بوضوح من تخدمون، وكيف توثقون النتائج، وكيف تصل الأموال فعلياً إلى الناس على الأرض.",
+            "استخدموا دائماً البوابة الرسمية أو رابط البرنامج الأصلي الموجود في الفرصة. لا تدفعوا لوكلاء أو وسطاء مقابل الوصول أو التسجيل أو تسريع المعاملة.",
         },
       ],
       crossLink: {
-        title: "أضيفوا أيضاً فرصاً أكاديمية",
+        title: "أضيفوا أيضاً مسارات المنح والفرص الأكاديمية",
         description:
-          "غالباً ما يحتاج القادة والطلاب والمعلمون في المخيمات إلى فرص منح دراسية بالتوازي مع فرص التمويل المؤسسي، لذلك تم بناء قسم المنح بنفس المنهج.",
+          "كثير من المنظمات تعمل كذلك مع الطلاب والباحثين والمحاضرين والمهنيين، لذلك يستخدم قسم المنح نفس منهج التحقق والربط المباشر بالمصدر.",
         href: "/scholarships",
         cta: "افتح قسم المنح الدراسية",
       },
@@ -182,32 +182,32 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
 
   return {
     badge: "Direct Funding Desk",
-    title: "Legitimate funding routes for grassroots and community organisations",
+    title: "Verified funding routes for organisations, institutions, and public-interest initiatives",
     description:
-      "Built as a live demo to help refugee-led initiatives, community groups, and smaller organisations reach verified donors, portals, and calls directly without dishonest intermediaries.",
+      "This demo brings together legitimate funding portals and programmes for organisations, universities, research teams, community groups, and other eligible initiatives across countries and sectors. Every listing points to the original source so applicants can review eligibility and apply directly.",
     feed,
-    supportTitle: "How to make your organisation application-ready",
+    supportTitle: "How to use this section well",
     supportCards: [
       {
-        title: "Keep your core documents ready",
+        title: "Check eligibility before you prepare",
         description:
-          "Prepare registration papers, governance structure, board list, bank details, references, and a short organisational profile before you open any application form.",
+          "Always read who can apply, which countries or institution types are eligible, and whether the opportunity requires registration, partners, or a specific thematic fit.",
       },
       {
-        title: "Apply only at the original source",
+        title: "Keep your organisational file ready",
         description:
-          "Use the official call link or portal every time. Do not pay third parties for access to forms, donor contact, or faster processing.",
+          "Have registration documents, governance details, bank information, prior results, compliance papers, and a short institutional profile ready to upload.",
       },
       {
-        title: "Prove local accountability",
+        title: "Apply only through the original source",
         description:
-          "Show who you serve, how you document results, and how funds reach people on the ground rather than being absorbed by intermediaries.",
+          "Use the official portal or programme link in the listing every time. Do not pay agents or intermediaries for access, registration, or faster processing.",
       },
     ],
     crossLink: {
-      title: "Add academic pathways as well",
+      title: "Add scholarships and academic pathways too",
       description:
-        "Refugee leaders, lecturers, students, and researchers often need scholarship routes alongside organisational funding. The scholarship section uses the same verified-source approach.",
+        "Many organisations also support students, lecturers, researchers, and professionals. The scholarships section follows the same verified-source, direct-application approach.",
       href: "/scholarships",
       cta: "Open scholarships",
     },
@@ -220,32 +220,32 @@ export function getScholarshipsPageCopy(locale: Locale): OpportunityPageCopy {
   if (locale === "no") {
     return {
       badge: "Akademisk mulighetsdesk",
-      title: "Verifiserte stipend- og utdanningsveier for flyktninger og akademikere",
+      title: "Verifiserte stipend- og akademiske veier for globale søkere",
       description:
-        "Denne demoversjonen samler legitime stipendkilder, UNHCR-verifiserte portaler og utdanningsveier for studenter, lærere, forskere og fagpersoner som trenger direkte adgang til troverdige søknader.",
+        "Denne demoversjonen samler legitime stipendkilder og akademiske muligheter for studenter, forskere, forelesere, fagpersoner og flyktningsøkere. Oppføringene peker til offisielle sider fra universiteter, myndigheter, stiftelser, EU, FN og andre programmer slik at folk kan kontrollere kravene og søke direkte.",
       feed,
       supportTitle: "Hva søkere bør forberede",
       supportCards: [
         {
-          title: "Bygg et komplett akademisk dossier",
+          title: "Bygg en komplett akademisk søknadsmappe",
           description:
-            "Hold vitnemål, karakterutskrifter, identitets- og flyktningdokumenter, CV, motivasjonsbrev og anbefalingsbrev klare i digital form.",
+            "Hold vitnemål, karakterutskrifter, CV, motivasjonsbrev, anbefalingsbrev, språkbevis og eventuelle forskningsskisser eller profesjonelle attester klare i digital form.",
         },
         {
-          title: "Sjekk språk- og nivåkrav tidlig",
+          title: "Les kriteriene ved kilden",
           description:
-            "Mange programmer krever engelsk, fransk eller annen dokumentert språkkunnskap samt spesifikke karakter- eller gradsnivåer.",
+            "Sjekk alltid statsborgerskap, bosted, gradsnivå, fagfelt, språkkrav og institusjonelle betingelser på den offisielle siden for programmet.",
         },
         {
-          title: "Unngå svindel",
+          title: "Unngå stipendsvindel",
           description:
-            "Legitime stipend krever ikke betaling for å bli satt på liste, få rask behandling eller få et tilbud. Følg alltid den offisielle lenken i oppføringen.",
+            "Legitime stipend krever ikke betaling for nominasjon, shortlist eller garantert opptak. Hvis noen ber om penger for tilgang, gå tilbake til den offisielle lenken i oppføringen.",
         },
       ],
       crossLink: {
-        title: "Tilbake til organisasjonsfinansiering",
+        title: "Tilbake til finansiering for organisasjoner",
         description:
-          "Om behovet gjelder lokalsamfunnsprosjekter, kvinnegrupper, ungdomsarbeid eller organisasjonsvekst, ligger de verifiserte finansieringsrutene i søsterseksjonen.",
+          "Hvis behovet gjelder organisasjonsutvikling, forskning, lokalsamfunnsprosjekter eller institusjonell finansiering, ligger de verifiserte rutene i finansieringsseksjonen.",
         href: "/funding",
         cta: "Åpne finansiering",
       },
@@ -255,32 +255,32 @@ export function getScholarshipsPageCopy(locale: Locale): OpportunityPageCopy {
   if (locale === "ar") {
     return {
       badge: "مكتب الفرص الأكاديمية",
-      title: "مسارات منح وتعليم موثقة للاجئين والأكاديميين",
+      title: "مسارات منح وفرص أكاديمية موثقة للمتقدمين من مختلف الخلفيات",
       description:
-        "تجمع هذه النسخة التجريبية مصادر منح شرعية وبوابات موثقة من المفوضية ومسارات تعليمية للطلاب والمعلمين والباحثين والمهنيين الذين يحتاجون إلى وصول مباشر لفرص موثوقة.",
+        "تجمع هذه النسخة التجريبية مصادر منح وفرص أكاديمية شرعية للطلاب والباحثين والمحاضرين والمهنيين وكذلك المتقدمين من اللاجئين. جميع الروابط تقود إلى صفحات رسمية صادرة عن جامعات أو حكومات أو مؤسسات مانحة أو جهات أوروبية أو أممية أو برامج معترف بها حتى يتمكن المتقدم من التحقق والتقديم مباشرة.",
       feed,
-      supportTitle: "ما الذي يجب أن يجهزه المتقدم",
+      supportTitle: "ما الذي ينبغي على المتقدم تحضيره",
       supportCards: [
         {
           title: "ابنوا ملفاً أكاديمياً كاملاً",
           description:
-            "احفظوا الشهادات والسجلات الأكاديمية ووثائق الهوية واللجوء والسيرة الذاتية ورسالة الدافع وخطابات التوصية بصيغة رقمية جاهزة.",
+            "احتفظوا بالشهادات والسجلات الأكاديمية والسيرة الذاتية ورسالة الدافع وخطابات التوصية وإثبات اللغة وأي مقترح بحث أو خبرة مهنية ذات صلة بصيغة رقمية جاهزة.",
         },
         {
-          title: "تحققوا مبكراً من شروط اللغة والمستوى",
+          title: "اقرأوا المعايير من المصدر",
           description:
-            "العديد من البرامج تشترط إثبات اللغة الإنجليزية أو الفرنسية أو غيرها، إضافة إلى معدلات أو مستويات أكاديمية محددة.",
+            "تحققوا دائماً من الجنسية أو بلد الإقامة ومستوى الدرجة والتخصص ومتطلبات اللغة والشروط المؤسسية من الصفحة الرسمية الخاصة بالبرنامج.",
         },
         {
-          title: "تجنبوا الاحتيال",
+          title: "تجنبوا الاحتيال في المنح",
           description:
-            "المنح الشرعية لا تطلب رسوماً لإدراج الاسم أو تسريع المعالجة أو ضمان القبول. اتبعوا دائماً الرابط الرسمي الموجود في الفرصة.",
+            "المنح الشرعية لا تطلب رسوماً مقابل الترشيح أو الإدراج في القائمة القصيرة أو ضمان القبول. إذا طلب أحد المال، عودوا إلى الرابط الرسمي الموجود في الفرصة.",
         },
       ],
       crossLink: {
-        title: "العودة إلى تمويل المنظمات",
+        title: "العودة إلى تمويل المنظمات والمؤسسات",
         description:
-          "إذا كان الاحتياج يتعلق بمشاريع المجتمع المحلي أو مجموعات النساء أو الشباب أو نمو المنظمات، فالمسارات التمويلية الموثقة موجودة في القسم الشقيق.",
+          "إذا كان الاحتياج يتعلق بتمويل المنظمات أو المشاريع المجتمعية أو البحث المؤسسي أو المبادرات العامة، فالمسارات الموثقة موجودة في قسم التمويل.",
         href: "/funding",
         cta: "افتح التمويل",
       },
@@ -289,32 +289,32 @@ export function getScholarshipsPageCopy(locale: Locale): OpportunityPageCopy {
 
   return {
     badge: "Academic Opportunity Desk",
-    title: "Verified scholarships and education pathways for refugees and academics",
+    title: "Verified scholarships and academic pathways for global applicants",
     description:
-      "This demo gathers legitimate scholarship sources, UNHCR-verified portals, and education pathways for students, lecturers, researchers, and professionals who need direct access to credible applications.",
+      "This demo gathers legitimate scholarship and academic opportunity sources for students, researchers, lecturers, professionals, and refugee applicants. Listings point to official university, government, foundation, EU, UN, and programme pages so people can verify eligibility and apply directly.",
     feed,
     supportTitle: "What applicants should prepare",
     supportCards: [
       {
         title: "Build a complete academic file",
         description:
-          "Keep certificates, transcripts, identity and refugee-status documents, CV, motivation letter, and recommendation letters ready in digital form.",
+          "Keep certificates, transcripts, CV, motivation letter, recommendation letters, language scores, and any relevant research proposal or professional records ready in digital form.",
       },
       {
-        title: "Check language and level requirements early",
+        title: "Read the official criteria at source",
         description:
-          "Many programmes require proof of English, French, or other language skills, as well as specific degree levels or grade thresholds.",
+          "Always check citizenship, residency, degree level, subject area, language requirements, and institutional conditions on the official programme page.",
       },
       {
-        title: "Avoid scholarship scams",
+        title: "Avoid scholarship scams and agents",
         description:
-          "Legitimate scholarships do not charge people to be shortlisted, fast-tracked, or guaranteed admission. Always follow the official link in the listing.",
+          "Legitimate scholarships do not charge people for nomination, shortlisting, or guaranteed admission. If anyone asks for money, return to the official link in the listing.",
       },
     ],
     crossLink: {
-      title: "Go back to organisational funding",
+      title: "Go back to organisation and institutional funding",
       description:
-        "If the need is for community projects, women's groups, youth initiatives, or organisational growth, the sister section holds the verified funding routes.",
+        "If the need is organisational growth, research support, public-interest programming, or institutional funding, the sister funding section follows the same verified-source rule.",
       href: "/funding",
       cta: "Open funding",
     },

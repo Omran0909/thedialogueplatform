@@ -21,13 +21,13 @@ const navLinks = [
   { path: "/contact", key: "contact" },
 ] as const;
 
-const SITE_NOTICE_DISMISSED_KEY = "tdp-site-notice-funding-scholarships-v1";
+const SITE_NOTICE_DISMISSED_KEY = "tdp-site-notice-funding-scholarships-v2";
 
 const siteNotice = {
   en: {
     badge: "Site notice",
     message:
-      "As promised, we have added a scholarships section for academics and students, together with a funding section for organisations and community initiatives.",
+      "We have broadened the funding and scholarships sections so visitors can find legitimate, direct-source opportunities for organisations, students, researchers, professionals, and institutions.",
     note: "This is an experimental version. We welcome your feedback to help us improve it.",
     fundingCta: "Funding",
     scholarshipsCta: "Scholarships",
@@ -37,7 +37,7 @@ const siteNotice = {
   no: {
     badge: "Nettsidevarsel",
     message:
-      "Som lovet har vi lagt til en stipendseksjon for akademikere og studenter, sammen med en finansieringsseksjon for organisasjoner og lokale initiativer.",
+      "Vi har utvidet finansierings- og stipendseksjonene slik at besøkende kan finne legitime muligheter direkte fra kilden for organisasjoner, studenter, forskere, fagpersoner og institusjoner.",
     note: "Dette er en prøveversjon. Vi tar gjerne imot tilbakemeldinger for å forbedre den videre.",
     fundingCta: "Finansiering",
     scholarshipsCta: "Stipender",
@@ -47,7 +47,7 @@ const siteNotice = {
   ar: {
     badge: "تنبيه داخل الموقع",
     message:
-      "يسرّنا أن نعلن أنه، وفاءً لوعدنا، تمت إضافة قسم خاص بالمنح الدراسية للأكاديميين والطلاب، إلى جانب قسم خاص بفرص التمويل المتاحة للمنظمات والمبادرات.",
+      "قمنا بتوسيع قسمي التمويل والمنح الدراسية بحيث يتمكن الزوار من الوصول إلى فرص شرعية وموثقة من المصدر مباشرة للمنظمات والطلاب والباحثين والمهنيين والمؤسسات.",
     note: "ملاحظة: هذه نسخة تجريبية، ونرحّب بملاحظاتكم واقتراحاتكم للمساعدة في تحسينها وتطويرها.",
     fundingCta: "قسم التمويل",
     scholarshipsCta: "قسم المنح الدراسية",

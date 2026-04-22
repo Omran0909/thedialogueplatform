@@ -16,41 +16,41 @@ type PageProps = {
 
 const accessCopy = {
   en: {
-    title: "Verified access to funding and scholarships",
+    title: "Direct-source funding and scholarships",
     description:
-      "We now surface direct-source opportunities for organisations and for academic applicants, designed to reduce dependency on intermediaries and help people apply at the original source.",
+      "We now surface legitimate funding and scholarship routes from official government, university, foundation, UN, and institutional sources so visitors can review eligibility and apply directly at the original source.",
     fundingTitle: "Funding routes",
     fundingDescription:
-      "Official calls and portals for grassroots groups, civil society organisations, and local initiatives seeking direct access to legitimate funding.",
+      "Verified portals and programmes for organisations, universities, research teams, community groups, and public-interest initiatives across countries and sectors.",
     scholarshipsTitle: "Scholarship routes",
     scholarshipsDescription:
-      "Verified scholarship and education pathways for students, lecturers, researchers, and refugee academics seeking credible opportunities.",
+      "Official scholarships and academic pathways for students, researchers, lecturers, professionals, and refugee applicants, all linked back to the original provider.",
     fundingCta: "Open funding",
     scholarshipsCta: "Open scholarships",
   },
   no: {
-    title: "Verifisert tilgang til finansiering og stipender",
+    title: "Direkte tilgang til finansiering og stipender",
     description:
-      "Vi samler nå direkte muligheter både for organisasjoner og akademiske søkere, for å redusere avhengigheten av mellomledd og hjelpe folk å søke direkte ved kilden.",
+      "Vi samler nå legitime finansierings- og stipendmuligheter fra offisielle kilder som myndigheter, universiteter, stiftelser, FN og andre institusjoner, slik at folk kan kontrollere kravene og søke direkte ved kilden.",
     fundingTitle: "Finansieringsveier",
     fundingDescription:
-      "Offisielle utlysninger og portaler for grasrotgrupper, sivilsamfunnsorganisasjoner og lokale initiativer som søker legitim finansiering direkte.",
+      "Verifiserte portaler og programmer for organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og samfunnsnyttige initiativer på tvers av land og sektorer.",
     scholarshipsTitle: "Stipendveier",
     scholarshipsDescription:
-      "Verifiserte stipend og utdanningsveier for studenter, forelesere, forskere og flyktningakademikere som søker troverdige muligheter.",
+      "Offisielle stipend og akademiske veier for studenter, forskere, forelesere, fagpersoner og flyktningsøkere, alltid med lenke til den opprinnelige tilbyderen.",
     fundingCta: "Åpne finansiering",
     scholarshipsCta: "Åpne stipender",
   },
   ar: {
-    title: "وصول موثق إلى التمويل والمنح الدراسية",
+    title: "تمويل ومنح دراسية من المصدر مباشرة",
     description:
-      "نقوم الآن بجمع فرص مباشرة للمنظمات وللمتقدمين الأكاديميين بهدف تقليل الاعتماد على الوسطاء ومساعدة الناس على التقديم مباشرة من المصدر الأصلي.",
+      "نقوم الآن بجمع فرص تمويل ومنح دراسية شرعية من مصادر رسمية تشمل الحكومات والجامعات والمؤسسات المانحة والأمم المتحدة وغيرها، حتى يتمكن الزوار من مراجعة الأهلية والتقديم مباشرة من المصدر الأصلي.",
     fundingTitle: "مسارات التمويل",
     fundingDescription:
-      "دعوات وبوابات رسمية للمبادرات المجتمعية ومنظمات المجتمع المدني والمجموعات المحلية التي تبحث عن تمويل شرعي مباشر.",
+      "بوابات وبرامج موثقة للمنظمات والجامعات والفرق البحثية والمبادرات المجتمعية وغيرها من الجهات ذات النفع العام عبر بلدان وقطاعات متعددة.",
     scholarshipsTitle: "مسارات المنح الدراسية",
     scholarshipsDescription:
-      "منح ومسارات تعليم موثقة للطلاب والمحاضرين والباحثين والأكاديميين من اللاجئين الباحثين عن فرص موثوقة.",
+      "منح وفرص أكاديمية رسمية للطلاب والباحثين والمحاضرين والمهنيين وكذلك المتقدمين من اللاجئين، مع روابط مباشرة إلى الجهة الأصلية.",
     fundingCta: "افتح التمويل",
     scholarshipsCta: "افتح المنح",
   },

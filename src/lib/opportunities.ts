@@ -26,41 +26,22 @@ export const opportunitiesSnapshotAt = "2026-04-22T09:00:00Z";
 
 export const fundingOpportunities: OpportunityItem[] = [
   {
-    id: "eu-uganda-cso-2026",
-    title: "Uganda civil society call for proposals worth EUR 5.1 million",
-    url: "https://www.eeas.europa.eu/delegations/uganda/call-proposals-%E2%82%AC51-million-civil-society-organisations-country-call-proposals_en?s=127",
-    source: "EU Delegation to Uganda",
-    summary:
-      "Official 2026 call supporting inclusive natural-resource management, livelihoods, clean-energy access, and equitable local economic participation in Uganda.",
-    audience:
-      "Registered civil society organisations and local partners able to lead or join proposals in Uganda.",
-    geography: "Uganda",
-    verificationNote:
-      "Published on the official European External Action Service page for the EU Delegation to Uganda.",
-    timestamp: "2026-04-16T00:00:00Z",
-    timestampKind: "published",
-    deadline: "2026-06-04T21:59:00Z",
-    status: "open",
-    kind: "call",
-    tags: ["Civil society", "Livelihoods", "Local economy", "Uganda"],
-  },
-  {
     id: "un-partner-portal",
-    title: "UN Partner Portal for NGO, CBO, and academic partnership opportunities",
-    url: "https://www.unpartnerportal.org/landing/",
+    title: "UN Partner Portal partnership opportunities",
+    url: "https://www.unpartnerportal.org/landing/opportunities/",
     source: "UN Partner Portal",
     summary:
-      "Single official portal where NGOs, community-based organisations, and academic institutions can register once and access partnership opportunities across multiple UN agencies.",
+      "Official inter-agency portal where NGOs, community-based organisations, and academic institutions can access direct partnership opportunities from participating UN agencies.",
     audience:
-      "NGOs, community-based organisations, and academic institutions seeking direct UN partnership opportunities.",
+      "NGOs, community organisations, academic institutions, and eligible civil-society partners applying directly to UN agencies.",
     geography: "Global",
     verificationNote:
-      "Official inter-agency UN platform used by UNHCR, UNICEF, WFP, WHO, IOM, UN Women, and other UN entities.",
+      "Official UN partnership platform used by agencies including UNHCR, UNICEF, WFP, WHO, IOM, and UN Women.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
-    status: "rolling",
+    status: "open",
     kind: "portal",
-    tags: ["UN", "Partnerships", "NGOs", "Direct access"],
+    tags: ["UN", "Partnerships", "NGOs", "Academic institutions"],
   },
   {
     id: "eu-funding-tenders-portal",
@@ -68,17 +49,17 @@ export const fundingOpportunities: OpportunityItem[] = [
     url: "https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/home",
     source: "European Commission",
     summary:
-      "Official public portal for EU grants and tenders. Useful for organisations monitoring calls in civil society, research, education, humanitarian work, and institutional development.",
+      "Official European Commission portal for grants, tenders, prizes, and research or civil-society funding opportunities across EU programmes.",
     audience:
-      "Organisations applying for European Commission grants, tenders, prizes, and related funding opportunities.",
+      "Organisations, universities, municipalities, research teams, businesses, and public-interest institutions seeking EU-managed opportunities.",
     geography: "Europe and international programmes",
     verificationNote:
-      "Official European Commission funding portal. Public opportunity browsing does not require a login.",
+      "Official European Commission entry point for browsing funding and tender opportunities managed through the Funding & Tenders Portal.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
     status: "rolling",
     kind: "portal",
-    tags: ["European Union", "Grants", "Tenders", "Civil society"],
+    tags: ["European Union", "Grants", "Tenders", "Research"],
   },
   {
     id: "grants-gov-search",
@@ -86,39 +67,110 @@ export const fundingOpportunities: OpportunityItem[] = [
     url: "https://www.grants.gov/search-grants.htm",
     source: "Grants.gov",
     summary:
-      "Official U.S. federal grants search portal with filters for eligibility, category, agency, and opportunity status. Some calls are open to nonprofits, higher-education institutions, and international partners.",
+      "Official U.S. federal grants search portal with filters for eligibility, agency, status, and applicant type, including some opportunities open to international and nonprofit applicants.",
     audience:
-      "Nonprofits, higher-education institutions, public entities, and eligible organisations searching U.S. federal opportunities.",
+      "Nonprofits, universities, public entities, researchers, and eligible organisations searching U.S. federal opportunities.",
     geography: "United States and eligible international applicants by call",
     verificationNote:
-      "Official United States government grants portal with searchable opportunity details and eligibility guidance.",
+      "Official U.S. government grants portal for finding and applying to federal funding opportunities.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "open",
+    kind: "portal",
+    tags: ["United States", "Federal grants", "Nonprofits", "Universities"],
+  },
+  {
+    id: "sam-assistance-listings",
+    title: "SAM.gov Assistance Listings",
+    url: "https://sam.gov/assistance-listings",
+    source: "SAM.gov",
+    summary:
+      "Official U.S. federal assistance catalogue covering grants, loans, scholarships, insurance, and other assistance programmes across agencies.",
+    audience:
+      "Individuals, nonprofits, public bodies, and institutions reviewing official federal assistance programmes before applying through the right source.",
+    geography: "United States and programme-specific eligibility territories",
+    verificationNote:
+      "Official U.S. government assistance listings catalogue that points users to eligible programme routes and partner application systems.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
     status: "rolling",
     kind: "portal",
-    tags: ["United States", "Federal grants", "Nonprofits", "Eligibility"],
+    tags: ["United States", "Assistance", "Scholarships", "Government"],
+  },
+  {
+    id: "ukri-funding-finder",
+    title: "UKRI Apply for Funding",
+    url: "https://www.ukri.org/apply-for-funding/",
+    source: "UK Research and Innovation",
+    summary:
+      "Official funding route for UKRI opportunities across research councils and Innovate UK, including current calls, guidance, and eligibility checks.",
+    audience:
+      "Universities, researchers, approved organisations, innovation teams, and eligible collaborators looking for UK research and innovation funding.",
+    geography: "United Kingdom with programme-specific international eligibility",
+    verificationNote:
+      "Official UKRI funding page linking directly to current funding opportunities and application guidance.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "open",
+    kind: "portal",
+    tags: ["United Kingdom", "Research", "Innovation", "Universities"],
+  },
+  {
+    id: "wellcome-funding-schemes",
+    title: "Wellcome funding opportunities",
+    url: "https://wellcome.org/grant-funding/schemes",
+    source: "Wellcome",
+    summary:
+      "Official opportunity finder for Wellcome research funding, with filters for career stage, status, and programme area across health and wellbeing research.",
+    audience:
+      "Researchers and eligible host organisations looking for foundation funding in health, science, and related disciplines.",
+    geography: "Global, subject to scheme eligibility",
+    verificationNote:
+      "Official Wellcome funding schemes page showing open, upcoming, and closed opportunities with eligibility details.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "seasonal",
+    kind: "portal",
+    tags: ["Foundation funding", "Research", "Health", "Global"],
+  },
+  {
+    id: "nih-explore-opportunities",
+    title: "NIH Explore Grant Opportunities",
+    url: "https://www.grants.nih.gov/funding/explore-nih-opportunities",
+    source: "National Institutes of Health",
+    summary:
+      "Official NIH search route for grant opportunities, with NIH-specific filters that connect applicants to current notices published through Grants.gov.",
+    audience:
+      "Researchers, universities, medical institutions, and eligible organisations pursuing biomedical and health-related funding.",
+    geography: "United States with programme-specific foreign applicant eligibility",
+    verificationNote:
+      "Official NIH funding page explaining that Grants.gov is the single official source for NIH grant opportunity notices.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: ["NIH", "Biomedical research", "Universities", "Health funding"],
   },
 ];
 
 export const scholarshipOpportunities: OpportunityItem[] = [
   {
-    id: "tagdev-2026-2027",
-    title: "TAGDev 2.0 scholarships for the 2026/2027 academic year",
-    url: "https://help.unhcr.org/rwanda/2026/04/13/open-call-for-applications-tagdev-2-0-scholarships-2026-2027-academic-year/",
-    source: "UNHCR Rwanda / RUFORUM / Mastercard Foundation",
+    id: "unhcr-opportunities-dashboard",
+    title: "UNHCR Opportunities scholarship platform",
+    url: "https://services.unhcr.org/opportunities/",
+    source: "UNHCR Opportunities",
     summary:
-      "Open scholarship call across partner universities in Africa. Refugees, internally displaced persons, women, and persons with disabilities are explicitly encouraged to apply.",
+      "Official UNHCR search platform for verified scholarships, academic programmes, and training routes for refugees, asylum-seekers, and stateless people.",
     audience:
-      "Prospective undergraduate and postgraduate applicants targeting partner universities under TAGDev 2.0.",
-    geography: "Multiple African universities including Uganda",
+      "Refugees, asylum-seekers, and stateless applicants looking for verified higher-education and training opportunities.",
+    geography: "Global",
     verificationNote:
-      "Published on an official UNHCR Help site and linked to partner-university application details.",
-    timestamp: "2026-04-13T00:00:00Z",
-    timestampKind: "published",
-    deadline: "2026-05-01T21:59:00Z",
-    status: "open",
-    kind: "call",
-    tags: ["Scholarships", "Refugees", "Africa", "Higher education"],
+      "Official UNHCR platform dedicated to verified opportunities and direct application routes.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: ["UNHCR", "Scholarships", "Refugees", "Verified"],
   },
   {
     id: "dafi-programme",
@@ -126,71 +178,124 @@ export const scholarshipOpportunities: OpportunityItem[] = [
     url: "https://www.unhcr.org/dafi-scholarships.html",
     source: "UNHCR",
     summary:
-      "UNHCR's long-running higher-education scholarship programme covering tuition, study materials, food, transport, accommodation, and other education-related costs.",
+      "Long-running UNHCR scholarship programme supporting refugee students with tuition and related study costs through country-level application channels.",
     audience:
-      "Refugee students in countries where DAFI operates, including Uganda, applying through UNHCR country channels.",
-    geography: "Uganda and other DAFI countries",
+      "Refugee students applying through UNHCR country processes in locations where the DAFI programme operates.",
+    geography: "Multiple countries where DAFI is active",
     verificationNote:
-      "Official UNHCR programme page with country list and contact route through UNHCR offices.",
+      "Official UNHCR programme page with current programme information, annual reporting, and country-level references.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
-    status: "rolling",
+    status: "seasonal",
     kind: "programme",
-    tags: ["UNHCR", "Refugees", "Undergraduate", "Ongoing"],
+    tags: ["UNHCR", "Higher education", "Refugees", "Student support"],
   },
   {
-    id: "unhcr-opportunities-dashboard",
-    title: "UNHCR Opportunities scholarship dashboard",
-    url: "https://services.unhcr.org/opportunities/",
-    source: "UNHCR Opportunities",
+    id: "erasmus-mundus-programmes",
+    title: "Erasmus Mundus joint master's programmes",
+    url: "https://education.ec.europa.eu/study-in-europe/programmes-and-fields/programmes-by-theme",
+    source: "European Education Area",
     summary:
-      "Official UNHCR search platform for accredited scholarship and academic programmes verified by UNHCR, including in-country and international opportunities.",
+      "Official European Commission guide to Erasmus Mundus joint master's programmes, including scholarship-backed study routes offered through university consortia.",
     audience:
-      "Refugees, asylum-seekers, and stateless people looking for verified scholarship opportunities.",
-    geography: "Global",
+      "Students worldwide with a bachelor's degree seeking international master's study across participating universities.",
+    geography: "Global applicants, multi-country study routes",
     verificationNote:
-      "Official UNHCR services platform that aggregates verified scholarship opportunities.",
+      "Official European Commission study portal stating that Erasmus Mundus is open to students worldwide and includes scholarship support.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "seasonal",
+    kind: "programme",
+    tags: ["European Union", "Master's", "International study", "Scholarships"],
+  },
+  {
+    id: "daad-scholarship-database",
+    title: "DAAD scholarship database",
+    url: "https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/",
+    source: "DAAD",
+    summary:
+      "Official scholarship database for international students and researchers searching DAAD programmes and selected external funding offers for Germany.",
+    audience:
+      "International students, graduates, doctoral candidates, and researchers looking for scholarships in Germany.",
+    geography: "Global applicants, Germany-focused opportunities",
+    verificationNote:
+      "Official DAAD scholarship database with searchable programme filters and direct programme details.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
     status: "rolling",
     kind: "portal",
-    tags: ["UNHCR", "Verified", "Scholarship search", "Global"],
+    tags: ["Germany", "DAAD", "Students", "Researchers"],
   },
   {
-    id: "unhcr-uganda-education-pathways",
-    title: "UNHCR Uganda education pathways guide",
-    url: "https://help.unhcr.org/uganda/complementary-pathways/education/",
-    source: "UNHCR Uganda",
+    id: "chevening-apply",
+    title: "Chevening apply page",
+    url: "https://www.chevening.org/apply/",
+    source: "Chevening",
     summary:
-      "Official Uganda guidance page explaining complementary higher-education pathways and linking refugees to scholarship information and recognised education routes.",
+      "Official country-based application route for Chevening scholarships and fellowships, with award availability and application status by citizenship country.",
     audience:
-      "Refugees in Uganda looking for official guidance on higher-education pathways and scholarship routes.",
-    geography: "Uganda",
+      "Emerging leaders applying for eligible UK master's scholarships or fellowships through the official Chevening route.",
+    geography: "More than 160 countries and territories",
     verificationNote:
-      "Official UNHCR Uganda Help page covering country-specific education pathways and referral routes.",
+      "Official Chevening application page showing awards by country or territory and whether the current cycle is open or closed.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "seasonal",
+    kind: "programme",
+    tags: ["United Kingdom", "Master's", "Leadership", "Government scholarship"],
+  },
+  {
+    id: "fulbright-foreign-student",
+    title: "Fulbright Foreign Student Program apply page",
+    url: "https://foreign.fulbrightonline.org/apply",
+    source: "Foreign Fulbright Program",
+    summary:
+      "Official application guidance for non-U.S. citizens applying to the Fulbright Foreign Student Program through Fulbright Commissions, Foundations, or U.S. Embassies.",
+    audience:
+      "Graduate students, researchers, artists, and professionals applying from participating countries for study or research in the United States.",
+    geography: "More than 160 countries",
+    verificationNote:
+      "Official Fulbright page describing eligibility, application routes, and country-based processing through the formal Fulbright network.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "seasonal",
+    kind: "programme",
+    tags: ["United States", "Fulbright", "Graduate study", "Research"],
+  },
+  {
+    id: "study-in-europe-scholarships",
+    title: "Study in Europe scholarships, grants, and financial support",
+    url: "https://education.ec.europa.eu/study-in-europe/planning-your-studies/scholarships-and-funding",
+    source: "European Education Area",
+    summary:
+      "Official European Commission guide to scholarship and funding routes for international students across European higher-education systems.",
+    audience:
+      "International students comparing scholarship and funding options across European countries, institutions, and EU-backed programmes.",
+    geography: "Europe, open to global applicants by programme",
+    verificationNote:
+      "Official European Commission study portal pointing users to country profiles, Erasmus routes, and research-funding references.",
     timestamp: opportunitiesSnapshotAt,
     timestampKind: "verified",
     status: "rolling",
-    kind: "programme",
-    tags: ["Uganda", "Education pathways", "Guidance", "Refugees"],
+    kind: "portal",
+    tags: ["Europe", "Scholarships", "International students", "Official guidance"],
   },
   {
-    id: "unicore-8",
-    title: "UNICORE 8.0 university corridors for refugees",
-    url: "https://universitycorridors.unhcr.it/",
-    source: "UNICORE / UNHCR Italy partners",
+    id: "euraxess-jobs-and-opportunities",
+    title: "EURAXESS jobs and opportunities",
+    url: "https://euraxess.ec.europa.eu/jobs",
+    source: "EURAXESS",
     summary:
-      "Refugee-student pathway into Italian universities with tuition exemption, support for travel and visa costs, and a study grant for selected candidates.",
+      "Official European Commission-backed platform for research jobs, funding opportunities, fellowships, and hosting offers across Europe and beyond.",
     audience:
-      "Recognised refugees in specified countries, including Uganda, applying for master's-level opportunities in Italy.",
-    geography: "Uganda and other eligible countries of asylum",
+      "Researchers, doctoral candidates, postdoctoral applicants, universities, and research institutions looking for direct research-career opportunities.",
+    geography: "Europe and international research mobility routes",
     verificationNote:
-      "Official UNICORE application platform supported by UNHCR and Italian university partners.",
-    timestamp: "2026-03-02T12:00:00Z",
-    timestampKind: "published",
-    deadline: "2026-04-17T10:00:00Z",
-    status: "closed",
-    kind: "call",
-    tags: ["Italy", "Master's", "Refugees", "Scholarship cycle"],
+      "Official EURAXESS jobs and opportunities portal with funding, hosting, and researcher mobility routes.",
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: ["Researchers", "Postdoctoral", "Fellowships", "Europe"],
   },
 ];
