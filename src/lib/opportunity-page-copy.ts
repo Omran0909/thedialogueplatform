@@ -115,7 +115,7 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
       badge: "Direkte finansieringsdesk",
       title: "Verifiserte finansieringsveier for organisasjoner, institusjoner og samfunnsnyttige initiativer",
       description:
-        "Denne demoversjonen samler legitime finansieringsportaler og programmer for organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og andre kvalifiserte initiativer på tvers av land og sektorer. Hver oppføring peker til den opprinnelige kilden slik at søkere kan kontrollere krav og sende inn søknaden direkte.",
+        "Denne demoversjonen samler legitime finansieringsportaler, utlysninger og programruter fra myndigheter, bistandsetater, stiftelser, regionale institusjoner, FN og andre betrodde organisasjoner. Oppføringene dekker organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og andre kvalifiserte initiativer på tvers av land og sektorer, og hver oppføring peker til den opprinnelige kilden slik at søkere kan kontrollere krav og søke direkte.",
       feed,
       supportTitle: "Slik bruker dere seksjonen best",
       supportCards: [
@@ -150,7 +150,7 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
       badge: "مكتب التمويل المباشر",
       title: "مسارات تمويل موثقة للمنظمات والمؤسسات والمبادرات ذات النفع العام",
       description:
-        "تجمع هذه النسخة التجريبية بوابات وبرامج تمويل شرعية للمنظمات والجامعات والفرق البحثية والمبادرات المجتمعية وغيرها من الجهات المؤهلة عبر بلدان وقطاعات متعددة. كل فرصة تقود إلى المصدر الأصلي مباشرة حتى يتمكن المتقدم من مراجعة شروط الأهلية والتقديم بنفسه.",
+        "تجمع هذه النسخة التجريبية بوابات التمويل والدعوات الرسمية ومسارات البرامج الصادرة عن الحكومات ووكالات التمويل والمؤسسات المانحة والجهات الإقليمية والأمم المتحدة وغيرها من الجهات الموثوقة. وتشمل الفرص منظمات وجامعات وفرقاً بحثية ومبادرات مجتمعية وغيرها من الجهات المؤهلة عبر بلدان وقطاعات متعددة، مع رابط مباشر إلى المصدر الأصلي حتى يتمكن المتقدم من مراجعة الشروط والتقديم بنفسه.",
       feed,
       supportTitle: "كيف تستخدمون هذا القسم بشكل أفضل",
       supportCards: [
@@ -184,7 +184,7 @@ export function getFundingPageCopy(locale: Locale): OpportunityPageCopy {
     badge: "Direct Funding Desk",
     title: "Verified funding routes for organisations, institutions, and public-interest initiatives",
     description:
-      "This demo brings together legitimate funding portals and programmes for organisations, universities, research teams, community groups, and other eligible initiatives across countries and sectors. Every listing points to the original source so applicants can review eligibility and apply directly.",
+      "This demo brings together legitimate funding portals, open calls, and programme routes from governments, donor agencies, foundations, regional institutions, the UN, and other trusted organisations. The listings cover organisations, universities, research teams, community groups, and other eligible initiatives across countries and sectors, and every entry points to the original source so applicants can review eligibility and apply directly.",
     feed,
     supportTitle: "How to use this section well",
     supportCards: [

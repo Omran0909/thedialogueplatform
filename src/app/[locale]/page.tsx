@@ -18,10 +18,10 @@ const accessCopy = {
   en: {
     title: "Direct-source funding and scholarships",
     description:
-      "We now surface legitimate funding and scholarship routes from official government, university, foundation, UN, and institutional sources so visitors can review eligibility and apply directly at the original source.",
+      "We now surface legitimate funding and scholarship routes from governments, donor agencies, foundations, universities, UN bodies, and other trusted institutions so visitors can review eligibility and apply directly at the original source.",
     fundingTitle: "Funding routes",
     fundingDescription:
-      "Verified portals and programmes for organisations, universities, research teams, community groups, and public-interest initiatives across countries and sectors.",
+      "Verified portals, open calls, and programme routes from Norwegian, European, American, African, Asian, UN, foundation, and other trusted sources for organisations, universities, research teams, community groups, and public-interest initiatives.",
     scholarshipsTitle: "Scholarship routes",
     scholarshipsDescription:
       "Official scholarships and academic pathways for students, researchers, lecturers, professionals, and refugee applicants, all linked back to the original provider.",
@@ -31,10 +31,10 @@ const accessCopy = {
   no: {
     title: "Direkte tilgang til finansiering og stipender",
     description:
-      "Vi samler nå legitime finansierings- og stipendmuligheter fra offisielle kilder som myndigheter, universiteter, stiftelser, FN og andre institusjoner, slik at folk kan kontrollere kravene og søke direkte ved kilden.",
+      "Vi samler nå legitime finansierings- og stipendmuligheter fra myndigheter, bistandsetater, stiftelser, universiteter, FN og andre betrodde institusjoner, slik at folk kan kontrollere kravene og søke direkte ved kilden.",
     fundingTitle: "Finansieringsveier",
     fundingDescription:
-      "Verifiserte portaler og programmer for organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og samfunnsnyttige initiativer på tvers av land og sektorer.",
+      "Verifiserte portaler, utlysninger og programruter fra norske, europeiske, amerikanske, afrikanske, asiatiske, FN-relaterte og andre betrodde finansieringskilder for organisasjoner, universiteter, forskningsmiljøer, lokalsamfunnsgrupper og samfunnsnyttige initiativer.",
     scholarshipsTitle: "Stipendveier",
     scholarshipsDescription:
       "Offisielle stipend og akademiske veier for studenter, forskere, forelesere, fagpersoner og flyktningsøkere, alltid med lenke til den opprinnelige tilbyderen.",
@@ -44,10 +44,10 @@ const accessCopy = {
   ar: {
     title: "تمويل ومنح دراسية من المصدر مباشرة",
     description:
-      "نقوم الآن بجمع فرص تمويل ومنح دراسية شرعية من مصادر رسمية تشمل الحكومات والجامعات والمؤسسات المانحة والأمم المتحدة وغيرها، حتى يتمكن الزوار من مراجعة الأهلية والتقديم مباشرة من المصدر الأصلي.",
+      "نقوم الآن بجمع فرص تمويل ومنح دراسية شرعية من الحكومات ووكالات التمويل والمؤسسات المانحة والجامعات والجهات الأممية وغيرها من الجهات الموثوقة، حتى يتمكن الزوار من مراجعة الأهلية والتقديم مباشرة من المصدر الأصلي.",
     fundingTitle: "مسارات التمويل",
     fundingDescription:
-      "بوابات وبرامج موثقة للمنظمات والجامعات والفرق البحثية والمبادرات المجتمعية وغيرها من الجهات ذات النفع العام عبر بلدان وقطاعات متعددة.",
+      "بوابات موثقة ودعوات رسمية ومسارات برامج من مصادر نرويجية وأوروبية وأمريكية وأفريقية وآسيوية وأممية ومؤسساتية موثوقة للمنظمات والجامعات والفرق البحثية والمبادرات المجتمعية وغيرها من الجهات ذات النفع العام.",
     scholarshipsTitle: "مسارات المنح الدراسية",
     scholarshipsDescription:
       "منح وفرص أكاديمية رسمية للطلاب والباحثين والمحاضرين والمهنيين وكذلك المتقدمين من اللاجئين، مع روابط مباشرة إلى الجهة الأصلية.",

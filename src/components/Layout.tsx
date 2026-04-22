@@ -27,7 +27,7 @@ const siteNotice = {
   en: {
     badge: "Site notice",
     message:
-      "We have broadened the funding and scholarships sections so visitors can find legitimate, direct-source opportunities for organisations, students, researchers, professionals, and institutions.",
+      "We have broadened the funding and scholarships sections so visitors can find legitimate, direct-source opportunities from governments, donor agencies, foundations, universities, UN bodies, and other trusted institutions.",
     note: "This is an experimental version. We welcome your feedback to help us improve it.",
     fundingCta: "Funding",
     scholarshipsCta: "Scholarships",
@@ -37,7 +37,7 @@ const siteNotice = {
   no: {
     badge: "Nettsidevarsel",
     message:
-      "Vi har utvidet finansierings- og stipendseksjonene slik at besøkende kan finne legitime muligheter direkte fra kilden for organisasjoner, studenter, forskere, fagpersoner og institusjoner.",
+      "Vi har utvidet finansierings- og stipendseksjonene slik at besøkende kan finne legitime muligheter direkte fra kilden fra myndigheter, bistandsetater, stiftelser, universiteter, FN og andre betrodde institusjoner.",
     note: "Dette er en prøveversjon. Vi tar gjerne imot tilbakemeldinger for å forbedre den videre.",
     fundingCta: "Finansiering",
     scholarshipsCta: "Stipender",
@@ -47,7 +47,7 @@ const siteNotice = {
   ar: {
     badge: "تنبيه داخل الموقع",
     message:
-      "قمنا بتوسيع قسمي التمويل والمنح الدراسية بحيث يتمكن الزوار من الوصول إلى فرص شرعية وموثقة من المصدر مباشرة للمنظمات والطلاب والباحثين والمهنيين والمؤسسات.",
+      "قمنا بتوسيع قسمي التمويل والمنح الدراسية بحيث يتمكن الزوار من الوصول إلى فرص شرعية وموثقة من المصدر مباشرة صادرة عن الحكومات ووكالات التمويل والمؤسسات المانحة والجامعات والجهات الأممية وغيرها من الجهات الموثوقة.",
     note: "ملاحظة: هذه نسخة تجريبية، ونرحّب بملاحظاتكم واقتراحاتكم للمساعدة في تحسينها وتطويرها.",
     fundingCta: "قسم التمويل",
     scholarshipsCta: "قسم المنح الدراسية",

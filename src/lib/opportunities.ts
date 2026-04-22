@@ -61,7 +61,7 @@ function localizeEntry(entry: OpportunityEntry, locale: Locale): OpportunityItem
   };
 }
 
-export const opportunitiesSnapshotAt = "2026-04-22T09:00:00Z";
+export const opportunitiesSnapshotAt = "2026-04-23T09:00:00Z";
 
 const fundingOpportunityEntries: OpportunityEntry[] = [
   {
@@ -136,6 +136,84 @@ const fundingOpportunityEntries: OpportunityEntry[] = [
       ["European Union", "Grants", "Tenders", "Research"],
       ["EU", "Tilskudd", "Anbud", "Forskning"],
       ["الاتحاد الأوروبي", "منح", "مناقصات", "بحث"],
+    ),
+  },
+  {
+    id: "norad-for-partners",
+    title: text(
+      "Norad partner grants and calls for proposals",
+      "Norad-partneres tilskudd og utlysninger",
+      "منح Norad للشركاء والدعوات الرسمية للتقديم",
+    ),
+    url: "https://www.norad.no/en/for-partners/",
+    source: text("Norad", "Norad", "Norad"),
+    summary: text(
+      "Official Norad partner page with calls for proposals, grants guidance, the grants handbook, and collaboration information for eligible organisations, universities, companies, and institutions.",
+      "Offisiell partnerside hos Norad med utlysninger, veiledning om tilskudd, tilskuddshåndbok og informasjon om samarbeid for kvalifiserte organisasjoner, universiteter, selskaper og institusjoner.",
+      "الصفحة الرسمية للشركاء لدى Norad، وتضم الدعوات الرسمية للتقديم وإرشادات المنح ودليل المنح ومعلومات التعاون للمنظمات والجامعات والشركات والمؤسسات المؤهلة.",
+    ),
+    audience: text(
+      "NGOs, universities, companies, government agencies, and other eligible partners seeking official Norad funding routes.",
+      "Frivillige organisasjoner, universiteter, selskaper, offentlige etater og andre kvalifiserte partnere som søker offisielle finansieringsveier hos Norad.",
+      "المنظمات غير الحكومية والجامعات والشركات والجهات الحكومية وغيرها من الشركاء المؤهلين الذين يبحثون عن مسارات تمويل رسمية من Norad.",
+    ),
+    geography: text(
+      "Norway-based and international development cooperation routes",
+      "Norskbaserte og internasjonale samarbeidsruter innen utvikling",
+      "مسارات تعاون إنمائي نرويجية ودولية",
+    ),
+    verificationNote: text(
+      "Official Norad partner area that links directly to calls for proposals, grant rules, reporting guidance, and collaboration tools.",
+      "Offisielt partnerområde hos Norad som lenker direkte til utlysninger, tilskuddsregler, rapporteringsveiledning og samarbeidsverktøy.",
+      "مساحة الشركاء الرسمية لدى Norad، وتربط مباشرة بالدعوات للتقديم وقواعد المنح وإرشادات التقارير وأدوات التعاون.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: tags(
+      ["Norway", "Norad", "Development cooperation", "Civil society"],
+      ["Norge", "Norad", "Utviklingssamarbeid", "Sivilsamfunn"],
+      ["النرويج", "Norad", "تعاون إنمائي", "مجتمع مدني"],
+    ),
+  },
+  {
+    id: "afd-calls-for-projects",
+    title: text(
+      "AFD calls for projects",
+      "AFDs prosjektutlysninger",
+      "دعوات المشاريع لدى AFD",
+    ),
+    url: "https://www.afd.fr/en/calls-projects",
+    source: text("AFD Group", "AFD Group", "مجموعة AFD"),
+    summary: text(
+      "Official AFD page for calls for projects and programme-managed funding routes, including opportunities for civil society, private-sector initiatives, and thematic impact projects.",
+      "Offisiell AFD-side for prosjektutlysninger og programforvaltede finansieringsruter, inkludert muligheter for sivilsamfunn, private initiativer og tematiske prosjekter med lokal effekt.",
+      "الصفحة الرسمية لـ AFD الخاصة بدعوات المشاريع ومسارات التمويل المدارة عبر البرامج، وتشمل فرصاً للمجتمع المدني والمبادرات الخاصة والمشاريع ذات الأثر المحلي.",
+    ),
+    audience: text(
+      "Civil-society organisations, nonprofit institutions, eligible companies, consortia, and local-impact project teams responding to AFD calls.",
+      "Sivilsamfunnsorganisasjoner, ideelle institusjoner, kvalifiserte selskaper, konsortier og prosjektteam med lokal påvirkning som svarer på AFD-utlysninger.",
+      "منظمات المجتمع المدني والمؤسسات غير الربحية والشركات المؤهلة والائتلافات وفرق المشاريع ذات الأثر المحلي التي تستجيب لدعوات AFD.",
+    ),
+    geography: text(
+      "France-linked development cooperation and partner countries",
+      "Fransk utviklingssamarbeid og partnerland",
+      "التعاون الإنمائي المرتبط بفرنسا والبلدان الشريكة",
+    ),
+    verificationNote: text(
+      "Official AFD calls page explaining application steps, eligibility checks, and direct submission through each published call.",
+      "Offisiell side for AFD-utlysninger som forklarer søknadsprosessen, kvalifikasjonskontroll og direkte innsending gjennom hver publisert utlysning.",
+      "صفحة AFD الرسمية للدعوات، وتشرح خطوات التقديم والتحقق من الأهلية والتقديم المباشر عبر كل دعوة منشورة.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: tags(
+      ["France", "AFD", "Civil society", "Calls for projects"],
+      ["Frankrike", "AFD", "Sivilsamfunn", "Prosjektutlysninger"],
+      ["فرنسا", "AFD", "مجتمع مدني", "دعوات مشاريع"],
     ),
   },
   {
@@ -214,6 +292,45 @@ const fundingOpportunityEntries: OpportunityEntry[] = [
       ["United States", "Assistance", "Scholarships", "Government"],
       ["USA", "Støtteordninger", "Stipender", "Myndigheter"],
       ["الولايات المتحدة", "مساعدات", "منح دراسية", "حكومة"],
+    ),
+  },
+  {
+    id: "engagement-global-bengo",
+    title: text(
+      "Engagement Global bengo funding route",
+      "Engagement Global bengo-finansieringsrute",
+      "مسار التمويل عبر bengo في Engagement Global",
+    ),
+    url: "https://www.engagement-global.de/de/bengo",
+    source: text("Engagement Global / BMZ", "Engagement Global / BMZ", "Engagement Global / BMZ"),
+    summary: text(
+      "Official bengo route for German NGOs, associations, and foundations seeking development-policy funding and application guidance under the BMZ private-sponsor system.",
+      "Offisiell bengo-rute for tyske frivillige organisasjoner, foreninger og stiftelser som søker utviklingspolitisk finansiering og søknadsveiledning under BMZs system for private aktører.",
+      "المسار الرسمي لـ bengo للمنظمات والجمعيات والمؤسسات الألمانية التي تبحث عن تمويل في مجال التنمية وإرشادات التقديم ضمن نظام الجهات الخاصة التابع لـ BMZ.",
+    ),
+    audience: text(
+      "Germany-based NGOs, associations, foundations, and eligible civil-society applicants working with partners in the Global South.",
+      "Tyskbaserte frivillige organisasjoner, foreninger, stiftelser og andre kvalifiserte sivilsamfunnsaktører som arbeider med partnere i det globale sør.",
+      "المنظمات والجمعيات والمؤسسات الألمانية وغيرها من جهات المجتمع المدني المؤهلة التي تعمل مع شركاء في بلدان الجنوب العالمي.",
+    ),
+    geography: text(
+      "Germany-based applicants with international development projects",
+      "Tyskbaserte søkere med internasjonale utviklingsprosjekter",
+      "متقدمون من ألمانيا لديهم مشاريع تنموية دولية",
+    ),
+    verificationNote: text(
+      "Official Engagement Global funding support route stating that BMZ funds for NGO development work are managed through this system.",
+      "Offisiell finansieringsrute hos Engagement Global som opplyser at BMZ-midler til frivillig utviklingsarbeid forvaltes gjennom dette systemet.",
+      "مسار رسمي للدعم التمويلي عبر Engagement Global، ويبيّن أن أموال BMZ المخصصة لعمل المنظمات التنموي تدار عبر هذا النظام.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "programme",
+    tags: tags(
+      ["Germany", "BMZ", "NGOs", "Foundations"],
+      ["Tyskland", "BMZ", "Frivillige organisasjoner", "Stiftelser"],
+      ["ألمانيا", "BMZ", "منظمات غير حكومية", "مؤسسات"],
     ),
   },
   {
@@ -335,6 +452,119 @@ const fundingOpportunityEntries: OpportunityEntry[] = [
       ["NIH", "Biomedical research", "Universities", "Health funding"],
       ["NIH", "Biomedisinsk forskning", "Universiteter", "Helsefinansiering"],
       ["NIH", "بحث طبي حيوي", "جامعات", "تمويل صحي"],
+    ),
+  },
+  {
+    id: "nrc-partnering-route",
+    title: text(
+      "NRC partnership and co-funding route",
+      "NRCs partnerskaps- og medfinansieringsrute",
+      "مسار الشراكة والتمويل المشترك لدى NRC",
+    ),
+    url: "https://www.nrc.no/resources/brochures/partnering-with-nrc",
+    source: text("Norwegian Refugee Council", "Flyktninghjelpen", "المجلس النرويجي للاجئين"),
+    summary: text(
+      "Official NRC partnership route describing how businesses, philanthropies, foundations, and other partners can support or co-develop humanitarian initiatives with NRC.",
+      "Offisiell partnerskapsrute hos NRC som beskriver hvordan bedrifter, filantroper, stiftelser og andre partnere kan støtte eller samutvikle humanitære initiativer med NRC.",
+      "المسار الرسمي للشراكة لدى NRC، ويشرح كيف يمكن للشركات والجهات الخيرية والمؤسسات وغيرها من الشركاء دعم المبادرات الإنسانية أو تطويرها بشكل مشترك مع المجلس.",
+    ),
+    audience: text(
+      "Private-sector partners, philanthropies, foundations, and institutional collaborators looking for direct partnership engagement with NRC.",
+      "Partnere i privat sektor, filantroper, stiftelser og institusjonelle samarbeidspartnere som ser etter direkte partnerskap med NRC.",
+      "شركاء القطاع الخاص والجهات الخيرية والمؤسسات والشركاء المؤسسيون الذين يبحثون عن تعاون مباشر مع NRC.",
+    ),
+    geography: text(
+      "Global humanitarian response partnerships",
+      "Globale partnerskap innen humanitær respons",
+      "شراكات عالمية في مجال الاستجابة الإنسانية",
+    ),
+    verificationNote: text(
+      "Official NRC partnership material. This is a direct collaboration route rather than a general public open-grants portal.",
+      "Offisielt partnermateriell fra NRC. Dette er en direkte samarbeidsrute og ikke en generell, offentlig tilskuddsportal.",
+      "مادة شراكة رسمية من NRC. هذا مسار تعاون مباشر وليس بوابة عامة مفتوحة للمنح للجميع.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "programme",
+    tags: tags(
+      ["Humanitarian", "NRC", "Partnerships", "Foundations"],
+      ["Humanitær", "NRC", "Partnerskap", "Stiftelser"],
+      ["إنساني", "NRC", "شراكات", "مؤسسات"],
+    ),
+  },
+  {
+    id: "awdf-resourcing",
+    title: text(
+      "AWDF resourcing and grants",
+      "AWDF ressurser og tilskudd",
+      "التمويل والمنح عبر AWDF",
+    ),
+    url: "https://awdf.org/what-we-do/resourcing/",
+    source: text("African Women's Development Fund", "African Women's Development Fund", "صندوق تنمية المرأة الأفريقية"),
+    summary: text(
+      "Official AWDF resourcing page for grantmaking support to eligible African women-led organisations, with application guidance, FAQs, and grantmaking criteria.",
+      "Offisiell ressursside fra AWDF for tilskuddsstøtte til kvalifiserte afrikanske kvinneledede organisasjoner, med søknadsveiledning, FAQ og tildelingskriterier.",
+      "الصفحة الرسمية للتمويل عبر AWDF لدعم المنظمات الأفريقية المؤهلة التي تقودها النساء، مع إرشادات التقديم والأسئلة الشائعة ومعايير المنح.",
+    ),
+    audience: text(
+      "Women-led organisations and eligible civil-society applicants in Africa seeking grant support for gender-justice and social-change work.",
+      "Kvinneledede organisasjoner og andre kvalifiserte sivilsamfunnsaktører i Afrika som søker tilskuddsstøtte til arbeid med kjønnsrettferdighet og sosial endring.",
+      "المنظمات التي تقودها النساء وغيرها من جهات المجتمع المدني المؤهلة في أفريقيا والتي تبحث عن دعم تمويلي لأعمال العدالة الجندرية والتغيير الاجتماعي.",
+    ),
+    geography: text("Africa", "Afrika", "أفريقيا"),
+    verificationNote: text(
+      "Official AWDF grantmaking page with direct application guidance and published eligibility criteria.",
+      "Offisiell tildelingsside fra AWDF med direkte søknadsveiledning og publiserte kvalifikasjonskrav.",
+      "صفحة المنح الرسمية لـ AWDF، وتضم إرشادات تقديم مباشرة ومعايير أهلية منشورة.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "rolling",
+    kind: "portal",
+    tags: tags(
+      ["Africa", "Foundation", "Women's organisations", "Grantmaking"],
+      ["Afrika", "Stiftelse", "Kvinneorganisasjoner", "Tilskudd"],
+      ["أفريقيا", "مؤسسة", "منظمات نسائية", "منح"],
+    ),
+  },
+  {
+    id: "japan-foundation-programs",
+    title: text(
+      "Japan Foundation grant and program list",
+      "Japan Foundations tilskudds- og programoversikt",
+      "قائمة المنح والبرامج في مؤسسة اليابان",
+    ),
+    url: "https://www.jpf.go.jp/e/program/",
+    source: text("Japan Foundation", "Japan Foundation", "مؤسسة اليابان"),
+    summary: text(
+      "Official Japan Foundation programme list covering grants and support routes in arts and cultural exchange, Japanese-language education, Japanese studies, and international dialogue.",
+      "Offisiell programoversikt fra Japan Foundation som dekker tilskudd og støtteordninger innen kunst- og kulturutveksling, japanskopplæring, japanstudier og internasjonal dialog.",
+      "القائمة الرسمية لبرامج مؤسسة اليابان، وتشمل المنح ومسارات الدعم في مجالات الفنون والتبادل الثقافي وتعليم اللغة اليابانية والدراسات اليابانية والحوار الدولي.",
+    ),
+    audience: text(
+      "Institutions, organisations, researchers, cultural actors, and applicants who fit the eligibility rules of each Japan Foundation scheme.",
+      "Institusjoner, organisasjoner, forskere, kulturaktører og søkere som oppfyller kvalifikasjonskravene i de enkelte ordningene hos Japan Foundation.",
+      "المؤسسات والمنظمات والباحثون والجهات الثقافية والمتقدمون الذين تنطبق عليهم شروط الأهلية في برامج مؤسسة اليابان المختلفة.",
+    ),
+    geography: text(
+      "Japan and international programme routes, including Asia-facing schemes",
+      "Japan og internasjonale programruter, inkludert ordninger rettet mot Asia",
+      "اليابان ومسارات برامج دولية، بما في ذلك البرامج الموجهة إلى آسيا",
+    ),
+    verificationNote: text(
+      "Official Japan Foundation programme portal with application instructions and links to the online application system.",
+      "Offisiell programportal fra Japan Foundation med søknadsinstruksjoner og lenker til det elektroniske søknadssystemet.",
+      "البوابة الرسمية لبرامج مؤسسة اليابان، وتحتوي على تعليمات التقديم وروابط إلى نظام التقديم الإلكتروني.",
+    ),
+    timestamp: opportunitiesSnapshotAt,
+    timestampKind: "verified",
+    status: "seasonal",
+    kind: "programme",
+    tags: tags(
+      ["Asia", "Japan", "Culture", "International dialogue"],
+      ["Asia", "Japan", "Kultur", "Internasjonal dialog"],
+      ["آسيا", "اليابان", "ثقافة", "حوار دولي"],
     ),
   },
 ];
