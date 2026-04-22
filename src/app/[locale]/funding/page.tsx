@@ -5,7 +5,7 @@ import { Reveal } from "@/components/AnimatedBlock";
 import { OpportunityFeed } from "@/components/OpportunityFeed";
 import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
 import { mediaLibrary } from "@/lib/media";
-import { fundingOpportunities, opportunitiesSnapshotAt } from "@/lib/opportunities";
+import { getFundingOpportunities, opportunitiesSnapshotAt } from "@/lib/opportunities";
 import { getFundingPageCopy } from "@/lib/opportunity-page-copy";
 
 type PageProps = {
@@ -21,6 +21,7 @@ export default function FundingPage({ params }: PageProps) {
 
   const locale = params.locale as Locale;
   const copy = getFundingPageCopy(locale);
+  const items = getFundingOpportunities(locale);
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -49,7 +50,7 @@ export default function FundingPage({ params }: PageProps) {
         </div>
       </section>
 
-      <OpportunityFeed locale={locale} items={fundingOpportunities} snapshotAt={opportunitiesSnapshotAt} copy={copy.feed} />
+      <OpportunityFeed locale={locale} items={items} snapshotAt={opportunitiesSnapshotAt} copy={copy.feed} />
 
       <section className="section-padding border-t border-line/80">
         <Reveal>
