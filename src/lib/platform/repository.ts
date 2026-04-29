@@ -3,9 +3,12 @@ import {
   buildSeedPlatformSources,
   buildSeedSourceChecks,
 } from "@/lib/platform/seed";
+import { isPlatformDatabaseEnabled, isPlatformDatabaseConfigured } from "@/lib/platform/database";
+import { getPostgresPlatformRepository } from "@/lib/platform/postgres";
 import type {
   AuditEventInput,
   AuditEventRecord,
+  OpportunityModerationInput,
   OpportunityQuery,
   OpportunitySubmissionInput,
   OpportunitySubmissionRecord,
@@ -15,6 +18,7 @@ import type {
   PlatformRepository,
   PlatformSourceRecord,
   SourceCheckRecord,
+  SourceUpdateInput,
 } from "@/lib/platform/types";
 
 const seededSources = buildSeedPlatformSources();
@@ -69,7 +73,7 @@ function dateValue(value?: string) {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-function isStale(opportunity: PlatformOpportunityRecord) {
+export function isOpportunityStale(opportunity: PlatformOpportunityRecord) {
   const checkedAt = dateValue(opportunity.lastCheckedAt);
   if (!checkedAt) {
     return true;
@@ -79,7 +83,7 @@ function isStale(opportunity: PlatformOpportunityRecord) {
   return Date.now() - checkedAt > staleAfterMs;
 }
 
-function applyQuery(opportunities: PlatformOpportunityRecord[], query: OpportunityQuery = {}) {
+export function applyOpportunityQuery(opportunities: PlatformOpportunityRecord[], query: OpportunityQuery = {}) {
   let results = [...opportunities];
 
   if (query.category) {
@@ -138,7 +142,7 @@ function applyQuery(opportunities: PlatformOpportunityRecord[], query: Opportuni
     }
 
     const statusWeight = Number(b.status === "published") - Number(a.status === "published");
-    return statusWeight || dateValue(b.lastCheckedAt) - dateValue(a.lastCheckedAt) || a.title.localeCompare(b.title);
+      return statusWeight || dateValue(b.lastCheckedAt) - dateValue(a.lastCheckedAt) || a.title.localeCompare(b.title);
   });
 
   if (query.limit && Number.isFinite(query.limit)) {
@@ -151,7 +155,7 @@ function applyQuery(opportunities: PlatformOpportunityRecord[], query: Opportuni
 function createSeedRepository(): PlatformRepository {
   return {
     async listOpportunities(query) {
-      return applyQuery(seededOpportunities, query);
+      return applyOpportunityQuery(seededOpportunities, query);
     },
 
     async getOpportunity(id) {
@@ -184,6 +188,63 @@ function createSeedRepository(): PlatformRepository {
       return submission;
     },
 
+    async moderateOpportunity(input: OpportunityModerationInput) {
+      const opportunity = seededOpportunities.find((item) => item.id === input.id);
+      if (!opportunity) {
+        return null;
+      }
+
+      opportunity.status = input.status;
+      opportunity.reviewedBy = input.reviewer;
+      opportunity.reviewNotes = input.note;
+      opportunity.updatedAt = now();
+
+      auditEvents.unshift({
+        id: createId("audit"),
+        actor: input.reviewer,
+        action: "opportunity.moderate",
+        entityType: "opportunity",
+        entityId: input.id,
+        metadata: { status: input.status, note: input.note },
+        createdAt: now(),
+      });
+
+      return opportunity;
+    },
+
+    async updateSource(input: SourceUpdateInput) {
+      const source = seededSources.find((item) => item.id === input.id);
+      if (!source) {
+        return null;
+      }
+
+      if (input.status) {
+        source.status = input.status;
+      }
+
+      if (input.checkIntervalHours) {
+        source.checkIntervalHours = input.checkIntervalHours;
+      }
+
+      source.updatedAt = now();
+
+      auditEvents.unshift({
+        id: createId("audit"),
+        actor: input.actor,
+        action: "source.update",
+        entityType: "source",
+        entityId: input.id,
+        metadata: {
+          status: input.status,
+          checkIntervalHours: input.checkIntervalHours,
+          note: input.note,
+        },
+        createdAt: now(),
+      });
+
+      return source;
+    },
+
     async recordAuditEvent(input: AuditEventInput) {
       const event: AuditEventRecord = {
         id: createId("audit"),
@@ -206,7 +267,7 @@ function createSeedRepository(): PlatformRepository {
         opportunityCount: seededOpportunities.length,
         publishedOpportunityCount: seededOpportunities.filter((opportunity) => opportunity.status === "published").length,
         pendingSubmissionCount: submissions.filter((submission) => submission.status === "pending").length,
-        staleOpportunityCount: seededOpportunities.filter(isStale).length,
+        staleOpportunityCount: seededOpportunities.filter(isOpportunityStale).length,
         sourceCount: seededSources.length,
         degradedSourceCount: seededSources.filter((source) => source.status !== "healthy").length,
         auditEventCount: auditEvents.length,
@@ -222,5 +283,9 @@ function createSeedRepository(): PlatformRepository {
 const platformRepository = createSeedRepository();
 
 export function getPlatformRepository() {
+  if (isPlatformDatabaseEnabled() && isPlatformDatabaseConfigured()) {
+    return getPostgresPlatformRepository();
+  }
+
   return platformRepository;
 }

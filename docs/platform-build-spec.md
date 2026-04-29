@@ -258,3 +258,19 @@ Opportunity statuses:
 - Admin APIs are protected by `PLATFORM_ADMIN_TOKEN`.
 - Audit primitives exist for future admin actions.
 - Existing live funding and scholarship pages continue working.
+
+## Database Connection Increment
+
+The next increment adds PostgreSQL support while preserving the seed fallback.
+
+Implementation requirements:
+
+- Use `DATABASE_URL` or `POSTGRES_URL`.
+- Use `PLATFORM_STORAGE_MODE=postgres` to activate database reads and writes.
+- Keep the seed-backed repository as a safe fallback.
+- Add an admin-only bootstrap route that creates tables and imports curated data.
+- Add admin source-management endpoints.
+- Add admin opportunity-moderation endpoints.
+- Store submissions, source updates, moderation actions, and audit events durably once PostgreSQL is enabled.
+
+See `docs/platform-database-setup.md` for setup instructions.

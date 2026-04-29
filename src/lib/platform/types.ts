@@ -143,6 +143,21 @@ export type OpportunitySubmissionInput = {
   notes?: string;
 };
 
+export type OpportunityModerationInput = {
+  id: string;
+  status: PlatformOpportunityStatus;
+  reviewer: string;
+  note: string;
+};
+
+export type SourceUpdateInput = {
+  id: string;
+  status?: PlatformSourceStatus;
+  checkIntervalHours?: number;
+  actor: string;
+  note: string;
+};
+
 export type OpportunityReviewRecord = {
   id: string;
   opportunityId: string;
@@ -237,6 +252,8 @@ export type PlatformRepository = {
   listSourceChecks(sourceId?: string): Promise<SourceCheckRecord[]>;
   listSubmissions(status?: OpportunitySubmissionStatus): Promise<OpportunitySubmissionRecord[]>;
   createSubmission(input: OpportunitySubmissionInput): Promise<OpportunitySubmissionRecord>;
+  moderateOpportunity(input: OpportunityModerationInput): Promise<PlatformOpportunityRecord | null>;
+  updateSource(input: SourceUpdateInput): Promise<PlatformSourceRecord | null>;
   recordAuditEvent(input: AuditEventInput): Promise<AuditEventRecord>;
   listAuditEvents(): Promise<AuditEventRecord[]>;
   getOverview(): Promise<PlatformOverview>;
