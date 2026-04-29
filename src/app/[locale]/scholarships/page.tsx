@@ -50,7 +50,13 @@ export default function ScholarshipsPage({ params }: PageProps) {
         </div>
       </section>
 
-      <OpportunityFeed locale={locale} items={items} snapshotAt={opportunitiesSnapshotAt} copy={copy.feed} />
+      <OpportunityFeed
+        locale={locale}
+        items={items}
+        snapshotAt={opportunitiesSnapshotAt}
+        copy={copy.feed}
+        livePath={`/api/opportunities/scholarships?locale=${locale}`}
+      />
 
       <section className="section-padding border-t border-line/80">
         <Reveal>

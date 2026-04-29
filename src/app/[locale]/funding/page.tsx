@@ -50,7 +50,13 @@ export default function FundingPage({ params }: PageProps) {
         </div>
       </section>
 
-      <OpportunityFeed locale={locale} items={items} snapshotAt={opportunitiesSnapshotAt} copy={copy.feed} />
+      <OpportunityFeed
+        locale={locale}
+        items={items}
+        snapshotAt={opportunitiesSnapshotAt}
+        copy={copy.feed}
+        livePath={`/api/opportunities/funding?locale=${locale}`}
+      />
 
       <section className="section-padding border-t border-line/80">
         <Reveal>

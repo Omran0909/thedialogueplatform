@@ -25,7 +25,8 @@ const hubCopy: Record<
   en: {
     badge: "Dialogue Intelligence Hub",
     title: "AI guidance and real-time Sudan updates in one place",
-    description: "",
+    description:
+      "Follow the live Sudan monitor below, and use the floating AI assistant to ask direct questions about Sudan, The Dialogue Platform, and source-linked updates.",
     assistant: {
       badge: "Dialogue AI Desk",
       title: "Ask our AI assistant about The Dialogue Platform and Sudan updates.",
@@ -81,7 +82,7 @@ const hubCopy: Record<
     badge: "Dialog Intelligenshub",
     title: "AI-veiledning og sanntidsoppdateringer om Sudan på ett sted.",
     description:
-      "Denne huben kombinerer AI-assistenten til The Dialogue Platform med kontinuerlig oppdatert Sudan-dekning fra pålitelige internasjonale kilder.",
+      "Følg den direkte Sudan-overvåkningen nedenfor, og bruk den flytende AI-assistenten for å stille spørsmål om Sudan, The Dialogue Platform og oppdateringer med kildelenker.",
     assistant: {
       badge: "Dialog AI-desk",
       title: "Spør AI-assistenten om The Dialogue Platform og oppdateringer fra Sudan.",
@@ -137,7 +138,7 @@ const hubCopy: Record<
     badge: "مركز الذكاء الحواري",
     title: "إرشاد ذكي وتحديثات السودان المباشرة في مكان واحد.",
     description:
-      "يجمع هذا المركز بين مساعد منصة الحوار الذكي وتغطية السودان المتجددة باستمرار من مصادر دولية موثوقة.",
+      "تابعوا مراقبة السودان المباشرة أدناه، واستخدموا المساعد الذكي العائم لطرح أسئلة مباشرة حول السودان ومنصة الحوار والتحديثات المرتبطة بالمصادر.",
     assistant: {
       badge: "مكتب الذكاء الاصطناعي",
       title: "اسأل مساعدنا الذكي عن منصة الحوار وآخر التطورات في السودان.",

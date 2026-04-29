@@ -60,10 +60,14 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [visiblePrompts, setVisiblePrompts] = useState<string[]>(() =>
     pickRandomPrompts(copy.starterPrompts, PROMPT_BUTTON_COUNT),
   );
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const openLabel = locale === "ar" ? "افتح المساعد" : locale === "no" ? "Åpne assistenten" : "Open assistant";
+  const closeLabel = locale === "ar" ? "إغلاق المساعد" : locale === "no" ? "Lukk assistenten" : "Close assistant";
+  const launcherLabel = locale === "ar" ? "مساعد الحوار" : locale === "no" ? "Dialogassistent" : "Dialogue Assistant";
 
   const apiHistory = useMemo(
     () =>
@@ -80,7 +84,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
       return;
     }
     container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
-  }, [messages, isSending]);
+  }, [messages, isOpen, isSending]);
 
   useEffect(() => {
     setVisiblePrompts(pickRandomPrompts(copy.starterPrompts, PROMPT_BUTTON_COUNT));
@@ -183,17 +187,30 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   }
 
   return (
-    <section className="section-padding border-t border-line/80">
-      <div className="surface-card overflow-hidden border-[#0b3a5d1f]">
-        <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="border-b border-line/80 bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] p-6 text-white sm:p-8 lg:border-b-0 lg:border-r">
-            <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em]">
-              {copy.badge}
-            </p>
-            <h2 className="mt-4 text-3xl leading-tight sm:text-4xl">{copy.title}</h2>
-            <p className="mt-4 text-sm leading-relaxed text-white/90">{copy.description}</p>
+    <div className="fixed bottom-4 right-4 z-[70] flex w-[min(420px,calc(100vw-1.5rem))] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+      {isOpen ? (
+        <div className="w-full overflow-hidden rounded-[28px] border border-[#0b3a5d1f] bg-white shadow-[0_24px_60px_-28px_rgba(8,47,76,0.82)]">
+          <div className="bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] p-5 text-white">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]">
+                  {copy.badge}
+                </p>
+                <h2 className="mt-3 text-xl leading-tight sm:text-2xl">{copy.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-white/90">{copy.description}</p>
+              </div>
 
-            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label={closeLabel}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/12 text-xl font-semibold text-white transition hover:bg-white/20"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {visiblePrompts.map((prompt) => (
                 <button
@@ -201,17 +218,17 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                   type="button"
                   onClick={() => void sendPrompt(prompt)}
                   disabled={isSending}
-                  className="rounded-full border border-white/35 bg-white/10 px-3 py-2 text-left text-xs font-semibold leading-relaxed text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="rounded-full border border-white/35 bg-white/10 px-3 py-2 text-left text-[11px] font-semibold leading-relaxed text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {prompt}
                 </button>
               ))}
             </div>
-            <p className="mt-5 text-xs leading-relaxed text-white/80">{copy.note}</p>
+            <p className="mt-4 text-xs leading-relaxed text-white/80">{copy.note}</p>
           </div>
 
-          <div className="bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-6 sm:p-8">
-            <div ref={messagesContainerRef} className="h-[380px] overflow-y-auto rounded-xl border border-line/80 bg-white/70 p-4">
+          <div className="bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-4">
+            <div ref={messagesContainerRef} className="h-[320px] overflow-y-auto rounded-2xl border border-line/80 bg-white/76 p-4">
               <div className="space-y-3">
                 {messages.map((message) => (
                   <article
@@ -269,8 +286,20 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
             </form>
           </div>
         </div>
-      </div>
-    </section>
+      ) : null}
+
+      <button
+        type="button"
+        onClick={() => setIsOpen((previous) => !previous)}
+        aria-label={isOpen ? closeLabel : openLabel}
+        className="inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#0b3a5d_0%,#17506c_65%,#f2a33a_135%)] px-5 py-3 text-sm font-semibold text-white shadow-[0_20px_40px_-24px_rgba(8,47,76,0.95)] transition hover:translate-y-[-1px] hover:shadow-[0_24px_44px_-24px_rgba(8,47,76,0.95)]"
+      >
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-base" aria-hidden="true">
+          AI
+        </span>
+        <span>{isOpen ? closeLabel : launcherLabel}</span>
+      </button>
+    </div>
   );
 }
 

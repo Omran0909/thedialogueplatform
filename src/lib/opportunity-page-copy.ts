@@ -28,8 +28,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
     return {
       statusLabel: "Verifiserte muligheter",
       statusDescription:
-        "Denne demosiden samler bare offisielle kilder fra myndigheter, universiteter, stiftelser, FN og andre verifiserte institusjoner. The Dialogue Platform mottar ikke søknader eller betalinger; søk alltid direkte ved den opprinnelige kilden.",
-      snapshotLabel: "Kurert demoversjon kontrollert",
+        "Denne live-katalogen samler bare offisielle kilder fra myndigheter, universiteter, stiftelser, FN og andre verifiserte institusjoner. Tidsstemplene viser siste kildekontroll fra The Dialogue Platform, ikke nødvendigvis den opprinnelige publiseringsdatoen. The Dialogue Platform mottar ikke søknader eller betalinger; søk alltid direkte ved den opprinnelige kilden.",
+      snapshotLabel: "Siste kildekontroll",
       openLabel: "Åpen",
       rollingLabel: "Løpende",
       seasonalLabel: "Sesongbasert",
@@ -56,8 +56,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
     return {
       statusLabel: "فرص موثقة",
       statusDescription:
-        "تعرض هذه النسخة التجريبية فقط مصادر رسمية صادرة عن الحكومات والجامعات والمؤسسات والجهات المانحة والأمم المتحدة أو الجهات التي تم التحقق منها مؤسسياً. منصة الحوار لا تستقبل الطلبات ولا الرسوم؛ قدّموا دائماً عبر المصدر الأصلي مباشرة.",
-      snapshotLabel: "نسخة تجريبية منسقة وتم التحقق منها",
+        "يعرض هذا الدليل المباشر فقط مصادر رسمية صادرة عن الحكومات والجامعات والمؤسسات والجهات المانحة والأمم المتحدة أو الجهات التي تم التحقق منها مؤسسياً. وتُظهر الطوابع الزمنية آخر فحص للمصدر من قبل منصة الحوار، وليس بالضرورة تاريخ النشر الأصلي للفرصة. منصة الحوار لا تستقبل الطلبات ولا الرسوم؛ قدّموا دائماً عبر المصدر الأصلي مباشرة.",
+      snapshotLabel: "آخر فحص للمصدر",
       openLabel: "مفتوح",
       rollingLabel: "مستمر",
       seasonalLabel: "موسمي",
@@ -83,8 +83,8 @@ function buildFeedCopy(locale: Locale): OpportunityFeedCopy {
   return {
     statusLabel: "Verified opportunities",
     statusDescription:
-      "This demo curates only official government, university, foundation, UN, and institutionally verified sources. The Dialogue Platform does not collect applications or fees; always apply at the original source.",
-    snapshotLabel: "Curated demo snapshot reviewed",
+      "This live directory curates only official government, university, foundation, UN, and institutionally verified sources. Timestamps reflect The Dialogue Platform's latest source check, not necessarily the original publication date of a programme. The Dialogue Platform does not collect applications or fees; always apply at the original source.",
+    snapshotLabel: "Latest source check",
     openLabel: "Open",
     rollingLabel: "Rolling",
     seasonalLabel: "Seasonal",

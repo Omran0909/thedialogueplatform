@@ -35,7 +35,17 @@ type OpportunityFeedProps = {
   items: OpportunityItem[];
   snapshotAt: string;
   copy: OpportunityFeedCopy;
+  livePath?: string;
 };
+
+type LiveOpportunityPayload = {
+  ok?: boolean;
+  snapshotAt?: string;
+  items?: OpportunityItem[];
+  message?: string;
+};
+
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 function formatAbsoluteDate(value: string, locale: Locale, dateOnly = false) {
   const localeCode = locale === "ar" ? "ar-SA" : locale === "no" ? "nb-NO" : "en-US";
@@ -135,23 +145,90 @@ function statusPriority(status: OpportunityStatus) {
   return 3;
 }
 
-export function OpportunityFeed({ locale, items, snapshotAt, copy }: OpportunityFeedProps) {
+export function OpportunityFeed({ locale, items, snapshotAt, copy, livePath }: OpportunityFeedProps) {
   const [nowMs, setNowMs] = useState(Date.now());
+  const [liveItems, setLiveItems] = useState(items);
+  const [liveSnapshotAt, setLiveSnapshotAt] = useState(snapshotAt);
 
   useEffect(() => {
     const interval = window.setInterval(() => setNowMs(Date.now()), 60_000);
     return () => window.clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    setLiveItems(items);
+    setLiveSnapshotAt(snapshotAt);
+  }, [items, snapshotAt]);
+
+  useEffect(() => {
+    if (!livePath) {
+      return;
+    }
+
+    let isActive = true;
+
+    const loadLive = async () => {
+      try {
+        const separator = livePath.includes("?") ? "&" : "?";
+        const response = await fetch(`${livePath}${separator}ts=${Date.now()}`, {
+          cache: "no-store",
+        });
+        const payload = (await response.json()) as LiveOpportunityPayload;
+
+        if (!response.ok || !payload.ok || !Array.isArray(payload.items) || !payload.snapshotAt) {
+          return;
+        }
+
+        if (!isActive) {
+          return;
+        }
+
+        setLiveItems(payload.items);
+        setLiveSnapshotAt(payload.snapshotAt);
+      } catch {
+        // Keep the static fallback if the live request fails.
+      }
+    };
+
+    void loadLive();
+
+    const interval = window.setInterval(() => {
+      void loadLive();
+    }, REFRESH_INTERVAL_MS);
+
+    const onFocus = () => {
+      void loadLive();
+    };
+
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        void loadLive();
+      }
+    };
+
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      isActive = false;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [livePath]);
+
+  const activeItems = livePath ? liveItems : items;
+  const activeSnapshotAt = livePath ? liveSnapshotAt : snapshotAt;
+
   const sortedItems = useMemo(
     () =>
-      [...items].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
-    [items],
+      [...activeItems].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()),
+    [activeItems],
   );
 
   const featuredItems = useMemo(
     () =>
-      [...items]
+      [...activeItems]
         .sort((a, b) => {
           const statusDelta = statusPriority(a.status) - statusPriority(b.status);
           if (statusDelta !== 0) {
@@ -160,12 +237,12 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy }: Opportunity
           return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
         })
         .slice(0, 5),
-    [items],
+    [activeItems],
   );
 
-  const openCount = useMemo(() => items.filter((item) => item.status === "open").length, [items]);
-  const rollingCount = useMemo(() => items.filter((item) => item.status === "rolling").length, [items]);
-  const seasonalCount = useMemo(() => items.filter((item) => item.status === "seasonal").length, [items]);
+  const openCount = useMemo(() => activeItems.filter((item) => item.status === "open").length, [activeItems]);
+  const rollingCount = useMemo(() => activeItems.filter((item) => item.status === "rolling").length, [activeItems]);
+  const seasonalCount = useMemo(() => activeItems.filter((item) => item.status === "seasonal").length, [activeItems]);
 
   return (
     <section className="section-padding border-t border-line/80">
@@ -194,7 +271,7 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy }: Opportunity
               <div className="mt-6 rounded-xl border border-white/18 bg-white/10 p-4">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/82">{copy.snapshotLabel}</p>
                 <p className="mt-3 text-sm leading-relaxed text-white/90">
-                  {formatAbsoluteDate(snapshotAt, locale)}
+                  {formatAbsoluteDate(activeSnapshotAt, locale)}
                 </p>
               </div>
             </div>
@@ -204,7 +281,7 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy }: Opportunity
                 <div className="mb-2 flex items-center justify-between gap-2 px-2">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary">{copy.streamLabel}</p>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-accent">
-                    {items.length} items
+                    {activeItems.length} items
                   </span>
                 </div>
                 <div className="max-h-[470px] overflow-y-auto px-1">
