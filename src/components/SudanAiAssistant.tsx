@@ -68,6 +68,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   const openLabel = locale === "ar" ? "افتح المساعد" : locale === "no" ? "Åpne assistenten" : "Open assistant";
   const closeLabel = locale === "ar" ? "إغلاق المساعد" : locale === "no" ? "Lukk assistenten" : "Close assistant";
   const launcherLabel = locale === "ar" ? "مساعد الحوار" : locale === "no" ? "Dialogassistent" : "Dialogue Assistant";
+  const hasConversation = messages.length > 1 || isSending;
 
   const apiHistory = useMemo(
     () =>
@@ -199,21 +200,29 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-2 bottom-3 z-[70] flex max-h-[calc(100dvh-1.5rem)] flex-col items-end gap-3 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)] sm:w-[min(400px,calc(100vw-3rem))]">
+    <div className="pointer-events-none fixed inset-x-2 bottom-3 z-[70] flex max-h-[calc(100dvh-1.5rem)] flex-col items-end gap-3 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)] sm:w-[min(430px,calc(100vw-3rem))]">
       {isOpen ? (
         <div
           onWheel={containAssistantWheel}
           onTouchMove={stopAssistantScroll}
-          className="assistant-panel-enter pointer-events-auto flex w-full max-h-[calc(100dvh-6.5rem)] flex-col overflow-hidden overscroll-contain rounded-[26px] border border-[#0b3a5d24] bg-white shadow-[0_28px_70px_-34px_rgba(8,47,76,0.9)] sm:max-h-[min(650px,calc(100dvh-8rem))]"
+          className="assistant-panel-enter pointer-events-auto flex h-[min(760px,calc(100dvh-6.5rem))] w-full flex-col overflow-hidden overscroll-contain rounded-[28px] border border-[#0b3a5d24] bg-white shadow-[0_28px_70px_-34px_rgba(8,47,76,0.9)] sm:h-[min(760px,calc(100dvh-8rem))]"
         >
-          <div className="shrink-0 bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] p-4 text-white sm:p-5">
+          <div
+            className={`shrink-0 bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] text-white ${
+              hasConversation ? "max-h-[38%] overflow-hidden p-3 sm:p-4" : "max-h-[48%] overflow-hidden p-4 sm:p-5"
+            }`}
+          >
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]">
                   {copy.badge}
                 </p>
-                <h2 className="mt-3 text-lg leading-tight sm:text-xl">{copy.title}</h2>
-                <p className="mt-2 text-xs leading-relaxed text-white/90 sm:text-sm">{copy.description}</p>
+                <h2 className={`${hasConversation ? "mt-2 text-base sm:text-lg" : "mt-3 text-lg sm:text-xl"} leading-tight`}>
+                  {copy.title}
+                </h2>
+                <p className={`${hasConversation ? "mt-1 line-clamp-2 text-[11px]" : "mt-2 text-xs sm:text-sm"} leading-relaxed text-white/90`}>
+                  {copy.description}
+                </p>
               </div>
 
               <button
@@ -226,21 +235,25 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
               </button>
             </div>
 
-            <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <p className={`${hasConversation ? "mt-3" : "mt-4"} text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80`}>
+              {copy.quickStartLabel}
+            </p>
+            <div className={`${hasConversation ? "assistant-prompt-strip mt-2 flex-nowrap overflow-x-auto pb-1" : "mt-2 flex-wrap"} flex gap-2`}>
               {visiblePrompts.map((prompt) => (
                 <button
                   key={prompt}
                   type="button"
                   onClick={() => void sendPrompt(prompt)}
                   disabled={isSending}
-                  className="rounded-full border border-white/35 bg-white/10 px-3 py-2 text-left text-[11px] font-semibold leading-relaxed text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-70"
+                  className={`rounded-full border border-white/35 bg-white/10 px-3 py-2 text-left text-[11px] font-semibold leading-relaxed text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-70 ${
+                    hasConversation ? "max-w-[260px] shrink-0 truncate" : ""
+                  }`}
                 >
                   {prompt}
                 </button>
               ))}
             </div>
-            <p className="mt-3 text-[11px] leading-relaxed text-white/80">{copy.note}</p>
+            {!hasConversation ? <p className="mt-3 text-[11px] leading-relaxed text-white/80">{copy.note}</p> : null}
           </div>
 
           <div className="flex min-h-0 flex-1 flex-col bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-3 sm:p-4">
@@ -249,7 +262,9 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
               data-assistant-scroll
               onWheel={stopAssistantScroll}
               onTouchMove={stopAssistantScroll}
-              className="min-h-[190px] flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-line/80 bg-white/76 p-3 sm:min-h-[220px] sm:p-4"
+              className={`assistant-message-scroll flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-line/80 bg-white/80 p-3 shadow-inner shadow-[#0b3a5d0f] sm:p-4 ${
+                hasConversation ? "min-h-[360px] sm:min-h-[420px]" : "min-h-[240px] sm:min-h-[300px]"
+              }`}
             >
               <div className="space-y-3">
                 {messages.map((message) => (
