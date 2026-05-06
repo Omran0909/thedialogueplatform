@@ -65,6 +65,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
     pickRandomPrompts(copy.starterPrompts, PROMPT_BUTTON_COUNT),
   );
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const lastAutoScrolledMessageRef = useRef<string | null>(null);
   const openLabel = locale === "ar" ? "افتح المساعد" : locale === "no" ? "Åpne assistenten" : "Open assistant";
   const closeLabel = locale === "ar" ? "إغلاق المساعد" : locale === "no" ? "Lukk assistenten" : "Close assistant";
   const launcherLabel = locale === "ar" ? "مساعد الحوار" : locale === "no" ? "Dialogassistent" : "Dialogue Assistant";
@@ -81,10 +82,32 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
 
   useEffect(() => {
     const container = messagesContainerRef.current;
-    if (!container) {
+    if (!container || !isOpen || messages.length === 0) {
       return;
     }
-    container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+
+    const latestMessage = messages[messages.length - 1];
+    const frame = window.requestAnimationFrame(() => {
+      if (latestMessage.role === "user") {
+        container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+        return;
+      }
+
+      if (latestMessage.role === "assistant" && messages.length > 1 && !isSending) {
+        const target = container.querySelector<HTMLElement>(`[data-assistant-message-id="${latestMessage.id}"]`);
+        if (!target || lastAutoScrolledMessageRef.current === latestMessage.id) {
+          return;
+        }
+
+        lastAutoScrolledMessageRef.current = latestMessage.id;
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const targetTop = container.scrollTop + targetRect.top - containerRect.top - 12;
+        container.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [messages, isOpen, isSending]);
 
   useEffect(() => {
@@ -270,6 +293,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                 {messages.map((message) => (
                   <article
                     key={message.id}
+                    data-assistant-message-id={message.id}
                     className={`max-w-[92%] rounded-2xl border px-4 py-3 ${
                       message.role === "user"
                         ? "ml-auto border-[#0b3a5d20] bg-[#0b3a5d] text-white"
