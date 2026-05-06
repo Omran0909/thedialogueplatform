@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Layout } from "@/components/Layout";
+import { SudanAiAssistant } from "@/components/SudanAiAssistant";
+import { assistantCopy } from "@/lib/assistant-copy";
 import { getContent } from "@/lib/i18n/get-content";
 import { getDir, isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { siteConfig } from "@/lib/site";
@@ -87,6 +89,7 @@ export default function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <div lang={locale} dir={getDir(locale)}>
       <Layout locale={locale}>{children}</Layout>
+      <SudanAiAssistant locale={locale} copy={assistantCopy[locale]} />
     </div>
   );
 }

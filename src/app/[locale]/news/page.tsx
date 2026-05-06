@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/AnimatedBlock";
-import { SudanAiAssistant, type AssistantCopy } from "@/components/SudanAiAssistant";
+import type { AssistantCopy } from "@/components/SudanAiAssistant";
 import { SudanNewsFeed, type NewsFeedCopy } from "@/components/SudanNewsFeed";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { mediaLibrary } from "@/lib/media";
@@ -229,7 +229,6 @@ export default function NewsPage({ params }: PageProps) {
         </div>
       </section>
 
-      <SudanAiAssistant locale={locale} copy={copy.assistant} />
       <SudanNewsFeed locale={locale} copy={copy.feed} />
     </div>
   );
