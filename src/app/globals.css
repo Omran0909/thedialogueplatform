@@ -393,6 +393,19 @@
     border-radius: 999px;
   }
 
+  .assistant-message-bubble,
+  .assistant-message-text,
+  .assistant-source-link {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .assistant-message-text {
+    text-align: start;
+    unicode-bidi: plaintext;
+  }
+
   .assistant-prompt-strip {
     -ms-overflow-style: none;
     scrollbar-width: none;

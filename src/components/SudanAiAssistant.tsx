@@ -285,7 +285,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
               data-assistant-scroll
               onWheel={stopAssistantScroll}
               onTouchMove={stopAssistantScroll}
-              className={`assistant-message-scroll flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-line/80 bg-white/80 p-3 shadow-inner shadow-[#0b3a5d0f] sm:p-4 ${
+              className={`assistant-message-scroll flex-1 overflow-x-hidden overflow-y-auto overscroll-contain rounded-2xl border border-line/80 bg-white/80 p-3 shadow-inner shadow-[#0b3a5d0f] sm:p-4 ${
                 hasConversation ? "min-h-[360px] sm:min-h-[420px]" : "min-h-[240px] sm:min-h-[300px]"
               }`}
             >
@@ -294,24 +294,25 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                   <article
                     key={message.id}
                     data-assistant-message-id={message.id}
-                    className={`max-w-[92%] rounded-2xl border px-4 py-3 ${
+                    dir="auto"
+                    className={`assistant-message-bubble min-w-0 max-w-[92%] overflow-hidden rounded-2xl border px-4 py-3 ${
                       message.role === "user"
                         ? "ml-auto border-[#0b3a5d20] bg-[#0b3a5d] text-white"
                         : "border-[#f2a33a4a] bg-[#fff4df] text-text-primary"
                     }`}
                   >
-                    <p className="whitespace-pre-line text-sm leading-relaxed">{message.text}</p>
+                    <p className="assistant-message-text whitespace-pre-line text-sm leading-relaxed">{message.text}</p>
                     {message.role === "assistant" && message.sources && message.sources.length > 0 ? (
-                      <div className="mt-3 border-t border-[#d9c8ac] pt-3">
+                      <div className="mt-3 min-w-0 border-t border-[#d9c8ac] pt-3">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-secondary">{copy.sourcesLabel}</p>
                         <ul className="mt-2 space-y-1">
                           {message.sources.map((source) => (
-                            <li key={`${message.id}-${source.url}`}>
+                            <li key={`${message.id}-${source.url}`} className="min-w-0">
                               <a
                                 href={source.url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-xs font-medium text-accent underline decoration-accent/45 underline-offset-2 hover:text-[#0b3a5d]"
+                                className="assistant-source-link block max-w-full text-xs font-medium text-accent underline decoration-accent/45 underline-offset-2 hover:text-[#0b3a5d]"
                               >
                                 {source.title}
                               </a>
@@ -323,7 +324,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                   </article>
                 ))}
                 {isSending ? (
-                  <article className="max-w-[92%] rounded-2xl border border-[#f2a33a4a] bg-[#fff4df] px-4 py-3 text-sm text-text-secondary">
+                  <article className="assistant-message-bubble min-w-0 max-w-[92%] overflow-hidden rounded-2xl border border-[#f2a33a4a] bg-[#fff4df] px-4 py-3 text-sm text-text-secondary">
                     {copy.thinkingLabel}
                   </article>
                 ) : null}
