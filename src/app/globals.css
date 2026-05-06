@@ -366,6 +366,11 @@
     box-shadow: 0 16px 30px -22px rgba(8, 47, 76, 0.68);
     background-color: rgba(255, 255, 255, 0.95);
   }
+
+  .assistant-panel-enter {
+    transform-origin: bottom right;
+    animation: assistantPanelIn 220ms cubic-bezier(0.2, 0.85, 0.25, 1) both;
+  }
 }
 
 @keyframes floatDrift {
@@ -405,10 +410,22 @@
   }
 }
 
+@keyframes assistantPanelIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .float-ornament,
   .hero-image-motion,
-  .event-reel-track {
+  .event-reel-track,
+  .assistant-panel-enter {
     animation: none !important;
   }
 

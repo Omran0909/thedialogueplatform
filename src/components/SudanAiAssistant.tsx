@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, TouchEvent, WheelEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
 
 type AssistantSource = {
@@ -35,7 +35,7 @@ type SudanAiAssistantProps = {
   copy: AssistantCopy;
 };
 
-const PROMPT_BUTTON_COUNT = 4;
+const PROMPT_BUTTON_COUNT = 3;
 
 function makeId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
@@ -186,18 +186,34 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
     void sendPrompt();
   }
 
+  function stopAssistantScroll(event: WheelEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>) {
+    event.stopPropagation();
+  }
+
+  function containAssistantWheel(event: WheelEvent<HTMLDivElement>) {
+    event.stopPropagation();
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target?.closest("[data-assistant-scroll]")) {
+      event.preventDefault();
+    }
+  }
+
   return (
-    <div className="fixed bottom-4 right-4 z-[70] flex w-[min(420px,calc(100vw-1.5rem))] flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="pointer-events-none fixed inset-x-2 bottom-3 z-[70] flex max-h-[calc(100dvh-1.5rem)] flex-col items-end gap-3 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)] sm:w-[min(400px,calc(100vw-3rem))]">
       {isOpen ? (
-        <div className="w-full overflow-hidden rounded-[28px] border border-[#0b3a5d1f] bg-white shadow-[0_24px_60px_-28px_rgba(8,47,76,0.82)]">
-          <div className="bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] p-5 text-white">
+        <div
+          onWheel={containAssistantWheel}
+          onTouchMove={stopAssistantScroll}
+          className="assistant-panel-enter pointer-events-auto flex w-full max-h-[calc(100dvh-6.5rem)] flex-col overflow-hidden overscroll-contain rounded-[26px] border border-[#0b3a5d24] bg-white shadow-[0_28px_70px_-34px_rgba(8,47,76,0.9)] sm:max-h-[min(650px,calc(100dvh-8rem))]"
+        >
+          <div className="shrink-0 bg-[linear-gradient(150deg,#0b3a5d_0%,#154f74_58%,#f2a33a_136%)] p-4 text-white sm:p-5">
             <div className="flex items-start justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]">
                   {copy.badge}
                 </p>
-                <h2 className="mt-3 text-xl leading-tight sm:text-2xl">{copy.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-white/90">{copy.description}</p>
+                <h2 className="mt-3 text-lg leading-tight sm:text-xl">{copy.title}</h2>
+                <p className="mt-2 text-xs leading-relaxed text-white/90 sm:text-sm">{copy.description}</p>
               </div>
 
               <button
@@ -210,8 +226,8 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
               </button>
             </div>
 
-            <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">{copy.quickStartLabel}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
               {visiblePrompts.map((prompt) => (
                 <button
                   key={prompt}
@@ -224,11 +240,17 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
                 </button>
               ))}
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-white/80">{copy.note}</p>
+            <p className="mt-3 text-[11px] leading-relaxed text-white/80">{copy.note}</p>
           </div>
 
-          <div className="bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-4">
-            <div ref={messagesContainerRef} className="h-[320px] overflow-y-auto rounded-2xl border border-line/80 bg-white/76 p-4">
+          <div className="flex min-h-0 flex-1 flex-col bg-[linear-gradient(180deg,#fffdfa_0%,#f8f3e8_100%)] p-3 sm:p-4">
+            <div
+              ref={messagesContainerRef}
+              data-assistant-scroll
+              onWheel={stopAssistantScroll}
+              onTouchMove={stopAssistantScroll}
+              className="min-h-[190px] flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-line/80 bg-white/76 p-3 sm:min-h-[220px] sm:p-4"
+            >
               <div className="space-y-3">
                 {messages.map((message) => (
                   <article
@@ -269,17 +291,17 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
+            <form onSubmit={handleSubmit} className="mt-3 flex shrink-0 gap-2">
               <input
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 placeholder={copy.inputPlaceholder}
-                className="min-w-0 flex-1 rounded-full border border-line bg-white px-4 py-3 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
+                className="min-w-0 flex-1 rounded-full border border-line bg-white px-4 py-2.5 text-sm text-text-primary outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
               />
               <button
                 type="submit"
                 disabled={isSending || input.trim().length === 0}
-                className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0d3f4c] disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0d3f4c] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {copy.sendLabel}
               </button>
@@ -292,7 +314,7 @@ export function SudanAiAssistant({ locale, copy }: SudanAiAssistantProps) {
         type="button"
         onClick={() => setIsOpen((previous) => !previous)}
         aria-label={isOpen ? closeLabel : openLabel}
-        className="inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#0b3a5d_0%,#17506c_65%,#f2a33a_135%)] px-5 py-3 text-sm font-semibold text-white shadow-[0_20px_40px_-24px_rgba(8,47,76,0.95)] transition hover:translate-y-[-1px] hover:shadow-[0_24px_44px_-24px_rgba(8,47,76,0.95)]"
+        className="pointer-events-auto inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#0b3a5d_0%,#17506c_65%,#f2a33a_135%)] px-5 py-3 text-sm font-semibold text-white shadow-[0_20px_40px_-24px_rgba(8,47,76,0.95)] transition hover:translate-y-[-1px] hover:shadow-[0_24px_44px_-24px_rgba(8,47,76,0.95)]"
       >
         <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-base" aria-hidden="true">
           AI
