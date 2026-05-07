@@ -7,6 +7,15 @@ export const assistantCopy: Record<Locale, AssistantCopy> = {
     title: "Ask The Dialogue Platform assistant.",
     description:
       "Ask about our work, events, funding and scholarship opportunities, collaboration routes, or latest Sudan updates with source links when available.",
+    introTitle: "Dialogue guide",
+    introMessage:
+      "Hi, I’m your AI support assistant for The Dialogue Platform. Chat with me to find verified opportunities, understand our work, and reach the right source faster.",
+    introCta: "Let’s chat",
+    introCapabilities: [
+      "Find funding and scholarship routes from official sources.",
+      "Understand events, dialogue work, partnerships, and contact routes.",
+      "Ask for Sudan updates and request source links when available.",
+    ],
     quickStartLabel: "Start with one click",
     starterPrompts: [
       "What is The Dialogue Platform and how can institutions collaborate?",
@@ -32,6 +41,15 @@ export const assistantCopy: Record<Locale, AssistantCopy> = {
     title: "Spør assistenten til The Dialogue Platform.",
     description:
       "Spør om arbeidet vårt, arrangementer, finansiering, stipend, samarbeid eller siste oppdateringer fra Sudan med kildelenker når tilgjengelig.",
+    introTitle: "Dialogguide",
+    introMessage:
+      "Hei, jeg er AI-assistenten for The Dialogue Platform. Chat med meg for å finne verifiserte muligheter, forstå arbeidet vårt og komme raskere til riktig kilde.",
+    introCta: "Start chat",
+    introCapabilities: [
+      "Finn finansiering og stipend fra offisielle kilder.",
+      "Forstå arrangementer, dialogarbeid, partnerskap og kontaktveier.",
+      "Spør om Sudan-oppdateringer og be om kildelenker når de finnes.",
+    ],
     quickStartLabel: "Start med ett klikk",
     starterPrompts: [
       "Hva er The Dialogue Platform, og hvordan kan institusjoner samarbeide?",
@@ -57,6 +75,15 @@ export const assistantCopy: Record<Locale, AssistantCopy> = {
     title: "اسأل مساعد منصة الحوار.",
     description:
       "اسأل عن عملنا وفعالياتنا وفرص التمويل والمنح الدراسية ومسارات التعاون وآخر تطورات السودان مع روابط للمصادر عند توفرها.",
+    introTitle: "دليل الحوار",
+    introMessage:
+      "مرحباً، أنا مساعد الذكاء الاصطناعي لمنصة الحوار. تحدث معي للعثور على فرص موثوقة، وفهم عمل المنصة، والوصول إلى المصدر الصحيح بسرعة أكبر.",
+    introCta: "ابدأ المحادثة",
+    introCapabilities: [
+      "العثور على فرص تمويل ومنح دراسية من مصادر رسمية.",
+      "فهم الفعاليات والعمل الحواري والشراكات وطرق التواصل.",
+      "السؤال عن تحديثات السودان وطلب روابط المصادر عند توفرها.",
+    ],
     quickStartLabel: "ابدأ بنقرة واحدة",
     starterPrompts: [
       "ما هي منصة الحوار وكيف يمكن للمؤسسات التعاون معها؟",

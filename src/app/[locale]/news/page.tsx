@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/AnimatedBlock";
-import type { AssistantCopy } from "@/components/SudanAiAssistant";
 import { SudanNewsFeed, type NewsFeedCopy } from "@/components/SudanNewsFeed";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { mediaLibrary } from "@/lib/media";
@@ -18,7 +17,7 @@ const hubCopy: Record<
     badge: string;
     title: string;
     description: string;
-    assistant: AssistantCopy;
+    assistant: unknown;
     feed: NewsFeedCopy;
   }
 > = {
