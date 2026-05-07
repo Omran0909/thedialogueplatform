@@ -194,6 +194,7 @@ export default function AboutPage({ params }: PageProps) {
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {siteConfig.partnerProfiles.map((partner, index) => {
             const detail = extra.partnerDetails[partner.id];
+            const isTechnologyPartner = partner.id === siteConfig.technologyPartner.id;
             return (
               <HoverCard key={partner.id} delay={index * 0.1}>
                 <article className="surface-card h-full p-6">
@@ -202,9 +203,23 @@ export default function AboutPage({ params }: PageProps) {
                     href={partner.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="relative mt-4 flex h-28 items-center justify-center rounded-xl border border-line/70 bg-[linear-gradient(145deg,#ffffff_0%,#f8fbff_52%,#fff4df_100%)] transition hover:border-[#0b3a5d]/35"
+                    className={`relative mt-4 flex h-28 items-center justify-center overflow-hidden rounded-xl border border-line/70 transition hover:border-[#0b3a5d]/35 ${
+                      isTechnologyPartner
+                        ? "bg-[linear-gradient(145deg,#eef7fd_0%,#f8fbff_48%,#fff4df_100%)]"
+                        : "bg-[linear-gradient(145deg,#ffffff_0%,#f8fbff_52%,#fff4df_100%)]"
+                    }`}
                   >
-                    <Image src={partner.logo} alt={detail.name} fill className="object-contain p-4" sizes="(min-width: 1280px) 360px, (min-width: 768px) 50vw, 100vw" />
+                    <Image
+                      src={partner.logo}
+                      alt={detail.name}
+                      fill
+                      className={
+                        isTechnologyPartner
+                          ? "object-cover brightness-125 contrast-125 saturate-125"
+                          : "object-contain p-4"
+                      }
+                      sizes="(min-width: 1280px) 360px, (min-width: 768px) 50vw, 100vw"
+                    />
                   </a>
                   <h3 className="mt-4 text-2xl text-text-primary">{detail.name}</h3>
                   <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-accent">{detail.focus}</p>

@@ -195,15 +195,16 @@ export default function HomePage({ params }: PageProps) {
                 href={siteConfig.technologyPartner.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[radial-gradient(circle_at_50%_52%,rgba(25,116,168,0.6)_0%,rgba(7,31,51,0.98)_62%)] p-8 shadow-[0_28px_80px_-46px_rgba(0,0,0,0.95)]"
+                className="group relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[linear-gradient(145deg,#eef7fd_0%,#f8fbff_48%,#fff4df_100%)] shadow-[0_28px_80px_-46px_rgba(0,0,0,0.95)]"
               >
                 <Image
                   src={siteConfig.technologyPartner.logo}
                   alt={siteConfig.technologyPartner.name}
-                  width={520}
-                  height={520}
-                  className="max-h-[220px] w-auto object-contain opacity-95 transition duration-500 group-hover:scale-[1.03]"
+                  fill
+                  className="object-cover brightness-125 contrast-125 saturate-125 transition duration-500 group-hover:scale-[1.03]"
+                  sizes="(min-width: 1024px) 42vw, 100vw"
                 />
+                <span className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/30" aria-hidden />
               </a>
 
               <div>

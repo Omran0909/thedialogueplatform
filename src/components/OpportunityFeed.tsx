@@ -336,10 +336,10 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy, livePath }: O
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">{copy.latestLabel}</p>
                 {featuredItems.map((item) => (
                   <HoverCard key={`${item.id}-latest`} className="!transform-none">
-                    <article className="news-latest-card rounded-lg border border-line/80 bg-white/80 px-4 py-4">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center gap-2">
+                    <article className="news-latest-card rounded-xl border border-line/80 bg-white/90 p-4 shadow-[0_12px_28px_-24px_rgba(8,47,76,0.72)] sm:p-5">
+                      <div className="flex flex-col gap-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex min-w-0 flex-wrap items-center gap-2">
                             <span className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] ${statusClasses(item.status)}`}>
                               {statusLabel(item.status, copy)}
                             </span>
@@ -347,16 +347,29 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy, livePath }: O
                               {timestampPrefix(item.timestampKind, copy)} {formatRelativeDate(item.timestamp, locale, nowMs)}
                             </span>
                           </div>
+
                           <a
                             href={item.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="mt-3 block text-base font-semibold text-text-primary transition-colors hover:text-accent"
+                            className="inline-flex w-full justify-center rounded-full bg-[#0b3a5d] px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#0d456e] sm:w-auto sm:min-w-[180px]"
+                          >
+                            {copy.openSourceLabel}
+                          </a>
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-xs leading-relaxed text-text-secondary">{item.source}</p>
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-3 block max-w-3xl break-words text-lg font-semibold leading-snug text-text-primary transition-colors hover:text-accent"
                           >
                             {item.title}
                           </a>
-                          <p className="mt-2 text-sm leading-relaxed text-text-secondary">{item.summary}</p>
-                          <div className="mt-3 grid gap-2 text-xs text-text-secondary sm:grid-cols-2">
+                          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-text-secondary">{item.summary}</p>
+                          <div className="mt-4 grid gap-3 rounded-lg border border-line/60 bg-[#f8fbff]/70 p-3 text-xs leading-relaxed text-text-secondary sm:grid-cols-2">
                             <p>
                               <span className="font-semibold text-text-primary">{copy.geographyLabel}:</span> {item.geography}
                             </p>
@@ -365,18 +378,6 @@ export function OpportunityFeed({ locale, items, snapshotAt, copy, livePath }: O
                               {item.deadline ? formatAbsoluteDate(item.deadline, locale, true) : copy.noDeadlineLabel}
                             </p>
                           </div>
-                        </div>
-
-                        <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto">
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="rounded-full bg-[#0b3a5d] px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#0d456e]"
-                          >
-                            {copy.openSourceLabel}
-                          </a>
-                          <span className="text-right text-xs text-text-secondary">{item.source}</span>
                         </div>
                       </div>
                     </article>

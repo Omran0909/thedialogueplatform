@@ -255,10 +255,16 @@ export function Layout({ children, locale }: LayoutProps) {
                 href={siteConfig.technologyPartner.href}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-4 inline-flex items-center gap-3 rounded-2xl border border-[#0b3a5d]/10 bg-white/70 p-2 pr-3 transition hover:border-[#0b3a5d]/30 hover:bg-white"
+                className="mt-4 inline-flex items-center gap-3 rounded-2xl border border-[#0b3a5d]/10 bg-white/75 p-2 pr-4 transition hover:border-[#0b3a5d]/30 hover:bg-white"
               >
-                <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-[#0b3657]">
-                  <Image src={siteConfig.technologyPartner.logo} alt="" fill className="object-cover" sizes="40px" />
+                <span className="relative flex h-12 w-20 shrink-0 overflow-hidden rounded-xl border border-[#0b3a5d]/10 bg-[linear-gradient(145deg,#eef7fd_0%,#fff4df_100%)]">
+                  <Image
+                    src={siteConfig.technologyPartner.logo}
+                    alt=""
+                    fill
+                    className="object-cover brightness-125 contrast-125 saturate-125"
+                    sizes="80px"
+                  />
                 </span>
                 <span>
                   <span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
