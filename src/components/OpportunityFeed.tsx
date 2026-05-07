@@ -45,7 +45,7 @@ type LiveOpportunityPayload = {
   message?: string;
 };
 
-const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+const REFRESH_INTERVAL_MS = 60 * 1000;
 
 function formatAbsoluteDate(value: string, locale: Locale, dateOnly = false) {
   const localeCode = locale === "ar" ? "ar-SA" : locale === "no" ? "nb-NO" : "en-US";

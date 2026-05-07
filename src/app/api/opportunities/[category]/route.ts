@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isLocale, type Locale } from "@/lib/i18n/config";
+import { getLiveOpportunities } from "@/lib/live-opportunities";
 import {
   getFundingOpportunities,
   getScholarshipOpportunities,
@@ -27,14 +28,6 @@ function resolveLocale(request: Request): Locale {
   return isLocale(locale) ? locale : "en";
 }
 
-function buildLiveItems(items: OpportunityItem[], checkedAt: string) {
-  return items.map((item) => ({
-    ...item,
-    timestamp: checkedAt,
-    timestampKind: "verified" as const,
-  }));
-}
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -47,9 +40,9 @@ export async function GET(request: Request, { params }: RouteContext) {
   let items: OpportunityItem[];
 
   if (category === "funding") {
-    items = getFundingOpportunities(locale);
+    items = await getLiveOpportunities("funding", locale, getFundingOpportunities(locale), checkedAt);
   } else if (category === "scholarships") {
-    items = getScholarshipOpportunities(locale);
+    items = await getLiveOpportunities("scholarships", locale, getScholarshipOpportunities(locale), checkedAt);
   } else {
     return NextResponse.json({ ok: false, message: "Unknown opportunity category." }, { status: 404 });
   }
@@ -57,7 +50,7 @@ export async function GET(request: Request, { params }: RouteContext) {
   const payload: OpportunitiesPayload = {
     ok: true,
     snapshotAt: checkedAt,
-    items: buildLiveItems(items, checkedAt),
+    items,
   };
 
   return NextResponse.json(payload, {
