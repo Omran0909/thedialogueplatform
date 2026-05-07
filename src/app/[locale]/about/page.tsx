@@ -15,6 +15,7 @@ type PageProps = {
 
 type PartnerDetail = {
   name: string;
+  label: string;
   focus: string;
   contribution: string;
 };
@@ -27,7 +28,7 @@ const aboutExtras: Record<
     boardTitle: string;
     boardIntro: string;
     boardMemberLabel: string;
-    partnerDetails: Record<"nansen" | "lillestrom", PartnerDetail>;
+    partnerDetails: Record<"nansen" | "lillestrom" | "techai", PartnerDetail>;
   }
 > = {
   en: {
@@ -40,15 +41,24 @@ const aboutExtras: Record<
     partnerDetails: {
       nansen: {
         name: "Nansen Peace Center",
+        label: "Dialogue partner",
         focus: "Methodology and peace practice",
         contribution:
           "Nansen Peace Center contributes conflict-sensitive dialogue methods, facilitator training, and peacebuilding experience that strengthen the quality and safety of each process.",
       },
       lillestrom: {
         name: "Lillestrom Municipality",
+        label: "Institutional partner",
         focus: "Municipal anchoring and implementation",
         contribution:
           "Lillestrom Municipality anchors dialogue in local governance, helps connect resident voices to decision pathways, and supports practical implementation across municipal services.",
+      },
+      techai: {
+        name: "TechAI",
+        label: "Technology partner",
+        focus: "Website, AI systems, and live digital infrastructure",
+        contribution:
+          "TechAI is the technical partner behind The Dialogue Platform's website, AI assistant, live opportunity feeds, and digital user experience. TechAI builds practical AI-powered systems that transform complex research, documents, and public-interest information into accessible tools people can use.",
       },
     },
   },
@@ -62,15 +72,24 @@ const aboutExtras: Record<
     partnerDetails: {
       nansen: {
         name: "Nansen fredssenter",
+        label: "Dialogpartner",
         focus: "Metodikk og fredsarbeid",
         contribution:
           "Nansen fredssenter bidrar med konfliktsensitiv dialogmetodikk, opplæring av fasilitatorer og fredsfaglig erfaring som styrker kvaliteten og tryggheten i prosessene.",
       },
       lillestrom: {
         name: "Lillestrom kommune",
+        label: "Institusjonell partner",
         focus: "Kommunal forankring og gjennomføring",
         contribution:
           "Lillestrom kommune forankrer dialogen i lokal styring, kobler innbyggerstemmer til beslutningslinjer og støtter praktisk oppfølging på tvers av kommunale tjenester.",
+      },
+      techai: {
+        name: "TechAI",
+        label: "Teknologipartner",
+        focus: "Nettside, AI-systemer og levende digital infrastruktur",
+        contribution:
+          "TechAI er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live mulighetsstrømmer og digitale brukeropplevelse. TechAI bygger praktiske AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon om til tilgjengelige verktøy folk kan bruke.",
       },
     },
   },
@@ -84,15 +103,24 @@ const aboutExtras: Record<
     partnerDetails: {
       nansen: {
         name: "مركز نانسن للسلام",
+        label: "شريك حواري",
         focus: "المنهجية والممارسة السلمية",
         contribution:
           "يسهم مركز نانسن للسلام بمنهجيات حوار تراعي حساسية النزاعات، وتدريب الميسّرين، وخبرة راسخة في بناء السلام تعزز جودة كل عملية وسلامتها.",
       },
       lillestrom: {
         name: "بلدية ليلستروم",
+        label: "شريك مؤسسي",
         focus: "الترسيخ البلدي والتنفيذ",
         contribution:
           "تربط بلدية ليلستروم الحوار بمسارات الحوكمة المحلية، وتصل أصوات السكان بمسارات القرار، وتدعم التنفيذ العملي عبر الخدمات البلدية.",
+      },
+      techai: {
+        name: "TechAI",
+        label: "الشريك التقني",
+        focus: "الموقع الإلكتروني وأنظمة الذكاء الاصطناعي والبنية الرقمية المباشرة",
+        contribution:
+          "TechAI هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي وتدفقات الفرص المباشرة وتجربة المستخدم الرقمية. تبني TechAI أنظمة عملية مدعومة بالذكاء الاصطناعي لتحويل البحوث والوثائق والمعلومات ذات النفع العام إلى أدوات سهلة الوصول والاستخدام.",
       },
     },
   },
@@ -163,15 +191,20 @@ export default function AboutPage({ params }: PageProps) {
           <h2 className="text-3xl text-text-primary sm:text-4xl">{localized.about.partnersTitle}</h2>
         </Reveal>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {siteConfig.partnerProfiles.map((partner, index) => {
             const detail = extra.partnerDetails[partner.id];
             return (
               <HoverCard key={partner.id} delay={index * 0.1}>
                 <article className="surface-card h-full p-6">
-                  <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-secondary">{localized.about.partnerLabel}</p>
-                  <a href={partner.href} target="_blank" rel="noreferrer" className="mt-4 inline-flex rounded-lg bg-white p-3">
-                    <Image src={partner.logo} alt={detail.name} width={220} height={56} className="h-12 w-auto object-contain" />
+                  <p className="text-sm font-semibold uppercase tracking-[0.14em] text-text-secondary">{detail.label}</p>
+                  <a
+                    href={partner.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative mt-4 flex h-28 items-center justify-center rounded-xl border border-line/70 bg-[linear-gradient(145deg,#ffffff_0%,#f8fbff_52%,#fff4df_100%)] transition hover:border-[#0b3a5d]/35"
+                  >
+                    <Image src={partner.logo} alt={detail.name} fill className="object-contain p-4" sizes="(min-width: 1280px) 360px, (min-width: 768px) 50vw, 100vw" />
                   </a>
                   <h3 className="mt-4 text-2xl text-text-primary">{detail.name}</h3>
                   <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-accent">{detail.focus}</p>

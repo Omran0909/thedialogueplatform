@@ -56,6 +56,39 @@ const accessCopy = {
   },
 } as const;
 
+const technologyPartnerCopy = {
+  en: {
+    badge: "Technology partner",
+    title: "Built with TechAI",
+    description:
+      "TechAI is the technical partner behind The Dialogue Platform's website, AI assistant, live funding and scholarship infrastructure, and digital experience. TechAI builds AI-powered systems that make complex research, documents, and public-interest information easier to search, understand, and act on.",
+    pointOne: "Website engineering and deployment",
+    pointTwo: "AI assistant and source-linked guidance",
+    pointThree: "Live opportunity feeds and digital infrastructure",
+    cta: "Visit TechAI",
+  },
+  no: {
+    badge: "Teknologipartner",
+    title: "Bygget med TechAI",
+    description:
+      "TechAI er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live infrastruktur for finansiering og stipender, og den digitale brukeropplevelsen. TechAI bygger AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon enklere å søke i, forstå og bruke.",
+    pointOne: "Nettsideutvikling og publisering",
+    pointTwo: "AI-assistent og kildebasert veiledning",
+    pointThree: "Live mulighetsstrømmer og digital infrastruktur",
+    cta: "Besøk TechAI",
+  },
+  ar: {
+    badge: "الشريك التقني",
+    title: "بُنيت المنصة مع TechAI",
+    description:
+      "TechAI هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي والبنية المباشرة لقسمي التمويل والمنح الدراسية وتجربة المستخدم الرقمية. تبني TechAI أنظمة مدعومة بالذكاء الاصطناعي تجعل البحوث والوثائق والمعلومات ذات النفع العام أسهل في البحث والفهم والاستخدام.",
+    pointOne: "هندسة الموقع والنشر",
+    pointTwo: "مساعد ذكاء اصطناعي وإرشاد مرتبط بالمصادر",
+    pointThree: "تدفقات فرص مباشرة وبنية رقمية",
+    cta: "زيارة TechAI",
+  },
+} as const;
+
 export default function HomePage({ params }: PageProps) {
   if (!isLocale(params.locale)) {
     notFound();
@@ -65,6 +98,7 @@ export default function HomePage({ params }: PageProps) {
   const localized = getContent(locale);
   const partners = formatPartners(locale);
   const accessSection = accessCopy[locale];
+  const technologySection = technologyPartnerCopy[locale];
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -149,6 +183,57 @@ export default function HomePage({ params }: PageProps) {
             </HoverCard>
           ))}
         </div>
+      </section>
+
+      <section className="section-padding border-t border-line/80">
+        <Reveal>
+          <div className="surface-card relative overflow-hidden bg-[linear-gradient(135deg,#071f33_0%,#0b3657_54%,#145a77_100%)] p-0 text-white">
+            <div className="pointer-events-none absolute -left-16 -top-20 h-64 w-64 rounded-full bg-[#2b9adb]/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 right-8 h-72 w-72 rounded-full bg-[#f2a33a]/20 blur-3xl" />
+            <div className="relative grid gap-8 p-7 sm:p-9 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:p-10">
+              <a
+                href={siteConfig.technologyPartner.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-3xl border border-white/15 bg-[radial-gradient(circle_at_50%_52%,rgba(25,116,168,0.6)_0%,rgba(7,31,51,0.98)_62%)] p-8 shadow-[0_28px_80px_-46px_rgba(0,0,0,0.95)]"
+              >
+                <Image
+                  src={siteConfig.technologyPartner.logo}
+                  alt={siteConfig.technologyPartner.name}
+                  width={520}
+                  height={520}
+                  className="max-h-[220px] w-auto object-contain opacity-95 transition duration-500 group-hover:scale-[1.03]"
+                />
+              </a>
+
+              <div>
+                <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">
+                  {technologySection.badge}
+                </p>
+                <h2 className="mt-5 text-3xl leading-tight text-white sm:text-4xl">{technologySection.title}</h2>
+                <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/80">{technologySection.description}</p>
+
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  {[technologySection.pointOne, technologySection.pointTwo, technologySection.pointThree].map((point) => (
+                    <div key={point} className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                      <span className="mb-3 block h-1.5 w-10 rounded-full bg-[#f2a33a]" aria-hidden />
+                      <p className="text-sm font-semibold leading-snug text-white/90">{point}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  href={siteConfig.technologyPartner.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-7 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#0b3657] transition hover:bg-[#fff4df]"
+                >
+                  {technologySection.cta}
+                </a>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       <section className="section-padding border-t border-line/80">

@@ -251,6 +251,22 @@ export function Layout({ children, locale }: LayoutProps) {
               <p className="mt-3 text-xs text-text-secondary">
                 {text.footer.collaborationPrefix} {partners}.
               </p>
+              <a
+                href={siteConfig.technologyPartner.href}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex items-center gap-3 rounded-2xl border border-[#0b3a5d]/10 bg-white/70 p-2 pr-3 transition hover:border-[#0b3a5d]/30 hover:bg-white"
+              >
+                <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-[#0b3657]">
+                  <Image src={siteConfig.technologyPartner.logo} alt="" fill className="object-cover" sizes="40px" />
+                </span>
+                <span>
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.12em] text-text-secondary">
+                    {text.footer.technicalPartnerPrefix}
+                  </span>
+                  <span className="block text-sm font-semibold text-[#0b3657]">{siteConfig.technologyPartner.name}</span>
+                </span>
+              </a>
             </div>
 
             <div>

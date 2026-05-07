@@ -17,6 +17,7 @@ export type LayoutText = {
   footer: {
     mission: string;
     collaborationPrefix: string;
+    technicalPartnerPrefix: string;
     navigate: string;
     channels: string;
     contact: string;
@@ -48,6 +49,7 @@ export const layoutText: Record<Locale, LayoutText> = {
     footer: {
       mission: "Building trust and peace through inclusive dialogue design and institutional collaboration.",
       collaborationPrefix: "In collaboration with",
+      technicalPartnerPrefix: "Technology partner",
       navigate: "Navigate",
       channels: "Official Channels",
       contact: "Contact",
@@ -77,6 +79,7 @@ export const layoutText: Record<Locale, LayoutText> = {
     footer: {
       mission: "Vi bygger tillit og fred gjennom inkluderende dialogdesign og institusjonelt samarbeid.",
       collaborationPrefix: "I samarbeid med",
+      technicalPartnerPrefix: "Teknologipartner",
       navigate: "Naviger",
       channels: "Offisielle kanaler",
       contact: "Kontakt",
@@ -106,6 +109,7 @@ export const layoutText: Record<Locale, LayoutText> = {
     footer: {
       mission: "نبني الثقة والسلام من خلال تصميم حوارات شاملة وتعاون مؤسسي فعّال.",
       collaborationPrefix: "بالتعاون مع",
+      technicalPartnerPrefix: "الشريك التقني",
       navigate: "التنقل",
       channels: "القنوات الرسمية",
       contact: "التواصل",

@@ -48,6 +48,12 @@ export const siteConfig = {
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@thedialogueplatform.com",
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   partners: ["Nansen Peace Center", "Lillestrom Municipality"],
+  technologyPartner: {
+    id: "techai",
+    name: "TechAI",
+    href: "https://www.tekai.ai",
+    logo: "/assets/partners/techai.png",
+  },
   partnerProfiles: [
     {
       id: "nansen",
@@ -60,6 +66,12 @@ export const siteConfig = {
       name: "Lillestrom Municipality",
       href: "https://www.lillestrom.kommune.no",
       logo: "/assets/partners/lillestrom-municipality.svg",
+    },
+    {
+      id: "techai",
+      name: "TechAI",
+      href: "https://www.tekai.ai",
+      logo: "/assets/partners/techai.png",
     },
   ] as const,
   boardMembers: [
