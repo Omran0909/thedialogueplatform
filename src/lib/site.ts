@@ -49,10 +49,10 @@ export const siteConfig = {
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   partners: ["Nansen Peace Center", "Lillestrom Municipality"],
   technologyPartner: {
-    id: "techai",
-    name: "TechAI",
+    id: "tekai",
+    name: "TekAi",
     href: "https://www.tekai.ai",
-    logo: "/assets/partners/techai.png",
+    logo: "/assets/partners/tekai.png",
   },
   partnerProfiles: [
     {
@@ -68,10 +68,10 @@ export const siteConfig = {
       logo: "/assets/partners/lillestrom-municipality.svg",
     },
     {
-      id: "techai",
-      name: "TechAI",
+      id: "tekai",
+      name: "TekAi",
       href: "https://www.tekai.ai",
-      logo: "/assets/partners/techai.png",
+      logo: "/assets/partners/tekai.png",
     },
   ] as const,
   boardMembers: [

@@ -28,7 +28,7 @@ const aboutExtras: Record<
     boardTitle: string;
     boardIntro: string;
     boardMemberLabel: string;
-    partnerDetails: Record<"nansen" | "lillestrom" | "techai", PartnerDetail>;
+    partnerDetails: Record<"nansen" | "lillestrom" | "tekai", PartnerDetail>;
   }
 > = {
   en: {
@@ -53,12 +53,12 @@ const aboutExtras: Record<
         contribution:
           "Lillestrom Municipality anchors dialogue in local governance, helps connect resident voices to decision pathways, and supports practical implementation across municipal services.",
       },
-      techai: {
-        name: "TechAI",
+      tekai: {
+        name: "TekAi",
         label: "Technology partner",
         focus: "Website, AI systems, and live digital infrastructure",
         contribution:
-          "TechAI is the technical partner behind The Dialogue Platform's website, AI assistant, live opportunity feeds, and digital user experience. TechAI builds practical AI-powered systems that transform complex research, documents, and public-interest information into accessible tools people can use.",
+          "TekAi is the technical partner behind The Dialogue Platform's website, AI assistant, live opportunity feeds, and digital user experience. TekAi builds practical AI-powered systems that transform complex research, documents, and public-interest information into accessible tools people can use.",
       },
     },
   },
@@ -84,12 +84,12 @@ const aboutExtras: Record<
         contribution:
           "Lillestrom kommune forankrer dialogen i lokal styring, kobler innbyggerstemmer til beslutningslinjer og støtter praktisk oppfølging på tvers av kommunale tjenester.",
       },
-      techai: {
-        name: "TechAI",
+      tekai: {
+        name: "TekAi",
         label: "Teknologipartner",
         focus: "Nettside, AI-systemer og levende digital infrastruktur",
         contribution:
-          "TechAI er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live mulighetsstrømmer og digitale brukeropplevelse. TechAI bygger praktiske AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon om til tilgjengelige verktøy folk kan bruke.",
+          "TekAi er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live mulighetsstrømmer og digitale brukeropplevelse. TekAi bygger praktiske AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon om til tilgjengelige verktøy folk kan bruke.",
       },
     },
   },
@@ -115,12 +115,12 @@ const aboutExtras: Record<
         contribution:
           "تربط بلدية ليلستروم الحوار بمسارات الحوكمة المحلية، وتصل أصوات السكان بمسارات القرار، وتدعم التنفيذ العملي عبر الخدمات البلدية.",
       },
-      techai: {
-        name: "TechAI",
+      tekai: {
+        name: "TekAi",
         label: "الشريك التقني",
         focus: "الموقع الإلكتروني وأنظمة الذكاء الاصطناعي والبنية الرقمية المباشرة",
         contribution:
-          "TechAI هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي وتدفقات الفرص المباشرة وتجربة المستخدم الرقمية. تبني TechAI أنظمة عملية مدعومة بالذكاء الاصطناعي لتحويل البحوث والوثائق والمعلومات ذات النفع العام إلى أدوات سهلة الوصول والاستخدام.",
+          "TekAi هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي وتدفقات الفرص المباشرة وتجربة المستخدم الرقمية. تبني TekAi أنظمة عملية مدعومة بالذكاء الاصطناعي لتحويل البحوث والوثائق والمعلومات ذات النفع العام إلى أدوات سهلة الوصول والاستخدام.",
       },
     },
   },

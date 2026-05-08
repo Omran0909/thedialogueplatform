@@ -59,33 +59,33 @@ const accessCopy = {
 const technologyPartnerCopy = {
   en: {
     badge: "Technology partner",
-    title: "Built with TechAI",
+    title: "Built with TekAi",
     description:
-      "TechAI is the technical partner behind The Dialogue Platform's website, AI assistant, live funding and scholarship infrastructure, and digital experience. TechAI builds AI-powered systems that make complex research, documents, and public-interest information easier to search, understand, and act on.",
+      "TekAi is the technical partner behind The Dialogue Platform's website, AI assistant, live funding and scholarship infrastructure, and digital experience. TekAi builds AI-powered systems that make complex research, documents, and public-interest information easier to search, understand, and act on.",
     pointOne: "Website engineering and deployment",
     pointTwo: "AI assistant and source-linked guidance",
     pointThree: "Live opportunity feeds and digital infrastructure",
-    cta: "Visit TechAI",
+    cta: "Visit TekAi",
   },
   no: {
     badge: "Teknologipartner",
-    title: "Bygget med TechAI",
+    title: "Bygget med TekAi",
     description:
-      "TechAI er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live infrastruktur for finansiering og stipender, og den digitale brukeropplevelsen. TechAI bygger AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon enklere å søke i, forstå og bruke.",
+      "TekAi er teknologipartneren bak The Dialogue Platforms nettside, AI-assistent, live infrastruktur for finansiering og stipender, og den digitale brukeropplevelsen. TekAi bygger AI-drevne systemer som gjør kompleks forskning, dokumenter og samfunnsnyttig informasjon enklere å søke i, forstå og bruke.",
     pointOne: "Nettsideutvikling og publisering",
     pointTwo: "AI-assistent og kildebasert veiledning",
     pointThree: "Live mulighetsstrømmer og digital infrastruktur",
-    cta: "Besøk TechAI",
+    cta: "Besøk TekAi",
   },
   ar: {
     badge: "الشريك التقني",
-    title: "بُنيت المنصة مع TechAI",
+    title: "بُنيت المنصة مع TekAi",
     description:
-      "TechAI هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي والبنية المباشرة لقسمي التمويل والمنح الدراسية وتجربة المستخدم الرقمية. تبني TechAI أنظمة مدعومة بالذكاء الاصطناعي تجعل البحوث والوثائق والمعلومات ذات النفع العام أسهل في البحث والفهم والاستخدام.",
+      "TekAi هو الشريك التقني وراء موقع منصة الحوار ومساعد الذكاء الاصطناعي والبنية المباشرة لقسمي التمويل والمنح الدراسية وتجربة المستخدم الرقمية. تبني TekAi أنظمة مدعومة بالذكاء الاصطناعي تجعل البحوث والوثائق والمعلومات ذات النفع العام أسهل في البحث والفهم والاستخدام.",
     pointOne: "هندسة الموقع والنشر",
     pointTwo: "مساعد ذكاء اصطناعي وإرشاد مرتبط بالمصادر",
     pointThree: "تدفقات فرص مباشرة وبنية رقمية",
-    cta: "زيارة TechAI",
+    cta: "زيارة TekAi",
   },
 } as const;
 
