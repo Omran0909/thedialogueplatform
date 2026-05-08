@@ -21,6 +21,9 @@ export type LayoutText = {
     navigate: string;
     channels: string;
     contact: string;
+    legalRegistration: string;
+    organizationNumber: string;
+    registeredIn: string;
   };
   language: {
     label: string;
@@ -53,6 +56,9 @@ export const layoutText: Record<Locale, LayoutText> = {
       navigate: "Navigate",
       channels: "Official Channels",
       contact: "Contact",
+      legalRegistration: "Legal registration",
+      organizationNumber: "Org. no.",
+      registeredIn: "Registered in",
     },
     language: {
       label: "Language",
@@ -83,6 +89,9 @@ export const layoutText: Record<Locale, LayoutText> = {
       navigate: "Naviger",
       channels: "Offisielle kanaler",
       contact: "Kontakt",
+      legalRegistration: "Juridisk registrering",
+      organizationNumber: "Org.nr.",
+      registeredIn: "Registrert i",
     },
     language: {
       label: "Språk",
@@ -113,6 +122,9 @@ export const layoutText: Record<Locale, LayoutText> = {
       navigate: "التنقل",
       channels: "القنوات الرسمية",
       contact: "التواصل",
+      legalRegistration: "التسجيل القانوني",
+      organizationNumber: "رقم المنظمة",
+      registeredIn: "مسجلة في",
     },
     language: {
       label: "اللغة",

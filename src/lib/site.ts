@@ -47,6 +47,12 @@ export const siteConfig = {
     "The Dialogue Platform builds trust and peace through inclusive, structured dialogue in collaboration with Nansen Peace Center and Lillestrom Municipality.",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@thedialogueplatform.com",
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
+  legal: {
+    name: "DIALOG PLATTFORM",
+    organizationNumber: "935 674 220",
+    registrationAuthority: "Enhetsregisteret",
+    country: "Norway",
+  },
   partners: ["Nansen Peace Center", "Lillestrom Municipality"],
   technologyPartner: {
     id: "tekai",

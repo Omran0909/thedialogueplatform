@@ -330,9 +330,14 @@ export function Layout({ children, locale }: LayoutProps) {
             </div>
           </div>
 
-          <p className="mt-10 border-t border-line/80 pt-6 text-xs text-text-secondary">
-            {siteConfig.name} 2025
-          </p>
+          <div className="mt-10 flex flex-col gap-2 border-t border-line/80 pt-6 text-xs text-text-secondary sm:flex-row sm:items-center sm:justify-between">
+            <p>{siteConfig.name} 2025</p>
+            <p className="max-w-3xl leading-relaxed">
+              <span className="font-semibold text-text-primary">{text.footer.legalRegistration}:</span>{" "}
+              {siteConfig.legal.name} · {text.footer.organizationNumber} {siteConfig.legal.organizationNumber} ·{" "}
+              {text.footer.registeredIn} {siteConfig.legal.country} / {siteConfig.legal.registrationAuthority}
+            </p>
+          </div>
         </div>
       </footer>
     </div>
