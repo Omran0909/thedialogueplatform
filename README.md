@@ -1,32 +1,70 @@
-## The Dialogue Platform
+# The Dialogue Platform
 
-A production-ready Next.js 14 website for institutions that treat dialogue as long-term governance infrastructure.
+Production website for **The Dialogue Platform**, an independent peacebuilding and public dialogue initiative founded by Omran Adam in Lillestrom, Norway.
 
-### Tech stack
+Website: https://www.thedialogueplatform.com/en
 
-- **Framework**: Next.js 14 (App Router, TypeScript)
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
+## Overview
 
-### Running locally
+The Dialogue Platform creates safe, respectful spaces for conversations across political, cultural, academic, religious, and community backgrounds. The initiative focuses on peacebuilding, trust-building, coexistence, civic participation, and constructive dialogue, especially in response to polarization and conflict affecting Sudanese communities during the war in Sudan.
 
-1. Install dependencies:
+The platform combines dialogue methodology inspired by the Nansen model with modern media, digital outreach, and AI-supported communication.
 
-   ```bash
-   npm install
-   ```
+## What This Website Supports
 
-2. Start the development server:
+- Public-facing information about the initiative
+- Dialogue seminars, panel discussions, podcasts, and events
+- Media and international outreach
+- Community engagement and contact workflows
+- Multilingual/public communication infrastructure
+- AI-supported visitor assistance and knowledge access
 
-   ```bash
-   npm run dev
-   ```
+## Technical Stack
 
-3. Open `http://localhost:3000` in your browser.
+| Area | Technology |
+| --- | --- |
+| Framework | Next.js 14, App Router, TypeScript |
+| Styling | Tailwind CSS |
+| Animation | Framer Motion |
+| Deployment | Vercel |
+| Integrations | Contact delivery, optional Google Sheets workflow, AI assistant endpoint |
 
-### Environment variables
+## My Role
 
-Create `.env.local` (optional during local development):
+Omran Adam founded the initiative and built the website as a long-term digital platform for dialogue, media, civic engagement, and public trust.
+
+The work includes:
+
+- Product direction and content architecture
+- Website design and implementation
+- AI-supported communication features
+- Deployment and production setup
+- Public-impact storytelling and outreach structure
+- Technical maintenance and iteration
+
+## Running Locally
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## Environment Variables
+
+Create `.env.local` for local development and configure matching values in Vercel for production.
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://thedialogueplatform.com
@@ -39,26 +77,21 @@ GOOGLE_SHEETS_WEBHOOK_URL=
 CONTACT_DELIVERY_MODE=email
 ```
 
-- Keep contact variables empty until your email and phone are ready.
-- Add the same variables in Vercel project settings for production.
-- Set `NEXT_PUBLIC_MEMBERSHIP_FORM_URL` to your Google Form `.../viewform` link (it will be embedded automatically on the contact page).
-- `CONTACT_DELIVERY_MODE` supports:
-  - `email` (default): existing email delivery path
-  - `sheet`: save to Google Sheets webhook only
-  - `sheet_and_email`: save to Google Sheets and continue email delivery
-- Google Sheets setup guide: `docs/google-sheets-contact-setup.md`
+`CONTACT_DELIVERY_MODE` supports:
 
-### Deploying to Vercel
+- `email`: send contact messages by email
+- `sheet`: save to Google Sheets webhook only
+- `sheet_and_email`: save to Google Sheets and send email
 
-- Connect this repository to Vercel.
-- Vercel will detect Next.js automatically.
-- Use build command `npm run build` and output directory `.next` (default for Next.js).
-- Set `NEXT_PUBLIC_SITE_URL` to your production domain.
-- Point `thedialogueplatform.com` to the deployed Vercel project.
+Google Sheets setup guide: `docs/google-sheets-contact-setup.md`
 
-### Customisation next steps
+## Deployment
 
-- **Content**: Update page copy in `src/app` for your real mandates, partnerships, and case examples.
-- **Branding**: Replace `public/assets/logo.png` with your final logo and update tokens in `tailwind.config.js` if needed.
-- **Insights & Events**: Replace placeholders with CMS/data source integration.
-- **Contact**: Set `NEXT_PUBLIC_CONTACT_EMAIL` and `NEXT_PUBLIC_CONTACT_PHONE` once ready.
+The site is deployed with Vercel. Configure the production domain, environment variables, and build settings through the Vercel project dashboard.
+
+## Related Links
+
+- Website: https://www.thedialogueplatform.com/en
+- YouTube: https://youtube.com/@thedialogueplattform
+- Facebook: https://www.facebook.com/share/18n46rPQzg/?mibextid=wwXIfr
+- Omran Adam: https://omranadam.com
