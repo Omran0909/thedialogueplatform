@@ -43,6 +43,7 @@ const membershipFormUrl = process.env.NEXT_PUBLIC_MEMBERSHIP_FORM_URL?.trim() ||
 export const siteConfig = {
   name: "The Dialogue Platform",
   url: normalizedUrl,
+  adsensePublisherId: "ca-pub-2557590642299552",
   description:
     "The Dialogue Platform builds trust and peace through inclusive, structured dialogue in collaboration with Nansen Peace Center and Lillestrom Municipality.",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@thedialogueplatform.com",
