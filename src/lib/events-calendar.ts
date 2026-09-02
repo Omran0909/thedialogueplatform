@@ -178,6 +178,37 @@ export const calendarEvents: CalendarEvent[] = [
     },
   },
   {
+    id: "ardol-dialogue-2026-08-29",
+    phase: "past",
+    start: "2026-08-29T16:30:00+02:00",
+    end: "2026-08-29T22:00:00+02:00",
+    location: "Husebylåven, Husebyveien 28, 2020 Skedsmokorset, Norway",
+    links: [
+      { type: "youtube", href: "https://www.youtube.com/watch?v=hcgJB4NKho0" },
+      { type: "facebook", href: "https://fb.watch/JoqqEnUVL0/" },
+    ],
+    text: {
+      en: {
+        title: "Between War and Peace: Where Is Sudan Heading?",
+        shortDescription: "Dialogue session with engineer Mubarak Abdelrahman Ardol on peace options and a shared national project.",
+        fullDescription:
+          "The Dialogue Platform hosted engineer Mubarak Abdelrahman Ardol in Oslo for the opening session of the new season. The discussion examined the war in Sudan, its consequences, pathways toward peace, the current political landscape, and the possibility of Sudanese consensus around an inclusive national project.",
+      },
+      no: {
+        title: "Mellom krig og fred: hvor går Sudan?",
+        shortDescription: "Dialogsamtale med ingeniør Mubarak Abdelrahman Ardol om fredsmuligheter og et felles nasjonalt prosjekt.",
+        fullDescription:
+          "The Dialogue Platform arrangerte en dialogsamtale med ingeniør Mubarak Abdelrahman Ardol i Oslo som åpning av den nye sesongen. Samtalen tok opp krigen i Sudan, konsekvensene av den, veier mot fred, det politiske landskapet og muligheten for sudanesisk enighet om et inkluderende nasjonalt prosjekt.",
+      },
+      ar: {
+        title: "بين الحرب والسلام: السودان إلى أين؟",
+        shortDescription: "جلسة حوارية مع الباشمهندس مبارك عبد الرحمن أردول حول خيارات السلام ومشروع وطني جامع.",
+        fullDescription:
+          "نظم المنتدى الحواري | The Dialogue Platform في أوسلو جلسة حوارية مع الباشمهندس مبارك عبد الرحمن أردول ضمن افتتاح الموسم الجديد. تناولت الجلسة الحرب الدائرة في السودان وتداعياتها، ومسارات الوصول إلى السلام، والمشهد السياسي الراهن، وإمكانية التوافق بين السودانيين على مشروع وطني جامع.",
+      },
+    },
+  },
+  {
     id: "upcoming-2026-03-21",
     phase: "upcoming",
     start: "2026-03-21T17:30:00+01:00",

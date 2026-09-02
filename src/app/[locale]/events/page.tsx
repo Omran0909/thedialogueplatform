@@ -59,6 +59,11 @@ const eventsExtras: Record<
         title: "Ongoing public events",
         description: "Current events and dialogue activities continue across 2026, with updates posted on official channels.",
       },
+      {
+        date: "29 August 2026",
+        title: "Dialogue with Mubarak Abdelrahman Ardol",
+        description: "A season-opening Oslo session on Sudan between war and peace, pathways to settlement, and the search for a shared national project.",
+      },
     ],
     previousEventsTitle: "Previous events and media highlights",
     previousEventsDescription:
@@ -68,8 +73,13 @@ const eventsExtras: Record<
     facebookLabel: "Facebook",
     mediaReelTitle: "From our own media archive",
     mediaReelDescription:
-      "This reel shows all 46 photos from the 24 January 2026 seminar with Khalid Omer Yousif and Bakry Eljack.",
+      "This reel brings together selected photos from the 29 August 2026 Ardol dialogue and our January 2026 seminar archive.",
     highlights: {
+      "ardol-aug-2026": {
+        date: "29 August 2026",
+        title: "Between War and Peace: Where Is Sudan Heading?",
+        description: "Part one of the dialogue session with engineer Mubarak Abdelrahman Ardol on peace options and the possibility of Sudanese consensus around a shared national project.",
+      },
       "first-meeting-2025": {
         date: "8 February 2025",
         title: "First meeting of The Dialogue Platform",
@@ -139,6 +149,11 @@ const eventsExtras: Record<
         title: "Pågående offentlige arrangementer",
         description: "Arrangementer og dialogaktiviteter fortsetter i 2026 med oppdateringer i offisielle kanaler.",
       },
+      {
+        date: "29. august 2026",
+        title: "Dialog med Mubarak Abdelrahman Ardol",
+        description: "En sesongåpnende samling i Oslo om Sudan mellom krig og fred, veier mot forsoning og et felles nasjonalt prosjekt.",
+      },
     ],
     previousEventsTitle: "Tidligere arrangementer og medieinnslag",
     previousEventsDescription:
@@ -148,8 +163,13 @@ const eventsExtras: Record<
     facebookLabel: "Facebook",
     mediaReelTitle: "Fra vårt eget mediearkiv",
     mediaReelDescription:
-      "Denne bildefremvisningen viser alle 46 bilder fra seminaret 24. januar 2026 med Khalid Omer Yousif og Bakry Eljack.",
+      "Denne bildefremvisningen samler utvalgte bilder fra Ardol-dialogen 29. august 2026 og seminararkivet fra januar 2026.",
     highlights: {
+      "ardol-aug-2026": {
+        date: "29. august 2026",
+        title: "Mellom krig og fred: hvor går Sudan?",
+        description: "Første del av dialogsamtalen med ingeniør Mubarak Abdelrahman Ardol om fredsmuligheter og muligheten for sudanesisk enighet om et felles nasjonalt prosjekt.",
+      },
       "first-meeting-2025": {
         date: "8. februar 2025",
         title: "Første møte i The Dialogue Platform",
@@ -219,6 +239,11 @@ const eventsExtras: Record<
         title: "فعاليات عامة مستمرة",
         description: "تتواصل الفعاليات والأنشطة الحوارية خلال 2026 مع تحديثات عبر القنوات الرسمية.",
       },
+      {
+        date: "29 أغسطس 2026",
+        title: "جلسة حوارية مع مبارك عبد الرحمن أردول",
+        description: "جلسة افتتاح الموسم الجديد في أوسلو حول السودان بين الحرب والسلام، ومسارات التسوية، وإمكانية التوافق على مشروع وطني جامع.",
+      },
     ],
     previousEventsTitle: "فعاليات سابقة ومواد إعلامية",
     previousEventsDescription: "مجموعة مختارة من الندوات واللقاءات السابقة مع روابط التغطية الرسمية على يوتيوب وفيسبوك.",
@@ -226,8 +251,13 @@ const eventsExtras: Record<
     youtubeLabel: "يوتيوب",
     facebookLabel: "فيسبوك",
     mediaReelTitle: "من أرشيفنا الإعلامي الخاص",
-    mediaReelDescription: "يعرض هذا الشريط جميع الصور الـ46 من ندوة 24 يناير 2026 مع خالد عمر يوسف وبكري الجاك.",
+    mediaReelDescription: "يعرض هذا الشريط صوراً مختارة من جلسة أردول في 29 أغسطس 2026 إلى جانب أرشيف ندوة يناير 2026.",
     highlights: {
+      "ardol-aug-2026": {
+        date: "29 أغسطس 2026",
+        title: "بين الحرب والسلام: السودان إلى أين؟",
+        description: "الجزء الأول من الجلسة الحوارية مع الباشمهندس مبارك عبد الرحمن أردول حول خيارات السلام وإمكانية التوافق على مشروع وطني جامع.",
+      },
       "first-meeting-2025": {
         date: "8 فبراير 2025",
         title: "أول اجتماع لمنصة الحوار",
@@ -443,7 +473,7 @@ export default function EventsPage({ params }: PageProps) {
           <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.timelineTitle}</h2>
           <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.timelineIntro}</p>
         </Reveal>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {extra.timeline.map((item, index) => (
             <HoverCard key={`${item.date}-${item.title}`} delay={index * 0.08}>
               <article className="surface-card h-full p-6">

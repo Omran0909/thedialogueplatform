@@ -131,6 +131,11 @@ export const siteConfig = {
   facebookCommunityImage: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
   exampleDialogues: [
     {
+      title: "Between War and Peace with Mubarak Abdelrahman Ardol",
+      href: "https://www.youtube.com/watch?v=hcgJB4NKho0",
+      thumbnail: "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-thumbnail.jpg",
+    },
+    {
       title: "Khalid Omer Yousif with Dr. Bakri Aljack",
       href: "https://www.youtube.com/@thedialogueplattform/search?query=%D8%AE%D8%A7%D9%84%D8%AF%20%D8%B9%D9%85%D8%B1%20%D9%8A%D9%88%D8%B3%D9%81%20%D8%A8%D9%83%D8%B1%D9%8A%20%D8%A7%D9%84%D8%AC%D8%A7%D9%83",
       thumbnail: "/assets/media/youtube/khalid-bakri-dialogue.png",

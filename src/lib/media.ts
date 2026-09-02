@@ -26,6 +26,12 @@ export const mediaLibrary = {
   },
   events: {
     reel: [
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-thumbnail.jpg",
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-panel.jpg",
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-speaker.jpg",
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-audience-01.jpg",
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-audience-02.jpg",
+      "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-audience-03.jpg",
       "/assets/media/site/library/seminars/silik/2026-01-24-khalid-bakry-best/khalid-silik-bakry-2026-01-24-001.jpg",
       "/assets/media/site/library/seminars/silik/2026-01-24-khalid-bakry-best/khalid-silik-bakry-2026-01-24-002.jpg",
       "/assets/media/site/library/seminars/silik/2026-01-24-khalid-bakry-best/khalid-silik-bakry-2026-01-24-003.jpg",
@@ -74,6 +80,12 @@ export const mediaLibrary = {
       "/assets/media/site/library/seminars/silik/2026-01-24-khalid-bakry-best/khalid-silik-bakry-2026-01-24-046.jpg",
     ],
     highlights: [
+      {
+        id: "ardol-aug-2026",
+        image: "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-thumbnail.jpg",
+        href: "https://www.youtube.com/watch?v=hcgJB4NKho0",
+        channel: "youtube",
+      },
       {
         id: "first-meeting-2025",
         image: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
