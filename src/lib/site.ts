@@ -91,20 +91,12 @@ export const siteConfig = {
       photo: "/assets/media/site/board/hind-suliman.jpg",
     },
     {
-      name: "Mohammed Haggar",
-      photo: "/assets/media/site/board/mohammed-haggar.jpg",
-    },
-    {
       name: "Adam Bsher",
       photo: "/assets/media/site/board/adam-bsher.jpg",
     },
     {
       name: "Gada Ayoub",
       photo: "/assets/media/site/board/gada-ayoub.jpg",
-    },
-    {
-      name: "Abduerhman Deiges",
-      photo: "/assets/media/site/board/abduerhman-deiges.jpg",
     },
     {
       name: "Abdelhadi Krow",
