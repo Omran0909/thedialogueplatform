@@ -91,6 +91,10 @@ export const siteConfig = {
       photo: "/assets/media/site/board/hind-suliman.jpg",
     },
     {
+      name: "Eman Hassan",
+      photo: "/assets/media/site/board/eman-hassan.jpg",
+    },
+    {
       name: "Adam Bsher",
       photo: "/assets/media/site/board/adam-bsher.jpg",
     },
