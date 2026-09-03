@@ -106,10 +106,6 @@ export const siteConfig = {
       name: "Abdelhadi Krow",
       photo: "/assets/media/site/board/abdelhadi-krow.jpg",
     },
-    {
-      name: "Enas Naseir",
-      photo: "/assets/media/site/board/enas-naseir.jpg",
-    },
   ] as const,
   membershipFormUrl,
   membershipEmbedUrl: toGoogleFormEmbedUrl(membershipFormUrl),
