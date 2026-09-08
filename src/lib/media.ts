@@ -81,6 +81,12 @@ export const mediaLibrary = {
     ],
     highlights: [
       {
+        id: "ardol-aug-2026-part-two",
+        image: "https://i.ytimg.com/vi/u951a5Zcg6o/hqdefault.jpg",
+        href: "https://www.youtube.com/watch?v=u951a5Zcg6o",
+        channel: "youtube",
+      },
+      {
         id: "ardol-aug-2026",
         image: "/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-thumbnail.jpg",
         href: "https://www.youtube.com/watch?v=hcgJB4NKho0",
@@ -89,7 +95,7 @@ export const mediaLibrary = {
       {
         id: "first-meeting-2025",
         image: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0343.jpg",
-        href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
+        href: "https://www.facebook.com/TheDialoguePlatform",
         channel: "facebook",
       },
       {
@@ -107,7 +113,7 @@ export const mediaLibrary = {
       {
         id: "silik-dinner-jan-2026",
         image: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0431.jpg",
-        href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
+        href: "https://www.facebook.com/TheDialoguePlatform",
         channel: "facebook",
       },
       {
@@ -125,13 +131,13 @@ export const mediaLibrary = {
       {
         id: "facebook-community",
         image: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0747.jpg",
-        href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
+        href: "https://www.facebook.com/TheDialoguePlatform",
         channel: "facebook",
       },
       {
         id: "facebook-gallery",
         image: "/assets/media/site/library/seminars/silik/2026-01-24/silik-2026-01-24-0784.jpg",
-        href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr",
+        href: "https://www.facebook.com/TheDialoguePlatform",
         channel: "facebook",
       },
     ],

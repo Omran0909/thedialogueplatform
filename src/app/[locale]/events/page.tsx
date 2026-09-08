@@ -75,9 +75,14 @@ const eventsExtras: Record<
     mediaReelDescription:
       "This reel brings together selected photos from the 29 August 2026 Ardol dialogue and our January 2026 seminar archive.",
     highlights: {
+      "ardol-aug-2026-part-two": {
+        date: "29 August 2026",
+        title: "Between War and Peace: Where Is Sudan Heading? - Part Two",
+        description: "The second part of the dialogue session with engineer Mubarak Abdelrahman Ardol, continuing the discussion on Sudan's war, peace pathways, political settlement, and the search for a shared national project.",
+      },
       "ardol-aug-2026": {
         date: "29 August 2026",
-        title: "Between War and Peace: Where Is Sudan Heading?",
+        title: "Between War and Peace: Where Is Sudan Heading? - Part One",
         description: "Part one of the dialogue session with engineer Mubarak Abdelrahman Ardol on peace options and the possibility of Sudanese consensus around a shared national project.",
       },
       "first-meeting-2025": {
@@ -165,9 +170,14 @@ const eventsExtras: Record<
     mediaReelDescription:
       "Denne bildefremvisningen samler utvalgte bilder fra Ardol-dialogen 29. august 2026 og seminararkivet fra januar 2026.",
     highlights: {
+      "ardol-aug-2026-part-two": {
+        date: "29. august 2026",
+        title: "Mellom krig og fred: hvor går Sudan? - del to",
+        description: "Andre del av dialogsamtalen med ingeniør Mubarak Abdelrahman Ardol, med videre samtale om krigen i Sudan, veier mot fred, politisk løsning og et felles nasjonalt prosjekt.",
+      },
       "ardol-aug-2026": {
         date: "29. august 2026",
-        title: "Mellom krig og fred: hvor går Sudan?",
+        title: "Mellom krig og fred: hvor går Sudan? - del en",
         description: "Første del av dialogsamtalen med ingeniør Mubarak Abdelrahman Ardol om fredsmuligheter og muligheten for sudanesisk enighet om et felles nasjonalt prosjekt.",
       },
       "first-meeting-2025": {
@@ -253,9 +263,14 @@ const eventsExtras: Record<
     mediaReelTitle: "من أرشيفنا الإعلامي الخاص",
     mediaReelDescription: "يعرض هذا الشريط صوراً مختارة من جلسة أردول في 29 أغسطس 2026 إلى جانب أرشيف ندوة يناير 2026.",
     highlights: {
+      "ardol-aug-2026-part-two": {
+        date: "29 أغسطس 2026",
+        title: "بين الحرب والسلام: السودان إلى أين؟ - الجزء الثاني",
+        description: "الجزء الثاني من الجلسة الحوارية مع الباشمهندس مبارك عبد الرحمن أردول، واستكمال النقاش حول الحرب في السودان ومسارات السلام والتسوية السياسية ومشروع وطني جامع.",
+      },
       "ardol-aug-2026": {
         date: "29 أغسطس 2026",
-        title: "بين الحرب والسلام: السودان إلى أين؟",
+        title: "بين الحرب والسلام: السودان إلى أين؟ - الجزء الأول",
         description: "الجزء الأول من الجلسة الحوارية مع الباشمهندس مبارك عبد الرحمن أردول حول خيارات السلام وإمكانية التوافق على مشروع وطني جامع.",
       },
       "first-meeting-2025": {
@@ -677,7 +692,7 @@ export default function EventsPage({ params }: PageProps) {
                                       rel="noreferrer"
                                       className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
                                     >
-                                      {calendarCopy.seminarLinksLabel}: {link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel}
+                                      {calendarCopy.seminarLinksLabel}: {link.label?.[locale] ?? (link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel)}
                                     </a>
                                   ))}
                                 </div>
@@ -750,7 +765,7 @@ export default function EventsPage({ params }: PageProps) {
                                       rel="noreferrer"
                                       className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
                                     >
-                                      {calendarCopy.seminarLinksLabel}: {link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel}
+                                      {calendarCopy.seminarLinksLabel}: {link.label?.[locale] ?? (link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel)}
                                     </a>
                                   ))}
                                 </div>

@@ -9,6 +9,7 @@ type CalendarEventText = {
 type CalendarEventLink = {
   type: "youtube" | "facebook";
   href: string;
+  label?: Record<Locale, string>;
 };
 
 export type CalendarEvent = {
@@ -29,7 +30,7 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2025-02-08T20:00:00+01:00",
     location: "Lillestrom, Norway",
     links: [
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
       { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg" },
     ],
     text: {
@@ -61,7 +62,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -92,7 +93,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Masan Aktivitetssenter, Lillestrom",
     links: [
       { type: "youtube", href: "https://youtu.be/NU42C6AANSg" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -123,7 +124,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -154,7 +155,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -184,8 +185,21 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2026-08-29T22:00:00+02:00",
     location: "Husebylåven, Husebyveien 28, 2020 Skedsmokorset, Norway",
     links: [
-      { type: "youtube", href: "https://www.youtube.com/watch?v=hcgJB4NKho0" },
-      { type: "facebook", href: "https://fb.watch/JoqqEnUVL0/" },
+      {
+        type: "youtube",
+        href: "https://www.youtube.com/watch?v=hcgJB4NKho0",
+        label: { en: "YouTube Part 1", no: "YouTube del 1", ar: "يوتيوب - الجزء الأول" },
+      },
+      {
+        type: "youtube",
+        href: "https://www.youtube.com/watch?v=u951a5Zcg6o",
+        label: { en: "YouTube Part 2", no: "YouTube del 2", ar: "يوتيوب - الجزء الثاني" },
+      },
+      {
+        type: "facebook",
+        href: "https://fb.watch/JoqqEnUVL0/",
+        label: { en: "Facebook update", no: "Facebook-oppdatering", ar: "تحديث فيسبوك" },
+      },
     ],
     text: {
       en: {
@@ -216,7 +230,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtube.com/@thedialogueplattform" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -247,7 +261,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtu.be/NU42C6AANSg" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -278,7 +292,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "youtube", href: "https://youtube.com/@thedialogueplattform" },
-      { type: "facebook", href: "https://www.facebook.com/share/16Qz1NFz7w/?mibextid=wwXIfr" },
+      { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
@@ -373,7 +387,7 @@ export function buildCalendarFeed(events: CalendarEvent[], locale: Locale = "en"
   const eventsBody = events
     .map((event) => {
       const eventText = getEventText(event, locale);
-      const seminarLinks = event.links.map((link) => link.href).join("\n");
+      const seminarLinks = event.links.map((link) => `${link.label?.[locale] ?? link.type}: ${link.href}`).join("\n");
       const description = `${eventText.fullDescription}\n\nLinks:\n${seminarLinks}`;
 
       return [
