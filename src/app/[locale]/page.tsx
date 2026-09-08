@@ -56,6 +56,12 @@ const accessCopy = {
   },
 } as const;
 
+const localeCodes: Record<Locale, string> = {
+  en: "en-GB",
+  no: "nb-NO",
+  ar: "ar-SA",
+};
+
 const technologyPartnerCopy = {
   en: {
     badge: "Technology partner",
@@ -99,6 +105,12 @@ export default function HomePage({ params }: PageProps) {
   const partners = formatPartners(locale);
   const accessSection = accessCopy[locale];
   const technologySection = technologyPartnerCopy[locale];
+  const videoDateFormatter = new Intl.DateTimeFormat(localeCodes[locale], {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 
   return (
     <div className="mx-auto max-w-content px-6 pb-24">
@@ -256,8 +268,11 @@ export default function HomePage({ params }: PageProps) {
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-base font-semibold text-text-primary">{video.title}</p>
-                  <p className="mt-2 text-sm text-text-secondary">{localized.home.exampleCardDescription}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                    {localized.home.publishedOnYoutube}: {videoDateFormatter.format(new Date(`${video.publishedAt}T00:00:00Z`))}
+                  </p>
+                  <p className="mt-2 text-base font-semibold text-text-primary">{video.title}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-text-secondary">{video.details[locale] ?? video.details.en}</p>
                 </div>
               </a>
             </HoverCard>

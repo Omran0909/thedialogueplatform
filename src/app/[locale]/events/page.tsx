@@ -76,12 +76,12 @@ const eventsExtras: Record<
       "This reel brings together selected photos from the 29 August 2026 Ardol dialogue and our January 2026 seminar archive.",
     highlights: {
       "ardol-aug-2026-part-two": {
-        date: "29 August 2026",
+        date: "Event: 29 August 2026 | Published: 7 September 2026",
         title: "Between War and Peace: Where Is Sudan Heading? - Part Two",
         description: "The second part of the dialogue session with engineer Mubarak Abdelrahman Ardol, continuing the discussion on Sudan's war, peace pathways, political settlement, and the search for a shared national project.",
       },
       "ardol-aug-2026": {
-        date: "29 August 2026",
+        date: "Event: 29 August 2026 | Published: 2 September 2026",
         title: "Between War and Peace: Where Is Sudan Heading? - Part One",
         description: "Part one of the dialogue session with engineer Mubarak Abdelrahman Ardol on peace options and the possibility of Sudanese consensus around a shared national project.",
       },
@@ -91,12 +91,12 @@ const eventsExtras: Record<
         description: "Our first public meeting in Lillestrom introduced the mission: trust, peace, and inclusive dialogue.",
       },
       "azzam-sept-2025": {
-        date: "13 September 2025",
+        date: "Event: 13 September 2025 | Published: 25 September 2025",
         title: "Azzam seminar session",
         description: "A community-centred seminar focused on dialogue culture, participation, and shared understanding.",
       },
       "attroun-oct-2025": {
-        date: "18 October 2025",
+        date: "Event: 18 October 2025 | Published: 25 September 2025",
         title: "Attroun seminar gathering",
         description: "A dialogue event exploring trust-building through practical facilitation and local cooperation.",
       },
@@ -106,7 +106,7 @@ const eventsExtras: Record<
         description: "An intimate gathering to strengthen relationships and prepare the next seminar dialogues.",
       },
       "silik-seminar-jan-22-2026": {
-        date: "22 January 2026",
+        date: "Event: 22 January 2026 | Published: 1 November 2025",
         title: "Khalid Omer Yousif seminar (Day 1)",
         description: "Participants discussed peace-centred dialogue methods and civic trust priorities.",
       },
@@ -171,12 +171,12 @@ const eventsExtras: Record<
       "Denne bildefremvisningen samler utvalgte bilder fra Ardol-dialogen 29. august 2026 og seminararkivet fra januar 2026.",
     highlights: {
       "ardol-aug-2026-part-two": {
-        date: "29. august 2026",
+        date: "Arrangement: 29. august 2026 | Publisert: 7. september 2026",
         title: "Mellom krig og fred: hvor går Sudan? - del to",
         description: "Andre del av dialogsamtalen med ingeniør Mubarak Abdelrahman Ardol, med videre samtale om krigen i Sudan, veier mot fred, politisk løsning og et felles nasjonalt prosjekt.",
       },
       "ardol-aug-2026": {
-        date: "29. august 2026",
+        date: "Arrangement: 29. august 2026 | Publisert: 2. september 2026",
         title: "Mellom krig og fred: hvor går Sudan? - del en",
         description: "Første del av dialogsamtalen med ingeniør Mubarak Abdelrahman Ardol om fredsmuligheter og muligheten for sudanesisk enighet om et felles nasjonalt prosjekt.",
       },
@@ -186,12 +186,12 @@ const eventsExtras: Record<
         description: "Vårt første offentlige møte i Lillestrom introduserte arbeidet med tillit, fred og inkluderende dialog.",
       },
       "azzam-sept-2025": {
-        date: "13. september 2025",
+        date: "Arrangement: 13. september 2025 | Publisert: 25. september 2025",
         title: "Azzam-seminar",
         description: "Et samfunnsnært seminar med fokus på dialogkultur, deltakelse og felles forståelse.",
       },
       "attroun-oct-2025": {
-        date: "18. oktober 2025",
+        date: "Arrangement: 18. oktober 2025 | Publisert: 25. september 2025",
         title: "Attroun-seminar",
         description: "Et dialogarrangement om tillitsbygging gjennom praktisk fasilitering og lokalt samarbeid.",
       },
@@ -201,7 +201,7 @@ const eventsExtras: Record<
         description: "En mindre samling for å styrke relasjoner og forberede de neste seminarene.",
       },
       "silik-seminar-jan-22-2026": {
-        date: "22. januar 2026",
+        date: "Arrangement: 22. januar 2026 | Publisert: 1. november 2025",
         title: "Khalid Omer Yousif-seminar (dag 1)",
         description: "Deltakerne drøftet dialogmetoder for fredsbygging og prioriteringer for lokal tillit.",
       },
@@ -264,12 +264,12 @@ const eventsExtras: Record<
     mediaReelDescription: "يعرض هذا الشريط صوراً مختارة من جلسة أردول في 29 أغسطس 2026 إلى جانب أرشيف ندوة يناير 2026.",
     highlights: {
       "ardol-aug-2026-part-two": {
-        date: "29 أغسطس 2026",
+        date: "الفعالية: 29 أغسطس 2026 | النشر: 7 سبتمبر 2026",
         title: "بين الحرب والسلام: السودان إلى أين؟ - الجزء الثاني",
         description: "الجزء الثاني من الجلسة الحوارية مع الباشمهندس مبارك عبد الرحمن أردول، واستكمال النقاش حول الحرب في السودان ومسارات السلام والتسوية السياسية ومشروع وطني جامع.",
       },
       "ardol-aug-2026": {
-        date: "29 أغسطس 2026",
+        date: "الفعالية: 29 أغسطس 2026 | النشر: 2 سبتمبر 2026",
         title: "بين الحرب والسلام: السودان إلى أين؟ - الجزء الأول",
         description: "الجزء الأول من الجلسة الحوارية مع الباشمهندس مبارك عبد الرحمن أردول حول خيارات السلام وإمكانية التوافق على مشروع وطني جامع.",
       },
@@ -279,12 +279,12 @@ const eventsExtras: Record<
         description: "انطلق أول لقاء عام في ليلستروم للتأكيد على رسالة المنصة: الثقة والسلام والحوار الشامل.",
       },
       "azzam-sept-2025": {
-        date: "13 سبتمبر 2025",
+        date: "الفعالية: 13 سبتمبر 2025 | النشر: 25 سبتمبر 2025",
         title: "ندوة عزام",
         description: "ندوة مجتمعية ركزت على ثقافة الحوار والمشاركة والفهم المشترك.",
       },
       "attroun-oct-2025": {
-        date: "18 أكتوبر 2025",
+        date: "الفعالية: 18 أكتوبر 2025 | النشر: 25 سبتمبر 2025",
         title: "ندوة عترون",
         description: "فعالية حوارية تناولت بناء الثقة عبر التيسير العملي والتعاون المحلي.",
       },
@@ -294,7 +294,7 @@ const eventsExtras: Record<
         description: "لقاء تعارفي لتعزيز العلاقات والتحضير لندوات الحوار التالية.",
       },
       "silik-seminar-jan-22-2026": {
-        date: "22 يناير 2026",
+        date: "الفعالية: 22 يناير 2026 | النشر: 1 نوفمبر 2025",
         title: "ندوة خالد عمر يوسف (اليوم الأول)",
         description: "ناقش المشاركون منهجيات حوار تبني السلام وتدعم الثقة المجتمعية.",
       },
@@ -336,6 +336,7 @@ const calendarSectionCopy: Record<
     openDetails: string;
     timeLabel: string;
     seminarLinksLabel: string;
+    publishedLabel: string;
     addGoogleCta: string;
     downloadIcsCta: string;
     noUpcoming: string;
@@ -356,6 +357,7 @@ const calendarSectionCopy: Record<
     openDetails: "Open details",
     timeLabel: "Time",
     seminarLinksLabel: "Seminar links",
+    publishedLabel: "Published",
     addGoogleCta: "Add to Google Calendar",
     downloadIcsCta: "Download this event (.ics)",
     noUpcoming: "No upcoming events published yet.",
@@ -375,6 +377,7 @@ const calendarSectionCopy: Record<
     openDetails: "Vis detaljer",
     timeLabel: "Tid",
     seminarLinksLabel: "Seminarlenker",
+    publishedLabel: "Publisert",
     addGoogleCta: "Legg til i Google Kalender",
     downloadIcsCta: "Last ned denne hendelsen (.ics)",
     noUpcoming: "Ingen kommende arrangementer er publisert ennå.",
@@ -394,6 +397,7 @@ const calendarSectionCopy: Record<
     openDetails: "عرض التفاصيل",
     timeLabel: "الوقت",
     seminarLinksLabel: "روابط الندوة",
+    publishedLabel: "نُشر",
     addGoogleCta: "إضافة إلى تقويم Google",
     downloadIcsCta: "تنزيل الفعالية الحالية (.ics)",
     noUpcoming: "لا توجد فعاليات قادمة منشورة حالياً.",
@@ -428,6 +432,12 @@ export default function EventsPage({ params }: PageProps) {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Europe/Oslo",
+  });
+  const videoPublishedDateFormatter = new Intl.DateTimeFormat(localeCode, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
   });
   const monthGroups = Array.from(
     sortedCalendarEvents
@@ -693,6 +703,7 @@ export default function EventsPage({ params }: PageProps) {
                                       className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
                                     >
                                       {calendarCopy.seminarLinksLabel}: {link.label?.[locale] ?? (link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel)}
+                                      {link.publishedAt ? ` • ${calendarCopy.publishedLabel} ${videoPublishedDateFormatter.format(new Date(`${link.publishedAt}T00:00:00Z`))}` : ""}
                                     </a>
                                   ))}
                                 </div>
@@ -766,6 +777,7 @@ export default function EventsPage({ params }: PageProps) {
                                       className="rounded-full border border-accent/30 bg-accent-soft/55 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:border-accent/50"
                                     >
                                       {calendarCopy.seminarLinksLabel}: {link.label?.[locale] ?? (link.type === "youtube" ? extra.youtubeLabel : extra.facebookLabel)}
+                                      {link.publishedAt ? ` • ${calendarCopy.publishedLabel} ${videoPublishedDateFormatter.format(new Date(`${link.publishedAt}T00:00:00Z`))}` : ""}
                                     </a>
                                   ))}
                                 </div>

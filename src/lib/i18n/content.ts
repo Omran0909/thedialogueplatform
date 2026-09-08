@@ -25,6 +25,7 @@ type Content = {
     examplesTitle: string;
     examplesDescription: string;
     exampleCardDescription: string;
+    publishedOnYoutube: string;
     watchOnYoutube: string;
     channelsTitle: string;
     channelsDescription: string;
@@ -139,6 +140,7 @@ export const content: Record<Locale, Content> = {
       examplesTitle: "Example Dialogues",
       examplesDescription: "Explore real dialogue sessions and practical examples from our field work.",
       exampleCardDescription: "View the full video dialogue example.",
+      publishedOnYoutube: "Published on YouTube",
       watchOnYoutube: "Watch on YouTube",
       channelsTitle: "Follow our official channels",
       channelsDescription: "Stay connected with upcoming dialogue stories, field examples, and public updates.",
@@ -318,6 +320,7 @@ export const content: Record<Locale, Content> = {
       examplesTitle: "Eksempler på dialoger",
       examplesDescription: "Utforsk reelle dialoger og praktiske eksempler fra vårt arbeid.",
       exampleCardDescription: "Se hele dialogeksemplet i videoformat.",
+      publishedOnYoutube: "Publisert på YouTube",
       watchOnYoutube: "Se på YouTube",
       channelsTitle: "Følg våre offisielle kanaler",
       channelsDescription: "Hold deg oppdatert på dialoghistorier, eksempler fra feltet og offentlige oppdateringer.",
@@ -497,6 +500,7 @@ export const content: Record<Locale, Content> = {
       examplesTitle: "نماذج حوارية",
       examplesDescription: "اطّلع على جلسات حوارية حقيقية ونماذج تطبيقية من عملنا الميداني.",
       exampleCardDescription: "شاهد نموذج الحوار الكامل عبر الفيديو.",
+      publishedOnYoutube: "نُشر على يوتيوب",
       watchOnYoutube: "شاهد على يوتيوب",
       channelsTitle: "تابع قنواتنا الرسمية",
       channelsDescription: "ابقَ على اطلاع على قصص الحوار وأمثلة الممارسة والتحديثات العامة.",

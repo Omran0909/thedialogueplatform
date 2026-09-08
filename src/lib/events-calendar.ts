@@ -10,6 +10,7 @@ type CalendarEventLink = {
   type: "youtube" | "facebook";
   href: string;
   label?: Record<Locale, string>;
+  publishedAt?: string;
 };
 
 export type CalendarEvent = {
@@ -31,7 +32,7 @@ export const calendarEvents: CalendarEvent[] = [
     location: "Lillestrom, Norway",
     links: [
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
-      { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg" },
+      { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg", publishedAt: "2025-09-16" },
     ],
     text: {
       en: {
@@ -61,7 +62,7 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2025-09-13T20:30:00+02:00",
     location: "Lillestrom, Norway",
     links: [
-      { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8" },
+      { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8", publishedAt: "2025-09-25" },
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
@@ -92,7 +93,7 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2025-10-18T21:00:00+02:00",
     location: "Masan Aktivitetssenter, Lillestrom",
     links: [
-      { type: "youtube", href: "https://youtu.be/NU42C6AANSg" },
+      { type: "youtube", href: "https://youtu.be/NU42C6AANSg", publishedAt: "2025-11-01" },
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
@@ -123,7 +124,7 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2026-01-22T21:00:00+01:00",
     location: "Lillestrom, Norway",
     links: [
-      { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg" },
+      { type: "youtube", href: "https://youtu.be/eC5fJTXGQsg", publishedAt: "2025-09-16" },
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
@@ -154,7 +155,7 @@ export const calendarEvents: CalendarEvent[] = [
     end: "2026-01-24T20:30:00+01:00",
     location: "Lillestrom, Norway",
     links: [
-      { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8" },
+      { type: "youtube", href: "https://youtu.be/hYD4fEoxNv8", publishedAt: "2025-09-25" },
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
@@ -188,11 +189,13 @@ export const calendarEvents: CalendarEvent[] = [
       {
         type: "youtube",
         href: "https://www.youtube.com/watch?v=hcgJB4NKho0",
+        publishedAt: "2026-09-02",
         label: { en: "YouTube Part 1", no: "YouTube del 1", ar: "يوتيوب - الجزء الأول" },
       },
       {
         type: "youtube",
         href: "https://www.youtube.com/watch?v=u951a5Zcg6o",
+        publishedAt: "2026-09-07",
         label: { en: "YouTube Part 2", no: "YouTube del 2", ar: "يوتيوب - الجزء الثاني" },
       },
       {
@@ -224,7 +227,7 @@ export const calendarEvents: CalendarEvent[] = [
   },
   {
     id: "upcoming-2026-03-21",
-    phase: "upcoming",
+    phase: "past",
     start: "2026-03-21T17:30:00+01:00",
     end: "2026-03-21T20:00:00+01:00",
     location: "Lillestrom, Norway",
@@ -235,58 +238,58 @@ export const calendarEvents: CalendarEvent[] = [
     text: {
       en: {
         title: "Institution and Community Trust Workshop",
-        shortDescription: "Upcoming workshop on practical trust architecture between institutions and residents.",
+        shortDescription: "Workshop on practical trust architecture between institutions and residents.",
         fullDescription:
-          "This scheduled workshop will focus on dialogue design, inclusion mechanisms, and follow-up methods that help institutions sustain trust over time.",
+          "This workshop focused on dialogue design, inclusion mechanisms, and follow-up methods that help institutions sustain trust with residents over time.",
       },
       no: {
         title: "Workshop om tillit mellom institusjoner og lokalsamfunn",
-        shortDescription: "Kommende workshop om praktisk tillitsarkitektur mellom institusjoner og innbyggere.",
+        shortDescription: "Workshop om praktisk tillitsarkitektur mellom institusjoner og innbyggere.",
         fullDescription:
-          "Den planlagte workshopen vil fokusere på dialogdesign, inkluderingsmekanismer og oppfølging som bidrar til varig tillit.",
+          "Workshopen tok opp dialogdesign, inkluderingsmekanismer og oppfølging som kan bidra til varig tillit mellom institusjoner og innbyggere.",
       },
       ar: {
         title: "ورشة الثقة بين المؤسسات والمجتمع",
-        shortDescription: "ورشة قادمة حول بناء الثقة عملياً بين المؤسسات والسكان.",
+        shortDescription: "ورشة حول بناء الثقة عملياً بين المؤسسات والسكان.",
         fullDescription:
-          "ستركز الورشة المقبلة على تصميم الحوار وآليات الشمول وأساليب المتابعة التي تساعد المؤسسات على ترسيخ الثقة.",
+          "ركزت الورشة على تصميم الحوار وآليات الشمول وأساليب المتابعة التي تساعد المؤسسات على ترسيخ الثقة مع السكان بمرور الوقت.",
       },
     },
   },
   {
     id: "upcoming-2026-04-18",
-    phase: "upcoming",
+    phase: "past",
     start: "2026-04-18T17:30:00+02:00",
     end: "2026-04-18T20:00:00+02:00",
     location: "Lillestrom, Norway",
     links: [
-      { type: "youtube", href: "https://youtu.be/NU42C6AANSg" },
+      { type: "youtube", href: "https://youtu.be/NU42C6AANSg", publishedAt: "2025-11-01" },
       { type: "facebook", href: "https://www.facebook.com/TheDialoguePlatform" },
     ],
     text: {
       en: {
         title: "Youth and Civic Dialogue Session",
-        shortDescription: "Upcoming session focused on youth voices and civic inclusion.",
+        shortDescription: "Session focused on youth voices and civic inclusion.",
         fullDescription:
-          "This event is planned to deepen participation from younger community voices and connect their priorities to institutional follow-up pathways.",
+          "This session deepened participation from younger community voices and connected their priorities to institutional follow-up pathways.",
       },
       no: {
         title: "Ungdoms- og samfunnsdialog",
-        shortDescription: "Kommende samling med fokus på ungdomsstemmer og samfunnsdeltakelse.",
+        shortDescription: "Samling med fokus på ungdomsstemmer og samfunnsdeltakelse.",
         fullDescription:
-          "Arrangementet er planlagt for å styrke deltakelsen fra yngre stemmer og koble deres prioriteringer til institusjonell oppfølging.",
+          "Samlingen styrket deltakelsen fra yngre stemmer og koblet deres prioriteringer til institusjonell oppfølging.",
       },
       ar: {
         title: "جلسة حوار للشباب والمجتمع",
-        shortDescription: "جلسة قادمة تركّز على أصوات الشباب والشمول المجتمعي.",
+        shortDescription: "جلسة تركّز على أصوات الشباب والشمول المجتمعي.",
         fullDescription:
-          "تهدف هذه الفعالية إلى تعميق مشاركة فئة الشباب وربط أولوياتهم بمسارات متابعة مؤسسية واضحة.",
+          "عمّقت هذه الفعالية مشاركة فئة الشباب وربط أولوياتهم بمسارات متابعة مؤسسية واضحة.",
       },
     },
   },
   {
     id: "upcoming-2026-05-23",
-    phase: "upcoming",
+    phase: "past",
     start: "2026-05-23T18:00:00+02:00",
     end: "2026-05-23T20:30:00+02:00",
     location: "Lillestrom, Norway",
@@ -297,21 +300,21 @@ export const calendarEvents: CalendarEvent[] = [
     text: {
       en: {
         title: "Public Dialogue Briefing and Follow-up",
-        shortDescription: "Upcoming briefing that links dialogue findings to institutional next steps.",
+        shortDescription: "Briefing that links dialogue findings to institutional next steps.",
         fullDescription:
-          "This session will consolidate lessons from recent dialogues and publish practical follow-up priorities for partners and participating institutions.",
+          "This session consolidated lessons from recent dialogues and published practical follow-up priorities for partners and participating institutions.",
       },
       no: {
         title: "Offentlig dialogbrief med oppfolging",
-        shortDescription: "Kommende orientering som kobler dialogfunn til neste institusjonelle steg.",
+        shortDescription: "Orientering som kobler dialogfunn til neste institusjonelle steg.",
         fullDescription:
-          "Samlingen vil oppsummere læringspunkter fra nylige dialoger og synliggjøre praktiske prioriteringer for videre oppfølging.",
+          "Samlingen oppsummerte læringspunkter fra nylige dialoger og synliggjorde praktiske prioriteringer for videre oppfølging.",
       },
       ar: {
         title: "إحاطة حوارية عامة مع متابعة",
-        shortDescription: "إحاطة قادمة تربط مخرجات الحوار بالخطوات المؤسسية التالية.",
+        shortDescription: "إحاطة تربط مخرجات الحوار بالخطوات المؤسسية التالية.",
         fullDescription:
-          "ستجمع هذه الجلسة خلاصات الحوارات الأخيرة وتنشر أولويات المتابعة العملية للشركاء والمؤسسات المشاركة.",
+          "جمعت هذه الجلسة خلاصات الحوارات الأخيرة ونشرت أولويات المتابعة العملية للشركاء والمؤسسات المشاركة.",
       },
     },
   },
@@ -333,9 +336,22 @@ function getEventText(event: CalendarEvent, locale: Locale): CalendarEventText {
   return event.text[locale] ?? event.text.en;
 }
 
+const linkPublishedLabels: Record<Locale, string> = {
+  en: "published",
+  no: "publisert",
+  ar: "نُشر",
+};
+
+function formatCalendarLink(link: CalendarEventLink, locale: Locale) {
+  const label = link.label?.[locale] ?? link.type;
+  const published = link.publishedAt ? ` (${linkPublishedLabels[locale]} ${link.publishedAt})` : "";
+
+  return `${label}${published}: ${link.href}`;
+}
+
 export function buildGoogleCalendarUrl(event: CalendarEvent, locale: Locale) {
   const eventText = getEventText(event, locale);
-  const seminarLinks = event.links.map((link) => link.href).join("\n");
+  const seminarLinks = event.links.map((link) => formatCalendarLink(link, locale)).join("\n");
   const details = `${eventText.fullDescription}\n\nLinks:\n${seminarLinks}`;
 
   const query = new URLSearchParams({
@@ -351,7 +367,7 @@ export function buildGoogleCalendarUrl(event: CalendarEvent, locale: Locale) {
 
 export function buildEventIcs(event: CalendarEvent, locale: Locale) {
   const eventText = getEventText(event, locale);
-  const seminarLinks = event.links.map((link) => link.href).join("\n");
+  const seminarLinks = event.links.map((link) => formatCalendarLink(link, locale)).join("\n");
   const description = `${eventText.fullDescription}\n\nLinks:\n${seminarLinks}`;
   const stamp = formatGoogleDate(new Date().toISOString());
 
@@ -387,7 +403,7 @@ export function buildCalendarFeed(events: CalendarEvent[], locale: Locale = "en"
   const eventsBody = events
     .map((event) => {
       const eventText = getEventText(event, locale);
-      const seminarLinks = event.links.map((link) => `${link.label?.[locale] ?? link.type}: ${link.href}`).join("\n");
+      const seminarLinks = event.links.map((link) => formatCalendarLink(link, locale)).join("\n");
       const description = `${eventText.fullDescription}\n\nLinks:\n${seminarLinks}`;
 
       return [
