@@ -136,14 +136,12 @@ export function Layout({ children, locale }: LayoutProps) {
                     {text.nav[key]}
                   </Link>
                 ))}
-                <a
-                  href={siteConfig.socialChannels[0].href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-[#0b3a5d] bg-[linear-gradient(115deg,#eef6ff_0%,#fff4df_100%)] px-4 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#0b3a5d] hover:text-white"
+                <Link
+                  href={withLocale(locale, "/support")}
+                  className="rounded-full bg-[#f2a33a] px-4 py-2 text-sm font-semibold text-[#082f4c] transition-colors hover:bg-[#f8b75b]"
                 >
-                  {text.officialChannels}
-                </a>
+                  {text.nav.support}
+                </Link>
               </div>
               <LanguageSwitcher locale={locale} />
             </div>
@@ -175,15 +173,13 @@ export function Layout({ children, locale }: LayoutProps) {
                       {text.nav[key]}
                     </Link>
                   ))}
-                  <a
-                    href={siteConfig.socialChannels[0].href}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Link
+                    href={withLocale(locale, "/support")}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="rounded-md px-3 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#fff4df]"
+                    className="rounded-md bg-[#fff1db] px-3 py-2 text-sm font-semibold text-[#0b3a5d] transition-colors hover:bg-[#ffe7bd]"
                   >
-                    {text.officialChannels}
-                  </a>
+                    {text.nav.support}
+                  </Link>
                   <div className="mt-2 border-t border-line/80 pt-3">
                     <LanguageSwitcher locale={locale} onLocaleChanged={() => setIsMobileMenuOpen(false)} />
                   </div>
@@ -278,6 +274,12 @@ export function Layout({ children, locale }: LayoutProps) {
             <div>
               <p className="text-sm font-semibold text-text-primary">{text.footer.navigate}</p>
               <div className="mt-3 flex flex-col gap-2">
+                <Link
+                  href={withLocale(locale, "/support")}
+                  className="w-fit font-semibold text-[#0b3a5d] transition-colors hover:text-[#f09a28]"
+                >
+                  {text.nav.support}
+                </Link>
                 {navLinks.map(({ path, key }) => (
                   <Link
                     key={path}
@@ -312,7 +314,7 @@ export function Layout({ children, locale }: LayoutProps) {
                     rel="noreferrer"
                     className="rounded-xl border border-[#f2a33a]/40 bg-[#fff4df] px-4 py-3 transition hover:border-[#0b3a5d]/30 hover:shadow-[0_14px_26px_-22px_rgba(8,47,76,0.9)]"
                   >
-                    <p className="text-sm font-semibold text-[#d4871f]">{membershipLabel}</p>
+                    <p className="text-sm font-semibold text-[#9a4b00]">{membershipLabel}</p>
                     <p className="mt-1 text-xs text-text-secondary">{membershipDescription}</p>
                   </a>
                 ) : null}

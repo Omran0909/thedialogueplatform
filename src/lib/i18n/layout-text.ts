@@ -9,6 +9,7 @@ export type LayoutText = {
     funding: string;
     scholarships: string;
     insights: string;
+    support: string;
     contact: string;
   };
   menu: string;
@@ -44,6 +45,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       funding: "Funding",
       scholarships: "Scholarships",
       insights: "Insights",
+      support: "Support us",
       contact: "Contact",
     },
     menu: "Menu",
@@ -77,6 +79,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       funding: "Finansiering",
       scholarships: "Stipender",
       insights: "Innsikt",
+      support: "Støtt oss",
       contact: "Kontakt",
     },
     menu: "Meny",
@@ -110,6 +113,7 @@ export const layoutText: Record<Locale, LayoutText> = {
       funding: "التمويل",
       scholarships: "المنح الدراسية",
       insights: "المعارف",
+      support: "ادعمنا",
       contact: "تواصل",
     },
     menu: "القائمة",

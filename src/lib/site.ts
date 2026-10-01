@@ -224,4 +224,4 @@ export const siteConfig = {
   ],
 };
 
-export const mainRoutes = ["/", "/portfolio", "/about", "/dialogues", "/events", "/news", "/funding", "/scholarships", "/insights", "/contact"] as const;
+export const mainRoutes = ["/", "/portfolio", "/about", "/dialogues", "/events", "/news", "/funding", "/scholarships", "/insights", "/support", "/contact"] as const;
