@@ -137,6 +137,8 @@ export function EventsImpactShowcase({ locale, content }: EventsImpactShowcasePr
         </div>
       </section>
 
+      <div className="h-16 bg-white sm:h-24" aria-hidden="true" />
+
       <section className="relative overflow-hidden bg-[#0b3a5d] text-white" aria-labelledby="impact-title">
         <Image
           src="/assets/media/site/library/seminars/ardol/2026-08-29/ardol-2026-08-29-audience-02.jpg"
