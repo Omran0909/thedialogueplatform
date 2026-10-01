@@ -226,7 +226,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Please provide a valid email address." }, { status: 400 });
   }
 
-  const recipient = siteConfig.contactEmail;
+  const publicEmail = siteConfig.contactEmail;
+  const recipient = clean(process.env.CONTACT_RECIPIENT_EMAIL) || publicEmail;
   const deliveryMode = getDeliveryMode();
   const canonicalOrigin = new URL(siteConfig.url).origin;
   const pagePath = payload.page?.startsWith("/") ? payload.page : "/contact";
@@ -242,7 +243,7 @@ export async function POST(request: Request) {
       if (!sheets.ok && deliveryMode === "sheet") {
         console.error("Contact form Google Sheets delivery failed", { sheets });
         return NextResponse.json(
-          { ok: false, message: `Submission logging failed. Please email us directly at ${recipient}.` },
+          { ok: false, message: `Submission logging failed. Please email us directly at ${publicEmail}.` },
           { status: 502 },
         );
       }
@@ -268,8 +269,8 @@ export async function POST(request: Request) {
     console.error("Contact form delivery failed", { resend, fallback });
     const requiresActivation = typeof fallback.reason === "string" && /activation|activate form/i.test(fallback.reason);
     const deliveryMessage = requiresActivation
-      ? `Email relay is awaiting one-time activation in ${recipient}. Open the FormSubmit activation email, or add RESEND_API_KEY in Vercel for direct delivery.`
-      : `Delivery failed. You can still email us directly at ${recipient}.`;
+      ? `Email relay is awaiting one-time activation. Please email us directly at ${publicEmail}.`
+      : `Delivery failed. You can still email us directly at ${publicEmail}.`;
 
     return NextResponse.json(
       { ok: false, message: deliveryMessage },
@@ -278,7 +279,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Contact form error:", error);
     return NextResponse.json(
-      { ok: false, message: `Delivery failed. You can still email us directly at ${recipient}.` },
+      { ok: false, message: `Delivery failed. You can still email us directly at ${publicEmail}.` },
       { status: 500 },
     );
   }

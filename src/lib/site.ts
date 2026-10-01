@@ -46,7 +46,7 @@ export const siteConfig = {
   adsensePublisherId: "ca-pub-2557590642299552",
   description:
     "The Dialogue Platform builds trust and peace through inclusive, structured dialogue in collaboration with Nansen Peace Center and Lillestrom Municipality.",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@thedialogueplatform.com",
+  contactEmail: "contact@thedialogueplatform.com",
   contactPhone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   legal: {
     name: "DIALOG PLATTFORM",

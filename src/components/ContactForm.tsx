@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n/config";
+import { siteConfig } from "@/lib/site";
 
 type ContactFormProps = {
   locale: Locale;
@@ -21,6 +22,8 @@ type Copy = {
   success: string;
   error: string;
   requiredHint: string;
+  directEmailPrompt: string;
+  directEmailAction: string;
 };
 
 const copy: Record<Locale, Copy> = {
@@ -37,6 +40,8 @@ const copy: Record<Locale, Copy> = {
     success: "Thank you. Your message has been sent.",
     error: "We could not send your message. Please try again or email us directly.",
     requiredHint: "* Required fields",
+    directEmailPrompt: "Prefer email or sending an attachment?",
+    directEmailAction: "Email us directly",
   },
   no: {
     title: "Send oss en direkte henvendelse",
@@ -51,6 +56,8 @@ const copy: Record<Locale, Copy> = {
     success: "Takk. Meldingen din er sendt.",
     error: "Vi kunne ikke sende meldingen. Prøv igjen eller kontakt oss direkte på e-post.",
     requiredHint: "* Obligatoriske felt",
+    directEmailPrompt: "Vil du heller sende e-post eller et vedlegg?",
+    directEmailAction: "Send e-post direkte",
   },
   ar: {
     title: "أرسل لنا طلباً مباشراً",
@@ -65,6 +72,8 @@ const copy: Record<Locale, Copy> = {
     success: "شكراً لك. تم إرسال رسالتك بنجاح.",
     error: "تعذر إرسال الرسالة. حاول مرة أخرى أو تواصل معنا عبر البريد الإلكتروني مباشرة.",
     requiredHint: "* حقول مطلوبة",
+    directEmailPrompt: "هل تفضل البريد الإلكتروني أو إرسال مرفق؟",
+    directEmailAction: "راسلنا مباشرة",
   },
 };
 
@@ -127,6 +136,26 @@ export function ContactForm({ locale }: ContactFormProps) {
     <div className="surface-card p-6 sm:p-8">
       <h2 className="text-2xl text-text-primary sm:text-3xl">{text.title}</h2>
       <p className="mt-3 max-w-prose text-sm leading-relaxed text-text-secondary">{text.description}</p>
+
+      <div className="mt-5 flex flex-col gap-4 rounded-lg border border-accent/30 bg-[#fff8ec] p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-lg font-semibold text-white" aria-hidden="true">
+            @
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary">{text.directEmailPrompt}</p>
+            <a href={`mailto:${siteConfig.contactEmail}`} className="mt-1 block break-words text-sm font-semibold text-accent hover:underline sm:text-base">
+              {siteConfig.contactEmail}
+            </a>
+          </div>
+        </div>
+        <a
+          href={`mailto:${siteConfig.contactEmail}`}
+          className="inline-flex shrink-0 items-center justify-center rounded-full border border-accent px-5 py-2.5 text-sm font-semibold text-accent transition hover:bg-accent hover:text-white"
+        >
+          {text.directEmailAction}
+        </a>
+      </div>
 
       <form className="mt-6 space-y-4" onSubmit={onSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -194,11 +223,18 @@ export function ContactForm({ locale }: ContactFormProps) {
 
         {status !== "idle" ? (
           <p
+            role="status"
+            aria-live="polite"
             className={`rounded-lg px-4 py-3 text-sm ${
               status === "success" ? "bg-[#d7efe8] text-[#0c5b47]" : "bg-[#f8dfdf] text-[#8d3434]"
             }`}
           >
             {statusMessage}
+            {status === "error" ? (
+              <a href={`mailto:${siteConfig.contactEmail}`} className="ms-2 font-semibold underline underline-offset-2">
+                {siteConfig.contactEmail}
+              </a>
+            ) : null}
           </p>
         ) : null}
       </form>
