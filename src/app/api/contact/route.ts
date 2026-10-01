@@ -160,45 +160,6 @@ async function sendViaGoogleSheets(payload: ContactPayload, recipient: string): 
   return { ok: true };
 }
 
-async function sendViaFormSubmit(payload: ContactPayload, recipient: string, origin: string, referer: string): Promise<DeliveryResult> {
-  const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Origin: origin,
-      Referer: referer,
-      "User-Agent": "TheDialoguePlatform/1.0",
-    },
-    body: JSON.stringify({
-      name: payload.name,
-      email: payload.email,
-      organization: payload.organization || "Not provided",
-      subject: payload.subject || "New contact request",
-      message: payload.message,
-      locale: payload.locale || "Not provided",
-      page: payload.page || "Not provided",
-      _captcha: "false",
-      _template: "table",
-      _subject: `[Website] ${payload.subject || "New contact request"} (${payload.name})`,
-    }),
-  });
-
-  const raw = await response.text();
-  const data = parseMaybeJson(raw);
-
-  if (!response.ok) {
-    return { ok: false, reason: getString(data, "message") || raw || `FormSubmit HTTP ${response.status}` };
-  }
-
-  const isSuccess = isTruthyStatus(data, "success");
-  if (!isSuccess) {
-    return { ok: false, reason: getString(data, "message") || "FormSubmit rejected delivery." };
-  }
-
-  return { ok: true };
-}
-
 export async function POST(request: Request) {
   let input: Record<string, unknown>;
 
@@ -229,9 +190,6 @@ export async function POST(request: Request) {
   const publicEmail = siteConfig.contactEmail;
   const recipient = clean(process.env.CONTACT_RECIPIENT_EMAIL) || publicEmail;
   const deliveryMode = getDeliveryMode();
-  const canonicalOrigin = new URL(siteConfig.url).origin;
-  const pagePath = payload.page?.startsWith("/") ? payload.page : "/contact";
-  const canonicalReferer = `${canonicalOrigin}${pagePath}`;
 
   try {
     if (deliveryMode !== "email") {
@@ -258,23 +216,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, message: "Message sent successfully." });
     }
 
-    const fallback = await sendViaFormSubmit(payload, recipient, canonicalOrigin, canonicalReferer);
-    if (fallback.ok) {
-      return NextResponse.json({
-        ok: true,
-        message: "Message sent successfully.",
-      });
-    }
-
-    console.error("Contact form delivery failed", { resend, fallback });
-    const requiresActivation = typeof fallback.reason === "string" && /activation|activate form/i.test(fallback.reason);
-    const deliveryMessage = requiresActivation
-      ? `Email relay is awaiting one-time activation. Please email us directly at ${publicEmail}.`
-      : `Delivery failed. You can still email us directly at ${publicEmail}.`;
+    console.error("Contact form email delivery is unavailable", { resend });
 
     return NextResponse.json(
-      { ok: false, message: deliveryMessage },
-      { status: 502 },
+      { ok: false, message: `Please continue in your email app or write to ${publicEmail}.` },
+      { status: 503 },
     );
   } catch (error) {
     console.error("Contact form error:", error);

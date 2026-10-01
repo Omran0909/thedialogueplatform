@@ -21,6 +21,7 @@ type Copy = {
   sending: string;
   success: string;
   error: string;
+  fallback: string;
   requiredHint: string;
   directEmailPrompt: string;
   directEmailAction: string;
@@ -39,6 +40,7 @@ const copy: Record<Locale, Copy> = {
     sending: "Sending...",
     success: "Thank you. Your message has been sent.",
     error: "We could not send your message. Please try again or email us directly.",
+    fallback: "Your email app is opening with this message ready to send.",
     requiredHint: "* Required fields",
     directEmailPrompt: "Prefer email or sending an attachment?",
     directEmailAction: "Email us directly",
@@ -55,6 +57,7 @@ const copy: Record<Locale, Copy> = {
     sending: "Sender...",
     success: "Takk. Meldingen din er sendt.",
     error: "Vi kunne ikke sende meldingen. Prøv igjen eller kontakt oss direkte på e-post.",
+    fallback: "E-postprogrammet ditt åpnes med meldingen klar til å sendes.",
     requiredHint: "* Obligatoriske felt",
     directEmailPrompt: "Vil du heller sende e-post eller et vedlegg?",
     directEmailAction: "Send e-post direkte",
@@ -71,6 +74,7 @@ const copy: Record<Locale, Copy> = {
     sending: "جارٍ الإرسال...",
     success: "شكراً لك. تم إرسال رسالتك بنجاح.",
     error: "تعذر إرسال الرسالة. حاول مرة أخرى أو تواصل معنا عبر البريد الإلكتروني مباشرة.",
+    fallback: "سيتم فتح تطبيق البريد الإلكتروني والرسالة جاهزة للإرسال.",
     requiredHint: "* حقول مطلوبة",
     directEmailPrompt: "هل تفضل البريد الإلكتروني أو إرسال مرفق؟",
     directEmailAction: "راسلنا مباشرة",
@@ -89,13 +93,30 @@ export function ContactForm({ locale }: ContactFormProps) {
   const text = copy[locale];
   const pathname = usePathname();
   const [fields, setFields] = useState(initialFields);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "fallback" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
 
   const isDisabled = useMemo(() => status === "loading", [status]);
 
   function updateField(name: keyof typeof initialFields, value: string) {
     setFields((previous) => ({ ...previous, [name]: value }));
+  }
+
+  function openEmailFallback() {
+    const subject = fields.subject || "Website contact request";
+    const body = [
+      `${text.name}: ${fields.name}`,
+      `${text.email}: ${fields.email}`,
+      fields.organization ? `${text.organization}: ${fields.organization}` : "",
+      "",
+      fields.message,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    setStatus("fallback");
+    setStatusMessage(text.fallback);
+    window.location.href = `mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -118,8 +139,7 @@ export function ContactForm({ locale }: ContactFormProps) {
 
       const payload = (await response.json()) as { ok?: boolean; message?: string };
       if (!response.ok || !payload.ok) {
-        setStatus("error");
-        setStatusMessage(payload.message || text.error);
+        openEmailFallback();
         return;
       }
 
@@ -127,8 +147,7 @@ export function ContactForm({ locale }: ContactFormProps) {
       setStatusMessage(payload.message || text.success);
       setFields(initialFields);
     } catch {
-      setStatus("error");
-      setStatusMessage(text.error);
+      openEmailFallback();
     }
   }
 
@@ -226,11 +245,15 @@ export function ContactForm({ locale }: ContactFormProps) {
             role="status"
             aria-live="polite"
             className={`rounded-lg px-4 py-3 text-sm ${
-              status === "success" ? "bg-[#d7efe8] text-[#0c5b47]" : "bg-[#f8dfdf] text-[#8d3434]"
+              status === "success"
+                ? "bg-[#d7efe8] text-[#0c5b47]"
+                : status === "fallback"
+                  ? "bg-[#fff0cf] text-[#704608]"
+                  : "bg-[#f8dfdf] text-[#8d3434]"
             }`}
           >
             {statusMessage}
-            {status === "error" ? (
+            {status === "error" || status === "fallback" ? (
               <a href={`mailto:${siteConfig.contactEmail}`} className="ms-2 font-semibold underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
