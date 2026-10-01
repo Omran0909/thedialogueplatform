@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { HoverCard, Reveal } from "@/components/AnimatedBlock";
 import { EventMediaReel } from "@/components/EventMediaReel";
+import { EventsImpactShowcase } from "@/components/EventsImpactShowcase";
 import { isLocale, withLocale, type Locale } from "@/lib/i18n/config";
+import { eventsImpactContent } from "@/lib/i18n/events-impact-content";
 import { getContent } from "@/lib/i18n/get-content";
 import { siteConfig } from "@/lib/site";
 import { mediaLibrary, type EventHighlightId } from "@/lib/media";
@@ -413,6 +415,7 @@ export default function EventsPage({ params }: PageProps) {
   const locale = params.locale as Locale;
   const localized = getContent(locale);
   const extra = eventsExtras[locale];
+  const impactContent = eventsImpactContent[locale];
   const calendarCopy = calendarSectionCopy[locale];
   const localeCode = locale === "no" ? "nb-NO" : locale === "ar" ? "ar-SA" : "en-US";
   const sortedCalendarEvents = [...calendarEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
@@ -484,6 +487,8 @@ export default function EventsPage({ params }: PageProps) {
         </div>
       </section>
 
+      <EventsImpactShowcase locale={locale} content={impactContent} />
+
       <section className="section-padding border-t border-line/80">
         <Reveal>
           <div className="rounded-2xl border border-accent/20 bg-accent-soft/55 p-6">
@@ -493,7 +498,7 @@ export default function EventsPage({ params }: PageProps) {
         </Reveal>
       </section>
 
-      <section className="section-padding border-t border-line/80">
+      <section id="events-archive" className="scroll-mt-28 section-padding border-t border-line/80">
         <Reveal>
           <h2 className="text-3xl text-text-primary sm:text-4xl">{extra.timelineTitle}</h2>
           <p className="mt-4 max-w-prose text-base leading-relaxed text-text-secondary">{extra.timelineIntro}</p>
