@@ -163,7 +163,7 @@ export function ContactForm({ locale }: ContactFormProps) {
           </span>
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-text-secondary">{text.directEmailPrompt}</p>
-            <a href={`mailto:${siteConfig.contactEmail}`} className="mt-1 block break-words text-sm font-semibold text-accent hover:underline sm:text-base">
+            <a href={`mailto:${siteConfig.contactEmail}`} className="mt-1 block whitespace-nowrap text-xs font-semibold text-accent hover:underline sm:text-base">
               {siteConfig.contactEmail}
             </a>
           </div>
